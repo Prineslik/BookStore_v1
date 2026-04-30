@@ -17,3 +17,4 @@ R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Infrastructure\obj\Debug\net10.0\r
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Infrastructure\obj\Debug\net10.0\BookStore.Infrastructure.pdb
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Infrastructure\obj\Debug\net10.0\BookStore.Infrastructure.genruntimeconfig.cache
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Infrastructure\obj\Debug\net10.0\ref\BookStore.Infrastructure.dll
+R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Infrastructure\obj\Debug\net10.0\BookStore.Infrastructure.sourcelink.json

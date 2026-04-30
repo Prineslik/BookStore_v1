@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BookStore.Application.DTOs
+namespace BookStore.Application.Contracts.Users
 {
-    public class ProductQueryParameters
+    public class UserQueryParameters
     {
         public string? SearchTerm { get; set; }
-        public decimal? MinPrice { get; set; }
-        public decimal? MaxPrice { get; set; }
+        //public string? SearchEmail { get; set; }
+
         //public int? CategoryId { get; set; }
-        public bool? IsInStock { get; set; }
+        //public bool? IsInStock { get; set; }
         public string? SortBy { get; set; } = "Id";
         public bool SortDescending { get; set; } = false;
         public int PageNumber { get; set; } = 1;

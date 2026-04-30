@@ -1,6 +1,6 @@
-﻿namespace BookStore.API.Contracts
+﻿namespace BookStore.Application.Contracts.Books
 {
-    public record BooksResponse(
+    public record BooksRequest(
         Guid Id,
         string Title,
         string Description,

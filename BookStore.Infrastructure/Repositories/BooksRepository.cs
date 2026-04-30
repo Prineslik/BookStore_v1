@@ -1,7 +1,10 @@
-﻿using BookStore.Application.DTOs;
-using BookStore.Application.Interfaces;
+﻿using AutoMapper;
+using AutoMapper.Internal;
+using BookStore.Application.Contracts.Books;
+using BookStore.Application.Contracts.Common;
+using BookStore.Application.Interfaces.Books;
 using BookStore.Core.Entities;
-using BookStore.Infrastructure.Entities;
+using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,43 +15,46 @@ namespace BookStore.Infrastructure.Repositories
     public class BooksRepository : IBooksRepository
     {
         private readonly BookStoreDbContext _context;
+        private readonly IMapper _mapper;
 
-        public BooksRepository(BookStoreDbContext context)
+        public BooksRepository(BookStoreDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<List<BookEntity>> GetAll()
+        public async Task<List<BookEntity?>> GetAll()
         {
-            var bookEntities = await _context.Books.AsNoTracking().ToListAsync();
+            var bookModels = await _context.Books.AsNoTracking().ToListAsync();
 
-            var books = bookEntities
-                .Select(b => BookEntity.Create(b.Id, b.Title, b.Description, b.Price).Book)
-                .ToList();
+            //if (bookModels.Count == 0)
+            //    return new List<BookEntity?>();
+
+            var books = _mapper.Map<List<BookEntity>>(bookModels);
 
             return books;
         }
 
-        public async Task<Guid> Create(Guid id, string title, string description, decimal price)
+        public async Task<Guid> Create(BookEntity newBookEntity)
         {
-            var book = BookEntity.Create(id, title, description, price).Book;
+            var newBookModel = _mapper.Map<BookModel>(newBookEntity);
 
-            await _context.AddAsync(book);
+            await _context.AddAsync(newBookModel);
             await _context.SaveChangesAsync();
 
-            return book.Id;
+            return newBookModel.Id;
         }
 
-        public async Task<Guid> Update(Guid id, string title, string description, decimal price)
+        public async Task<Guid> Update(BookEntity updatedBookEntity)
         {
             await _context.Books
-                .Where(b => b.Id == id)
+                .Where(b => b.Id == updatedBookEntity.Id)
                 .ExecuteUpdateAsync(u => u
-                .SetProperty(f => f.Title, title)
-                .SetProperty(f => f.Description, description)
-                .SetProperty(f => f.Price, price));
+                .SetProperty(f => f.Title, updatedBookEntity.Title)
+                .SetProperty(f => f.Description, updatedBookEntity.Description)
+                .SetProperty(f => f.Price, updatedBookEntity.Price));
 
-            return id;
+            return updatedBookEntity.Id;
         }
 
         public async Task<Guid> Delete(Guid id)
@@ -62,26 +68,24 @@ namespace BookStore.Infrastructure.Repositories
 
         public async Task<BookEntity?> GetById(Guid id)
         {
-            var book = await _context.Books
+            var bookModel = await _context.Books
                 .FindAsync(id);
 
-            //var book = Book.Create(entityBook.Id, entityBook.Title, entityBook.Description, entityBook.Price).Book;
-
-            return book;
+            return _mapper.Map<BookEntity?>(bookModel);
         }
 
-        public async Task<List<BookEntity>> GetByTitle(string title)
+        public async Task<List<BookEntity?>> GetByTitle(string title)
         {
             var entityBook = _context.Books
                 .Where(b => b.Title.ToLower().Contains(title.ToLower())).OrderBy(b => b.Title).ToList();
 
 
-            var book = entityBook.Select(b => BookEntity.Create(b.Id, b.Title, b.Description, b.Price).Book).ToList();//Book.Create(entityBook.Id, entityBook.Title, entityBook.Description, entityBook.Price).Book;
+            var book = entityBook.Select(b => _mapper.Map<BookEntity>(b)).ToList();
 
             return book;
         }
 
-        public async Task<PagedResult<BookEntity>> GetPagedAsync(ProductQueryParameters parameters/*, CancellationToken cancellationToken = default*/)
+        public async Task<PagedResult<BookEntity?>> GetPagedAsync(BookQueryParameters parameters/*, CancellationToken cancellationToken = default*/)
         {
             var query = _context.Books.AsQueryable();
 
@@ -101,14 +105,14 @@ namespace BookStore.Infrastructure.Repositories
 
             return new PagedResult<BookEntity>
             {
-                Items = items,
+                Items = _mapper.Map<List<BookEntity>>(items),
                 TotalCount = totalCount,
                 PageNumber = validPageNumber,
                 PageSize = validPageSize
             };
         }
 
-        private IQueryable<BookEntity>ApplyFilter(IQueryable<BookEntity> query, ProductQueryParameters parameters)
+        private IQueryable<BookModel> ApplyFilter(IQueryable<BookModel> query, BookQueryParameters parameters)
         {
             if (!string.IsNullOrWhiteSpace(parameters.SearchTerm))
             {
@@ -143,7 +147,7 @@ namespace BookStore.Infrastructure.Repositories
             return query;
         }
 
-        private IQueryable<BookEntity> ApplySorting(IQueryable<BookEntity> query, ProductQueryParameters parameters)
+        private IQueryable<BookModel> ApplySorting(IQueryable<BookModel> query, BookQueryParameters parameters)
         {
             if (string.IsNullOrWhiteSpace(parameters.SortBy))
             {

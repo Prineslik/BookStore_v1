@@ -30,3 +30,4 @@ R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\Book
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\refint\BookStore.Application.dll
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\BookStore.Application.pdb
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\ref\BookStore.Application.dll
+R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\BookStore.Application.sourcelink.json

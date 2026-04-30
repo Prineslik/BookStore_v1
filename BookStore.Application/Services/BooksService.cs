@@ -1,5 +1,6 @@
-﻿using BookStore.Application.DTOs;
-using BookStore.Application.Interfaces;
+﻿using BookStore.Application.Contracts.Books;
+using BookStore.Application.Contracts.Common;
+using BookStore.Application.Interfaces.Books;
 using BookStore.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -32,12 +33,13 @@ namespace BookStore.Application.Services
 
         public async Task<Guid> CreateBook(BookEntity book)
         {
-            return await _bookRepository.Create(book.Id, book.Title, book.Description, book.Price);
+            return await _bookRepository.Create(book);
         }
 
-        public async Task<Guid> UpdateBook(Guid id, string title, string description, decimal price)
+        public async Task<Guid> UpdateBook(BookEntity book/*Guid id, string title, string description, decimal price*/)
         {
-            return await _bookRepository.Update(id, title, description, price);
+            //проверка на наличие в БД
+            return await _bookRepository.Update(book);
         }
 
         public async Task<Guid> DeleteBook(Guid id)
@@ -45,7 +47,7 @@ namespace BookStore.Application.Services
             return await _bookRepository.Delete(id);
         }
 
-        public Task<PagedResult<BookEntity>> GetPagedBookAsync(ProductQueryParameters parameters)
+        public Task<PagedResult<BookEntity>> GetPagedBookAsync(BookQueryParameters parameters)
         {
             return _bookRepository.GetPagedAsync(parameters);
         }

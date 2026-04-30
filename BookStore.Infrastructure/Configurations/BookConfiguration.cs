@@ -1,18 +1,18 @@
-﻿using BookStore.Core.Entities;
+﻿using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BookStore.Infrastructure.Configurations
 {
-    public class BookConfiguration : IEntityTypeConfiguration<BookEntity>
+    public class BookConfiguration : IEntityTypeConfiguration<BookModel>
     {
-        public void Configure(EntityTypeBuilder<BookEntity> builder)
+        public void Configure(EntityTypeBuilder<BookModel> builder)
         {
             builder.HasKey(b => b.Id);
 
             builder
                 .Property(b => b.Title)
-                .HasMaxLength(BookEntity.MAX_TITLE_LENGTH)
+                .HasMaxLength(250/*BookEntity.MAX_TITLE_LENGTH*/)
                 .IsRequired();
 
             builder

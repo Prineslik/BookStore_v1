@@ -1,6 +1,6 @@
-﻿using BookStore.Core.Entities;
+﻿//using BookStore.Core.Entities;
 using BookStore.Infrastructure.Configurations;
-using BookStore.Infrastructure.Entities;
+using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,9 @@ namespace BookStore.Infrastructure
             : base(options)
         {}
 
-        public DbSet<BookEntity> Books { get; set; }
+        public DbSet<BookModel> Books { get; set; }
+        public DbSet<UserModel> Users { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
