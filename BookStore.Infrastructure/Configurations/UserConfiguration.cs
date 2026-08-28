@@ -30,6 +30,11 @@ namespace BookStore.Infrastructure.Configurations
             builder
                 .Property(u => u.ProfilePhotoURL)
                 .IsRequired();
+
+            builder
+                .HasMany(u => u.Roles)
+                .WithMany(r => r.Users);
+                
         }
     }
 }

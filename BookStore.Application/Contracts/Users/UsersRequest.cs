@@ -2,9 +2,11 @@
 {
     public record UsersRequest
     (
+        Guid Id,
         string Name,
         string Email,
         string Password,
-        string ProfilePhotoURL
+        string ProfilePhotoURL,
+        List<Guid?> RoleIds
     );
 }

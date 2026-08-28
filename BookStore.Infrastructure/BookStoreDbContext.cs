@@ -16,7 +16,8 @@ namespace BookStore.Infrastructure
 
         public DbSet<BookModel> Books { get; set; }
         public DbSet<UserModel> Users { get; set; }
-
+        public DbSet<RoleModel> Roles { get; set; }
+        public DbSet<PermissionModel> Permissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

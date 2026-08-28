@@ -3,52 +3,12 @@
   "WorkspaceRootPath": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C3453505-DCB9-4E0C-80C0-F31C47E6EDF4}|BookStore.Infrastructure\\BookStore.Infrastructure.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.infrastructure\\repositories\\usersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3453505-DCB9-4E0C-80C0-F31C47E6EDF4}|BookStore.Infrastructure\\BookStore.Infrastructure.csproj|solutionrelative:bookstore.infrastructure\\repositories\\usersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.api\\middleware\\globalexceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|solutionrelative:bookstore.api\\middleware\\globalexceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.application\\services\\usersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|solutionrelative:bookstore.application\\services\\usersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.application\\contracts\\common\\error.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|solutionrelative:bookstore.application\\contracts\\common\\error.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.application\\contracts\\common\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|solutionrelative:bookstore.application\\contracts\\common\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|solutionrelative:bookstore.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.application\\interfaces\\users\\iusersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|solutionrelative:bookstore.application\\interfaces\\users\\iusersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.application\\interfaces\\users\\iusersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|solutionrelative:bookstore.application\\interfaces\\users\\iusersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{30966BDE-E4D5-4878-9FC1-270DC568EFCD}|BookStore.Core\\BookStore.Core.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.core\\entities\\userentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{30966BDE-E4D5-4878-9FC1-270DC568EFCD}|BookStore.Core\\BookStore.Core.csproj|solutionrelative:bookstore.core\\entities\\userentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3453505-DCB9-4E0C-80C0-F31C47E6EDF4}|BookStore.Infrastructure\\BookStore.Infrastructure.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.infrastructure\\models\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3453505-DCB9-4E0C-80C0-F31C47E6EDF4}|BookStore.Infrastructure\\BookStore.Infrastructure.csproj|solutionrelative:bookstore.infrastructure\\models\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.application\\contracts\\users\\usersresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|solutionrelative:bookstore.application\\contracts\\users\\usersresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|solutionrelative:bookstore.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3453505-DCB9-4E0C-80C0-F31C47E6EDF4}|BookStore.Infrastructure\\BookStore.Infrastructure.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.infrastructure\\mappings\\infrastructuremappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3453505-DCB9-4E0C-80C0-F31C47E6EDF4}|BookStore.Infrastructure\\BookStore.Infrastructure.csproj|solutionrelative:bookstore.infrastructure\\mappings\\infrastructuremappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.api\\extensions\\apiextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|solutionrelative:bookstore.api\\extensions\\apiextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -57,173 +17,52 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 501,
-          "SelectedChildIndex": 4,
+          "DockedWidth": 846,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Error.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Contracts\\Common\\Error.cs",
-              "RelativeDocumentMoniker": "BookStore.Application\\Contracts\\Common\\Error.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Contracts\\Common\\Error.cs",
-              "RelativeToolTip": "BookStore.Application\\Contracts\\Common\\Error.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAYwBsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-30T14:38:26.498Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Result.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Contracts\\Common\\Result.cs",
-              "RelativeDocumentMoniker": "BookStore.Application\\Contracts\\Common\\Result.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Contracts\\Common\\Result.cs",
-              "RelativeToolTip": "BookStore.Application\\Contracts\\Common\\Result.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAoAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-30T14:34:12.037Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Controllers\\UsersController.cs",
-              "RelativeDocumentMoniker": "BookStore.API\\Controllers\\UsersController.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "BookStore.API\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAAwEMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T10:30:04.476Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UsersService.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Services\\UsersService.cs",
-              "RelativeDocumentMoniker": "BookStore.Application\\Services\\UsersService.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Services\\UsersService.cs",
-              "RelativeToolTip": "BookStore.Application\\Services\\UsersService.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAMwEwAAAAAAAAAAAAAAA==",
+              "Title": "ApiExtensions.cs",
+              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Extensions\\ApiExtensions.cs",
+              "RelativeDocumentMoniker": "BookStore.API\\Extensions\\ApiExtensions.cs",
+              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Extensions\\ApiExtensions.cs",
+              "RelativeToolTip": "BookStore.API\\Extensions\\ApiExtensions.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAswG0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T11:06:00.119Z",
+              "WhenOpened": "2026-08-15T12:44:41.605Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UsersRepository.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Infrastructure\\Repositories\\UsersRepository.cs",
-              "RelativeDocumentMoniker": "BookStore.Infrastructure\\Repositories\\UsersRepository.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Infrastructure\\Repositories\\UsersRepository.cs",
-              "RelativeToolTip": "BookStore.Infrastructure\\Repositories\\UsersRepository.cs",
-              "ViewState": "AgIAAIQAAAAAAAAAAAD4v5MAAAAAAAAAAAAAAA==",
+              "Title": "GlobalExceptionMiddleware.cs",
+              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Middleware\\GlobalExceptionMiddleware.cs",
+              "RelativeDocumentMoniker": "BookStore.API\\Middleware\\GlobalExceptionMiddleware.cs",
+              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Middleware\\GlobalExceptionMiddleware.cs",
+              "RelativeToolTip": "BookStore.API\\Middleware\\GlobalExceptionMiddleware.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAYwCoAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T10:30:35.094Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "UserModel.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Infrastructure\\Models\\UserModel.cs",
-              "RelativeDocumentMoniker": "BookStore.Infrastructure\\Models\\UserModel.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Infrastructure\\Models\\UserModel.cs",
-              "RelativeToolTip": "BookStore.Infrastructure\\Models\\UserModel.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAuwBAAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T17:37:35.477Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "UserEntity.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Core\\Entities\\UserEntity.cs",
-              "RelativeDocumentMoniker": "BookStore.Core\\Entities\\UserEntity.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Core\\Entities\\UserEntity.cs",
-              "RelativeToolTip": "BookStore.Core\\Entities\\UserEntity.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T17:37:31.052Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "UsersResponse.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Contracts\\Users\\UsersResponse.cs",
-              "RelativeDocumentMoniker": "BookStore.Application\\Contracts\\Users\\UsersResponse.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Contracts\\Users\\UsersResponse.cs",
-              "RelativeToolTip": "BookStore.Application\\Contracts\\Users\\UsersResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-29T13:16:35.193Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "InfrastructureMappingProfile.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Infrastructure\\Mappings\\InfrastructureMappingProfile.cs",
-              "RelativeDocumentMoniker": "BookStore.Infrastructure\\Mappings\\InfrastructureMappingProfile.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Infrastructure\\Mappings\\InfrastructureMappingProfile.cs",
-              "RelativeToolTip": "BookStore.Infrastructure\\Mappings\\InfrastructureMappingProfile.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAQwD8AAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T14:15:06.951Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Program.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Program.cs",
-              "RelativeDocumentMoniker": "BookStore.API\\Program.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Program.cs",
-              "RelativeToolTip": "BookStore.API\\Program.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAYwCYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-26T13:59:19.833Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 379,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "IUsersRepository.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Interfaces\\Users\\IUsersRepository.cs",
-              "RelativeDocumentMoniker": "BookStore.Application\\Interfaces\\Users\\IUsersRepository.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Interfaces\\Users\\IUsersRepository.cs",
-              "RelativeToolTip": "BookStore.Application\\Interfaces\\Users\\IUsersRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-30T15:55:46.087Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "IUsersService.cs",
-              "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Interfaces\\Users\\IUsersService.cs",
-              "RelativeDocumentMoniker": "BookStore.Application\\Interfaces\\Users\\IUsersService.cs",
-              "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Interfaces\\Users\\IUsersService.cs",
-              "RelativeToolTip": "BookStore.Application\\Interfaces\\Users\\IUsersService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-29T18:08:25.764Z",
+              "WhenOpened": "2026-08-15T09:38:55.422Z",
               "EditorCaption": ""
             }
           ]
         }
       ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "f6be598e-ba33-40c5-81d7-d7c520fd9060",
+        "Display": 0,
+        "X": -8,
+        "Y": 30,
+        "Width": 746,
+        "Height": 686,
+        "WindowState": 0
+      },
+      "DocumentGroups": []
     }
   ]
 }

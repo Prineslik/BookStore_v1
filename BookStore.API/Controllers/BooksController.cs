@@ -3,6 +3,7 @@ using BookStore.Application.Contracts.Books;
 using BookStore.Application.Contracts.Common;
 using BookStore.Application.Interfaces.Books;
 using BookStore.Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -10,6 +11,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 namespace BookStore.API.Controllers
 {
     [ApiController]
+    
     [Route("[controller]")]
     public class BooksController : ControllerBase
     {
@@ -22,111 +24,108 @@ namespace BookStore.API.Controllers
             _mapper = mapper;
         }
 
+        //[Authorize()]
         [HttpGet("all/")]
         public async Task<ActionResult<List<BooksResponse>>> GetAllBooks()
         {
-            var books = await _booksService.GetAllBooks();
+            var booksResult = await _booksService.GetAllBooks();
 
-            var response = books.Select(b => new BooksResponse(b.Id, b.Title, b.Description, b.Price));
+            var response = _mapper.Map<List<BooksResponse>>(booksResult);//_mapper.Map<List<BooksResponse>>(booksResult.Value);
 
             return Ok(response);
         }
 
         [HttpGet("get_by_id/{id:guid}")]
-        [ProducesResponseType(typeof(PagedResult<BooksResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BooksResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<BooksResponse>> GetBookById(Guid id)
         {
-            var book = await _booksService.GetBookById(id);
+            var bookResult = await _booksService.GetBookById(id);
 
-            if (book == null)
-                return NotFound();
-
-            var response = _mapper.Map<BooksResponse>(book);//new BooksResponse(book.Id, book.Title, book.Description, book.Price);
-
-            return Ok(response);
+            return _mapper.Map<BooksResponse>(bookResult);
+            /*return bookResult.IsSuccess 
+                ? Ok(_mapper.Map<BooksResponse>(bookResult.Value))
+                : NotFound(bookResult.Error);*/
         }
 
         [HttpGet("search/{title}")]
-        public async Task<ActionResult<BooksResponse>> GetBooksByTitle(string title)
+        [ProducesResponseType(typeof(List<BooksResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<List<BooksResponse>>> GetBooksByTitle(string title)
         {
-            var books = await _booksService.GetBooksByTitle(title);
+            var booksResult = await _booksService.GetBooksByTitle(title);
 
-            var response = _mapper.Map<List<BooksResponse>>(books);//books.Select(b => new BooksResponse(b.Id, b.Title, b.Description, b.Price)).ToList();
-
-            return Ok(response);
+            return _mapper.Map<List<BooksResponse>>(booksResult);
+            /*return booksResult.IsSuccess
+                ? Ok(_mapper.Map<List<BooksResponse>>(booksResult.Value))
+                : BadRequest(booksResult.Error);*/
         }
 
         [HttpGet("filter/")]
-        //[ProducesResponseType(typeof(PagedResult<BooksResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(PagedResult<BooksResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PagedResult<BooksResponse>>> GetPagedBooksAsync([FromQuery] BookQueryParameters parameters)
         {
-            var result = await _booksService.GetPagedBookAsync(parameters);
+            var pagedBooksResult = await _booksService.GetPagedBooks(parameters);
 
-            if (result == null)
-                return NotFound();
+            /*if (pagedBooksResult.IsFailure)
+                return NotFound(pagedBooksResult.Error);*/
 
             // Добавляем пагинационные метаданные в заголовки
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(new
             {
-                result.TotalCount,
-                result.PageSize,
-                result.PageNumber,
-                result.TotalPages,
-                result.HasPrevious,
-                result.HasNext
+                pagedBooksResult.TotalCount,
+                pagedBooksResult.PageSize,
+                pagedBooksResult.PageNumber,
+                pagedBooksResult.TotalPages,
+                pagedBooksResult.HasPrevious,
+                pagedBooksResult.HasNext
             }));
 
-            return Ok(result);
+            return Ok(pagedBooksResult);
         }
 
         [HttpPost("create/")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Guid>> CreateBook([FromBody] BooksRequest booksRequest)
         {
-            var (book, error) = BookEntity.Create(
-                Guid.NewGuid(),
-                booksRequest.Title,
-                booksRequest.Description,
-                booksRequest.Price);
+            var bookEntity = _mapper.Map<BookEntity>(booksRequest);
+            var bookCreateResult = await _booksService.CreateBook(bookEntity);
 
-            if (!string.IsNullOrEmpty(error))
-            {
-                return BadRequest(error);
-            }
-
-            await _booksService.CreateBook(book);
-
-            return Ok(book.Id);
+            return bookCreateResult;
+            /*return bookCreateResult.IsSuccess
+                ? Ok(bookCreateResult.Value)
+                : BadRequest(bookCreateResult.Error);*/
         }
 
         [HttpPut("update/{id:guid}")]
-        public async Task<ActionResult<Guid>> UpdateBook(Guid id, [FromBody] BooksRequest booksRequest)
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Guid>> UpdateBook(/*Guid id, */[FromBody] BooksRequest booksRequest)
         {
-            var (book, error) = BookEntity.Create(
-                id/*Guid.NewGuid()*/,
-                booksRequest.Title,
-                booksRequest.Description,
-                booksRequest.Price);
+            var bookEntity = _mapper.Map<BookEntity>(booksRequest);
 
-            if (!string.IsNullOrEmpty(error))
-            {
-                return BadRequest(error);
-            }
+            var bookUpdateResult = await _booksService.UpdateBook(bookEntity);
 
-            var bookId = await _booksService.UpdateBook(book);
-
-            return Ok(bookId);
+            return bookUpdateResult;
+            /*return bookUpdateResult.IsSuccess 
+                ? Ok(bookUpdateResult.Value)
+                : BadRequest(bookUpdateResult.Error);*/
         }
 
         [HttpDelete("delete/{id:guid}")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Guid>> DeleteBook(Guid id)
         {
-            var bookId = await _booksService.DeleteBook(id);
+            var bookDeleteResult = await _booksService.DeleteBook(id);
 
-            return Ok(bookId);
+            return bookDeleteResult;
+            /*return bookDeleteResult.IsSuccess
+                ? Ok(bookDeleteResult.Value)
+                : BadRequest(bookDeleteResult.Error);*/
         }
     }
 }

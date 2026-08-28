@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BookStore.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +16,8 @@ namespace BookStore.Infrastructure.Models
         //    ProfilePhotoURL = profilePhotoURL;
         //}
         public new Guid Id { get; set; }
-        public string ProfilePhotoURL { get; private set; } = string.Empty;
+        public string ProfilePhotoURL { get; set; } = string.Empty;
+        public List<RoleModel?> Roles { get; set; } = [];
 
     }
 }

@@ -42,6 +42,15 @@
           "text/json"
         ],
         "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
       }
     ]
   },
@@ -68,6 +77,15 @@
           "text/json"
         ],
         "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
       }
     ]
   },
@@ -127,7 +145,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.PagedResult\u00601[[BookStore.Application.Contracts.Books.BooksResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Books.BooksResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -136,13 +154,13 @@
         "StatusCode": 200
       },
       {
-        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "Type": "BookStore.Application.Contracts.Common.Error",
         "MediaTypes": [
           "text/plain",
           "application/json",
           "text/json"
         ],
-        "StatusCode": 400
+        "StatusCode": 404
       },
       {
         "Type": "System.Void",
@@ -167,7 +185,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.PagedResult\u00601[[BookStore.Application.Contracts.Books.BooksResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "BookStore.Application.Contracts.Books.BooksResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -202,13 +220,22 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.Books.BooksResponse",
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Books.BooksResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
           "text/json"
         ],
         "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
       }
     ]
   },
@@ -221,13 +248,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Guid",
+        "Name": "booksRequest",
+        "Type": "BookStore.Application.Contracts.Books.BooksRequest",
         "IsRequired": true
       },
       {
-        "Name": "booksRequest",
-        "Type": "BookStore.Application.Contracts.Books.BooksRequest",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -240,12 +267,595 @@
           "text/json"
         ],
         "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.PemissionsController",
+    "Method": "GetAllPermissions",
+    "RelativePath": "Pemissions/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Permissions.PermissionsResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.PemissionsController",
+    "Method": "CreatePermission",
+    "RelativePath": "Pemissions/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "permissionsRequest",
+        "Type": "BookStore.Application.Contracts.Permissions.PermissionsRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Guid",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.PemissionsController",
+    "Method": "DeletePermission",
+    "RelativePath": "Pemissions/delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Guid",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.PemissionsController",
+    "Method": "GetPagedBooksAsync",
+    "RelativePath": "Pemissions/filter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "SearchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortDescending",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Permissions.PermissionsResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.PemissionsController",
+    "Method": "GetPermissionById",
+    "RelativePath": "Pemissions/get_by_id/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Permissions.PermissionsResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.PemissionsController",
+    "Method": "GetPermissionsByCode",
+    "RelativePath": "Pemissions/search/{code}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "code",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Permissions.PermissionsResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.PemissionsController",
+    "Method": "UpdatePermission",
+    "RelativePath": "Pemissions/update/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionsRequest",
+        "Type": "BookStore.Application.Contracts.Permissions.PermissionsRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Guid",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.RolesController",
+    "Method": "AddPermissionsToRole",
+    "RelativePath": "Roles/add_permissions/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "permissionIds",
+        "Type": "System.Collections.Generic.HashSet\u00601[[System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Guid",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.RolesController",
+    "Method": "GetAllRoles",
+    "RelativePath": "Roles/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Roles.RolesResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.RolesController",
+    "Method": "CreateRole",
+    "RelativePath": "Roles/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rolesRequest",
+        "Type": "BookStore.Application.Contracts.Roles.RolesRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Guid",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.RolesController",
+    "Method": "DeleteRole",
+    "RelativePath": "Roles/delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Guid",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.RolesController",
+    "Method": "GetPagedRolessAsync",
+    "RelativePath": "Roles/filter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "SearchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortDescending",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Roles.RolesResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.RolesController",
+    "Method": "GetRoleById",
+    "RelativePath": "Roles/get_by_id/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Roles.RolesResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.RolesController",
+    "Method": "GetRolesByName",
+    "RelativePath": "Roles/search/{name}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Roles.RolesResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.RolesController",
+    "Method": "UpdateRole",
+    "RelativePath": "Roles/update/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rolesRequest",
+        "Type": "BookStore.Application.Contracts.Roles.RolesRequest",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Guid",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "BookStore.Application.Contracts.Common.Error",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
       }
     ]
   },
   {
     "ContainingType": "BookStore.API.Controllers.UsersController",
-    "Method": "GetAllBooks",
+    "Method": "GetAllUsers",
     "RelativePath": "Users/all",
     "HttpMethod": "GET",
     "IsController": true,
@@ -253,7 +863,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BookStore.API.Contracts.Users.UsersResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Users.UsersResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -273,7 +883,7 @@
     "Parameters": [
       {
         "Name": "usersRequest",
-        "Type": "BookStore.API.Contracts.Users.UsersRequest",
+        "Type": "BookStore.Application.Contracts.Users.UsersRequest",
         "IsRequired": true
       }
     ],
@@ -317,6 +927,71 @@
   },
   {
     "ContainingType": "BookStore.API.Controllers.UsersController",
+    "Method": "GetPagedUsersAsync",
+    "RelativePath": "Users/filter",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "SearchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortBy",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "SortDescending",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "MaxPageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Users.UsersResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.UsersController",
     "Method": "GetUserById",
     "RelativePath": "Users/get_by_id/{id}",
     "HttpMethod": "GET",
@@ -331,7 +1006,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.PagedResult\u00601[[BookStore.API.Contracts.Users.UsersResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "BookStore.Application.Contracts.Users.UsersResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -352,8 +1027,24 @@
   },
   {
     "ContainingType": "BookStore.API.Controllers.UsersController",
-    "Method": "GetUsersByEmail",
-    "RelativePath": "Users/search/{title}",
+    "Method": "LoginUser",
+    "RelativePath": "Users/login",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userRequest",
+        "Type": "BookStore.Application.Contracts.Users.LoginUserRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.UsersController",
+    "Method": "GetUserByEmail",
+    "RelativePath": "Users/search/{email}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -361,11 +1052,6 @@
       {
         "Name": "email",
         "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "title",
-        "Type": "",
         "IsRequired": true
       }
     ],
@@ -395,8 +1081,8 @@
         "IsRequired": true
       },
       {
-        "Name": "usersRequest",
-        "Type": "BookStore.API.Contracts.Users.UsersRequest",
+        "Name": "userRequest",
+        "Type": "BookStore.Application.Contracts.Users.UsersRequest",
         "IsRequired": true
       }
     ],

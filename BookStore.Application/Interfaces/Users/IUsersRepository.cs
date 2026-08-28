@@ -11,12 +11,12 @@ namespace BookStore.Application.Interfaces.Users
 {
     public interface IUsersRepository
     {
-        Task<Guid> Create(UserEntity newUserEntity);
+        Task<Guid> Create(UserEntity newUserEntity/*, List<RoleEntity?> roles*/);
         Task<Guid> Delete(Guid id);
-        Task<Result<List<UserEntity>>> GetAll();
-        Task<Result<UserEntity?>> GetById(Guid id);
-        Task<Result<List<UserEntity?>>> GetByEmail(string email);
-        Task<Result<PagedResult<UserEntity>>> GetPagedAsync(UserQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
+        Task<List<UserEntity>> GetAll();
+        Task<UserEntity?> GetById(Guid id);
+        Task<UserEntity?> GetByEmail(string email);
+        Task<PagedResult<UserEntity>> GetPagedAsync(UserQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
         Task<Guid> Update(UserEntity userEntity);
         Task<bool> IsExist(Guid id);
     }

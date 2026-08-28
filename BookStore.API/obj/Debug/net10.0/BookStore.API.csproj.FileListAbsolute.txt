@@ -314,4 +314,9 @@ R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\bin\Debug\net10.0\Microsoft.Id
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\bin\Debug\net10.0\BCrypt.Net-Next.dll
+R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

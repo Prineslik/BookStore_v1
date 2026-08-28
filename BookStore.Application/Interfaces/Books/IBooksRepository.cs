@@ -8,10 +8,11 @@ namespace BookStore.Application.Interfaces.Books
     {
         Task<Guid> Create(BookEntity newBookEntity/*Guid id, string title, string description, decimal price*/);
         Task<Guid> Delete(Guid id);
-        Task<List<BookEntity?>> GetAll();
+        Task<List<BookEntity>> GetAll();
         Task<BookEntity?> GetById(Guid id);
-        Task<List<BookEntity?>> GetByTitle(string title);
-        Task<PagedResult<BookEntity?>> GetPagedAsync(BookQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
+        Task<List<BookEntity>> GetByTitle(string title);
+        Task<bool> IsExist(Guid id);
+        Task<PagedResult<BooksResponse>> GetPaged(BookQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
         Task<Guid> Update(BookEntity updatedBookEntity/*Guid id, string title, string description, decimal price*/);
     }
 }

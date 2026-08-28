@@ -35,6 +35,8 @@ namespace BookStore.Core.Entities
                 error = "Title can not be empty or longer than 250";
             }
 
+            price = Math.Round(price, 2);
+
             var book = new BookEntity(id, title, description, price);
 
             return (book, error);
