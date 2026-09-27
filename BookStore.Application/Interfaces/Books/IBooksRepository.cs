@@ -12,7 +12,7 @@ namespace BookStore.Application.Interfaces.Books
         Task<BookEntity?> GetById(Guid id);
         Task<List<BookEntity>> GetByTitle(string title);
         Task<bool> IsExist(Guid id);
-        Task<PagedResult<BooksResponse>> GetPaged(BookQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
+        Task<PagedResult<BookEntity>> GetPaged(BookQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
         Task<Guid> Update(BookEntity updatedBookEntity/*Guid id, string title, string description, decimal price*/);
     }
 }

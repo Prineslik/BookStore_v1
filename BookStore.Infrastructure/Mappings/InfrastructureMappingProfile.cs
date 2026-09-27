@@ -55,7 +55,7 @@ namespace BookStore.Infrastructure.Mappings
                         src.ProfilePhotoURL,
                         (src.Roles ?? Enumerable.Empty<RoleModel>())
                             .Where(r => r != null)
-                            .Select(r => (Guid?)r.Id)
+                            .Select(r => r.Id)
                         ).User);
 
             //.ForMember(dest => dest.Id,
@@ -84,7 +84,7 @@ namespace BookStore.Infrastructure.Mappings
 
             CreateMap<UserEntity, UsersResponse>().ReverseMap();
 
-            //CreateMap<UsersRequest, UserEntity>(MemberList.None)
+            //CreateMap<UsersRequest, UserEntity>(/*MemberList.None*/)
             //    .ConstructUsing(src =>
             //        UserEntity.Create(
             //            Guid.NewGuid,
@@ -97,16 +97,16 @@ namespace BookStore.Infrastructure.Mappings
             //                .Select(r => (Guid?)r.Id)
             //            ).User);
 
-                //.ForMember(dest => dest.Id, 
-                //    opt => opt.MapFrom(src => src.Id))
-                //.ForMember(dest => dest.Name, 
-                //    opt => opt.MapFrom(src => src.Name))
-                //.ForMember(dest => dest.Email, 
-                //    opt => opt.MapFrom(src => src.Email))
-                //.ForMember(dest => dest.PasswordHash, 
-                //    opt => opt.MapFrom(src => src.PasswordHash))
-                //.ForMember(dest => dest.ProfilePhotoURL, 
-                //    opt => opt.MapFrom(src => src.ProfilePhotoURL));
+            //.ForMember(dest => dest.Id, 
+            //    opt => opt.MapFrom(src => src.Id))
+            //.ForMember(dest => dest.Name, 
+            //    opt => opt.MapFrom(src => src.Name))
+            //.ForMember(dest => dest.Email, 
+            //    opt => opt.MapFrom(src => src.Email))
+            //.ForMember(dest => dest.PasswordHash, 
+            //    opt => opt.MapFrom(src => src.PasswordHash))
+            //.ForMember(dest => dest.ProfilePhotoURL, 
+            //    opt => opt.MapFrom(src => src.ProfilePhotoURL));
 
             CreateMap<RoleModel, RolesResponse>(MemberList.None)
                 .ConstructUsing(src => new RolesResponse(
@@ -139,7 +139,7 @@ namespace BookStore.Infrastructure.Mappings
                     src.Name ?? "<blank_name>",
                     (src.Permissions ?? Enumerable.Empty<PermissionModel>())
                         .Where(p => p != null)
-                        .Select(p => (Guid?)p.Id)
+                        .Select(p => p.Id)
                         .ToList()
                 ).RoleEntity);
                 //.ForMember(dest => dest.Id, 

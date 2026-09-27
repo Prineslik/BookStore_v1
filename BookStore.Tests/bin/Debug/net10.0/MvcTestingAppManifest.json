@@ -1,0 +1,6 @@
+{
+  "BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API",
+  "BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application",
+  "BookStore.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Core",
+  "BookStore.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Infrastructure"
+}

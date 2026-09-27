@@ -39,6 +39,8 @@ namespace BookStore.API.Middleware
                 DuplicateException ex => (HttpStatusCode.Conflict, "Duplicate resource", ex.Message),
                 ForbiddenException ex => (HttpStatusCode.Forbidden, "Access denied", ex.Message),
                 UnauthorizedException ex => (HttpStatusCode.Unauthorized, "User unauthorized", ex.Message),
+                InfrastructureException ex => (HttpStatusCode.InternalServerError, "Infrastructure exception", ex.Message),
+                DbConcurrencyException ex => (HttpStatusCode.Conflict, "Data Conflict", ex.Message),
                 _ => (HttpStatusCode.InternalServerError, "Internal server error", "An unexpected error occurred")
             };
 

@@ -25,9 +25,9 @@ R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\Book
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\BookStore.Application.AssemblyInfoInputs.cache
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\BookStore.Application.AssemblyInfo.cs
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\BookStore.Application.csproj.CoreCompileInputs.cache
+R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\BookStore.Application.sourcelink.json
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\BookStor.D70AE061.Up2Date
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\BookStore.Application.dll
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\refint\BookStore.Application.dll
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\BookStore.Application.pdb
 R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\ref\BookStore.Application.dll
-R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\obj\Debug\net10.0\BookStore.Application.sourcelink.json

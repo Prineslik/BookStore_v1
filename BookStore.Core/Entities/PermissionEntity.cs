@@ -12,9 +12,9 @@ namespace BookStore.Core.Entities
         public string Description { get; private set; } = null!;
 
         //private readonly HashSet<Guid?> _roleIds;
-        public IEnumerable<Guid?> RoleIds;
+        public IEnumerable<Guid> RoleIds;
 
-        public PermissionEntity(Guid id, string code, string description, IEnumerable<Guid?> roleIds)
+        public PermissionEntity(Guid id, string code, string description, IEnumerable<Guid> roleIds)
         {
             Id = id;
             Code = code;

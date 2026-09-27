@@ -36,10 +36,10 @@ namespace BookStore.Application.Services
 
         public async Task<Guid> CreatePermission(PermissionEntity permissionEntity)
         {
-            var existingPermission = await _permissionsRepository.GetByCode(permissionEntity.Code);
+            //var existingPermission = await _permissionsRepository.GetByCode(permissionEntity.Code);
 
-            if (existingPermission != null)
-                throw new DuplicateException($"Permission с Code {permissionEntity.Code} уже существует");
+            //if (existingPermission != null)
+            //    throw new DuplicateException($"Permission с Code {permissionEntity.Code} уже существует");
 
             //var permissionEntity = new PermissionEntity(
             //    Guid.NewGuid(), 
@@ -54,11 +54,10 @@ namespace BookStore.Application.Services
 
         public async Task<Guid> UpdatePermission(PermissionEntity permissionEntity)
         {
-            var existingPermission = await _permissionsRepository.GetById(permissionEntity.Id);
+            //var existingPermission = await _permissionsRepository.GetById(permissionEntity.Id);
 
-            if (existingPermission == null)
-                throw new NotFoundException("Permission", permissionEntity.Id);
-
+            //if (existingPermission == null)
+            //    throw new NotFoundException("Permission", permissionEntity.Id);
 
             var updatedPermssionId = await _permissionsRepository.Update(permissionEntity);
 
@@ -70,9 +69,9 @@ namespace BookStore.Application.Services
             return await _permissionsRepository.Delete(id);
         }
 
-        public Task<PagedResult<PermissionEntity>> GetPagedPermissions(PermissionQueryParameters parameters)
+        public async Task<PagedResult<PermissionEntity>> GetPagedPermissions(PermissionQueryParameters parameters)
         {
-            return _permissionsRepository.GetPaged(parameters);
+            return await _permissionsRepository.GetPaged(parameters);
         }
     }
 }

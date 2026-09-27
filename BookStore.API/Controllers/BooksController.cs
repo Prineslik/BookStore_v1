@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BookStore.Application.Contracts.Books;
 using BookStore.Application.Contracts.Common;
+using BookStore.Application.Contracts.Permissions;
 using BookStore.Application.Interfaces.Books;
 using BookStore.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +16,7 @@ namespace BookStore.API.Controllers
     [Route("[controller]")]
     public class BooksController : ControllerBase
     {
-        public IBooksService _booksService;
+        private readonly IBooksService _booksService;
         private readonly IMapper _mapper;
 
         public BooksController(IBooksService booksService, IMapper mapper)
@@ -67,23 +68,26 @@ namespace BookStore.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<PagedResult<BooksResponse>>> GetPagedBooksAsync([FromQuery] BookQueryParameters parameters)
         {
-            var pagedBooksResult = await _booksService.GetPagedBooks(parameters);
+            var pagedBooks = await _booksService.GetPagedBooks(parameters);
 
-            /*if (pagedBooksResult.IsFailure)
-                return NotFound(pagedBooksResult.Error);*/
-
-            // Добавляем пагинационные метаданные в заголовки
+            var pagedBooksResponse = new PagedResult<BooksResponse>()
+            {
+                Items = _mapper.Map<List<BooksResponse>>(pagedBooks.Items),
+                TotalCount = pagedBooks.TotalCount,
+                PageNumber = pagedBooks.PageNumber,
+                PageSize = pagedBooks.PageSize
+            };
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(new
             {
-                pagedBooksResult.TotalCount,
-                pagedBooksResult.PageSize,
-                pagedBooksResult.PageNumber,
-                pagedBooksResult.TotalPages,
-                pagedBooksResult.HasPrevious,
-                pagedBooksResult.HasNext
+                pagedBooks.TotalCount,
+                pagedBooks.PageSize,
+                pagedBooks.PageNumber,
+                pagedBooks.TotalPages,
+                pagedBooks.HasPrevious,
+                pagedBooks.HasNext
             }));
 
-            return Ok(pagedBooksResult);
+            return Ok(pagedBooksResponse);
         }
 
         [HttpPost("create/")]

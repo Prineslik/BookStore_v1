@@ -1448,8 +1448,7 @@
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "format": "uuid",
-                  "nullable": true
+                  "format": "uuid"
                 }
               }
             },
@@ -1459,8 +1458,7 @@
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "format": "uuid",
-                  "nullable": true
+                  "format": "uuid"
                 }
               }
             },
@@ -1470,8 +1468,7 @@
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "format": "uuid",
-                  "nullable": true
+                  "format": "uuid"
                 }
               }
             }
@@ -1836,7 +1833,7 @@
       }
     },
     "/Users/login": {
-      "get": {
+      "post": {
         "tags": [
           "Users"
         ],
@@ -1930,17 +1927,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/BooksResponse"
+                  "$ref": "#/components/schemas/UsersResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BooksResponse"
+                  "$ref": "#/components/schemas/UsersResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BooksResponse"
+                  "$ref": "#/components/schemas/UsersResponse"
                 }
               }
             }
@@ -2128,7 +2125,8 @@
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "nullable": true
           },
           "code": {
             "type": "string",
@@ -2136,6 +2134,15 @@
           },
           "description": {
             "type": "string",
+            "nullable": true
+          },
+          "roleIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": true
+            },
             "nullable": true
           }
         },
@@ -2262,7 +2269,8 @@
             "type": "array",
             "items": {
               "type": "string",
-              "format": "uuid"
+              "format": "uuid",
+              "nullable": true
             },
             "nullable": true
           }
@@ -2310,6 +2318,10 @@
       "UsersRequest": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "name": {
             "type": "string",
             "nullable": true
@@ -2330,8 +2342,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "format": "uuid",
-              "nullable": true
+              "format": "uuid"
             },
             "nullable": true
           }
@@ -2365,7 +2376,8 @@
             "type": "array",
             "items": {
               "type": "string",
-              "format": "uuid"
+              "format": "uuid",
+              "nullable": true
             },
             "nullable": true
           }

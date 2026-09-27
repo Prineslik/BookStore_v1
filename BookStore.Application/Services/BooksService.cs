@@ -37,10 +37,10 @@ namespace BookStore.Application.Services
 
         public async Task<Guid> CreateBook(BookEntity bookEntity)
         {
-            var existingBook = await _bookRepository.GetByTitle(bookEntity.Title);
+            //var existingBook = await _bookRepository.GetByTitle(bookEntity.Title);
 
-            if (existingBook != null)
-                throw new DuplicateException($"Book с Title = {bookEntity.Title} уже существует");
+            //if (existingBook != null)
+            //    throw new DuplicateException($"Book с Title = {bookEntity.Title} уже существует");
 
             var createdBookId = await _bookRepository.Create(bookEntity);
             return createdBookId;
@@ -49,10 +49,10 @@ namespace BookStore.Application.Services
         public async Task<Guid> UpdateBook(BookEntity bookEntity)
         {
             //проверка на наличие в БД
-            var bookByIdResult = await _bookRepository.GetById(bookEntity.Id);
+            //var bookByIdResult = await _bookRepository.GetById(bookEntity.Id);
 
-            if (bookByIdResult == null)
-                throw new NotFoundException("Book", bookEntity.Id); ;
+            //if (bookByIdResult == null)
+            //    throw new NotFoundException("Book", bookEntity.Id);
 
             return await _bookRepository.Update(bookEntity);
             //return string.IsNullOrEmpty(error) 
@@ -63,15 +63,15 @@ namespace BookStore.Application.Services
         public async Task<Guid> DeleteBook(Guid id)
         {
 
-            if (!await _bookRepository.IsExist(id))
-                throw new NotFoundException("Book", id);
+            //if (!await _bookRepository.IsExist(id))
+            //    throw new NotFoundException("Book", id);
 
             return await _bookRepository.Delete(id);
         }
 
-        public Task<PagedResult<BooksResponse>> GetPagedBooks(BookQueryParameters parameters)
+        public async Task<PagedResult<BookEntity>> GetPagedBooks(BookQueryParameters parameters)
         {
-            return _bookRepository.GetPaged(parameters);
+            return await _bookRepository.GetPaged(parameters);
         }
     }
 }

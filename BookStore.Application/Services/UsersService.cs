@@ -29,14 +29,14 @@ namespace BookStore.Application.Services
             _rolesRepository = rolesRepository;
         }
 
-        public async Task<Guid> CreateUser(UserEntity userEntity)
+        public async Task<Guid> CreateUser(UsersRequest userRequest)
         {
-            var existingUser = await _usersRepository.GetByEmail(userEntity.Email);
+            //var existingUser = await _usersRepository.GetByEmail(userEntity.Email);
 
-            if (existingUser != null)
-                throw new DuplicateException($"User с email {userEntity.Email} уже существует");
+            //if (existingUser != null)
+            //    throw new DuplicateException($"User с email {userEntity.Email} уже существует");
 
-            List<RoleEntity?> roles = new List<RoleEntity?>();
+            //List<RoleEntity?> roles = new List<RoleEntity?>();
 
             //if (userRequest.RoleIds.Count > 0)
             //{
@@ -45,6 +45,16 @@ namespace BookStore.Application.Services
             //    //roles = rolesResult.Value.ToList();
             //    roles = await _rolesRepository.GetByList(userRequest.RoleIds);
             //}
+
+            var passwordHash = _paswordHasher.Hash(userRequest.Password);
+
+            var userEntity = UserEntity.Create(
+                userRequest.Id,
+                userRequest.Name,
+                userRequest.Email,
+                passwordHash,
+                userRequest.ProfilePhotoURL,
+                userRequest.RoleIds).User;
 
             var newUserId = await _usersRepository.Create(userEntity/*, roles*/);
             return newUserId;
@@ -56,7 +66,6 @@ namespace BookStore.Application.Services
 
             if (existingUserEntity == null)
                 throw new UnauthorizedException("Пользователь ввел неправильный email или пароль");
-                //return Result<string>.Failure(Error.NotFound("User","Email", userRequest.Email));
 
             var resultVerify = _paswordHasher.Verify(enteredPassword, existingUserEntity.PasswordHash);
 
@@ -65,49 +74,39 @@ namespace BookStore.Application.Services
             return resultVerify
                 ? _jwtProvider.GenerateToken(existingUserEntity, rolesByUserResult)
                 : throw new UnauthorizedException("Пользователь ввел неправильный email или пароль");
-            /*return resultVerify 
-                ? Result<string>.Success(_jwtProvider.GenerateToken(resultUserEntity.Value, rolesByUserResult.Value))
-                : Result<string>.Failure(Error.Unexpected("Ошибка при аутентификации"));*/
         }
 
         public async Task<Guid> DeleteUser(Guid id)
         {
-            if(await _usersRepository.IsExist(id))
-                throw new NotFoundException("User", id);
-
             return await _usersRepository.Delete(id);
-                //: Result<Guid>.Failure(Error.NotFound("User", "Id", id));
         }
 
-        public Task<List<UserEntity?>> GetAllUsers()
+        public async Task<List<UserEntity?>> GetAllUsers()
         {
-            return _usersRepository.GetAll();
+            return await _usersRepository.GetAll();
         }
 
-        public Task<UserEntity?> GetUserById(Guid id)
+        public async Task<UserEntity?> GetUserById(Guid id)
         {
-            return _usersRepository.GetById(id);
+            return await _usersRepository.GetById(id);
         }
 
-        public Task<UserEntity?> GetUsersByEmail(string email)
+        public async Task<UserEntity?> GetUserByEmail(string email)
         {
-            return _usersRepository.GetByEmail(email);
+            return await _usersRepository.GetByEmail(email);
         }
 
         public async Task<Guid> UpdateUser(UserEntity userEntity)
         {
-            var existingUserEntity = await _usersRepository.GetById(userEntity.Id);
-
-            if (existingUserEntity == null)
-                throw new NotFoundException("User", userEntity.Id);
-
             List<Guid?> roles = new List<Guid?>();
 
             if (userEntity.RoleIds != null)
             {
                 var rolesResult = await _rolesRepository.GetByList(userEntity.RoleIds.ToList());
                 
-                roles = rolesResult.Select(r => (Guid?)r.Id).ToList();
+                roles = rolesResult
+                    .Select(r => (Guid?)r.Id)
+                    .ToList();
             }
 
             return await _usersRepository.Update(userEntity);

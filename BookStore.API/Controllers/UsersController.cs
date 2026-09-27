@@ -7,6 +7,7 @@ using BookStore.Application.Interfaces.Users;
 using BookStore.Application.Services;
 using BookStore.Core.Entities;
 using BookStore.Core.Models;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace BookStore.API.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        public IUsersService _usersService { get; set; }
+        private readonly IUsersService _usersService;
         private readonly IMapper _mapper;
 
         public int MyProperty { get; set; }
@@ -57,11 +58,18 @@ namespace BookStore.API.Controllers
         [ProducesResponseType(typeof(PagedResult<UsersResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PagedResult<BooksResponse?>>> GetPagedUsersAsync([FromQuery] UserQueryParameters parameters)
+        public async Task<ActionResult<PagedResult<UsersResponse>>> GetPagedUsersAsync([FromQuery] UserQueryParameters parameters)
         {
             var pagedUsers = await _usersService.GetPagedUsersAsync(parameters);
 
-            // Добавляем пагинационные метаданные в заголовки
+            var pagedUsersResponse = new PagedResult<UsersResponse>()
+            {
+                Items = _mapper.Map<List<UsersResponse>>(pagedUsers.Items),
+                TotalCount = pagedUsers.TotalCount,
+                PageNumber = pagedUsers.PageNumber,
+                PageSize = pagedUsers.PageSize
+            };
+
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(new
             {
                 pagedUsers.TotalCount,
@@ -72,21 +80,21 @@ namespace BookStore.API.Controllers
                 pagedUsers.HasNext
             }));
 
-            return Ok(pagedUsers);
+            return Ok(pagedUsersResponse);
         }
 
-        [HttpPost("create/")]
-        public async Task<ActionResult<Guid>> CreateUser([FromBody] UsersRequest usersRequest)
+        [HttpPost("register/")]
+        public async Task<ActionResult<Guid>> RegisterUser(string email, string password/*[FromBody] UsersRequest usersRequest*/)
         {
-            var userEntity = _mapper.Map<UserEntity>(usersRequest);
+            //var userEntity = _mapper.Map<UserEntity>(usersRequest);
 
-            var newUser = await _usersService.CreateUser(userEntity);
+            var newUser = await _usersService.CreateUser(usersRequest);
 
             return newUser;
             //return resultCreateUser.IsSuccess ? Ok(resultCreateUser.Value) : BadRequest(resultCreateUser.Error);
         }
 
-        [HttpGet("login/")]
+        [HttpPost("login/")]
         public async Task<ActionResult> LoginUser([FromBody] LoginUserRequest userRequest)
         {
             var token = await _usersService.LoginUser(userRequest.Email, userRequest.Password);
@@ -105,7 +113,7 @@ namespace BookStore.API.Controllers
             Response.Cookies.Append("RefreshToken", token, cookieOptions);
 
 
-            return Ok(token);
+            return Ok(/*token*/);
         }
 
         //[Authorize(Roles ="Admin")]
@@ -121,10 +129,10 @@ namespace BookStore.API.Controllers
         }
 
         [HttpGet("search/{email}")]
-        [Authorize(Policy = "UserOrAdmin")]
+        //[Authorize(Policy = "UserOrAdmin")]
         public async Task<ActionResult<UsersResponse?>> GetUserByEmail(string email)
         {
-            var user = await _usersService.GetUsersByEmail(email);
+            var user = await _usersService.GetUserByEmail(email);
 
             return Ok(_mapper.Map<UsersResponse?>(user));
             /*return resultUser.IsSuccess 

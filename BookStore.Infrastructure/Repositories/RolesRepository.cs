@@ -60,19 +60,19 @@ namespace BookStore.Infrastructure.Repositories
                     .Where(p => newRoleEntity.PermissionIds.Contains(p.Id))
                     .ToList();
 
-                var resultRole = await _context.AddAsync(newRoleModel);
+                await _context.AddAsync(newRoleModel);
                 await _context.SaveChangesAsync();
+                
+                _logger.LogDebug("Role с параметрами {@Role} успешно создан", newRoleModel);
 
-                _logger.LogDebug("Role с параметрами {@Role} успешно создан", newRoleEntity);
-
-                return newRoleEntity.Id;
+                return newRoleModel.Id;
                 /*return resultRole != null
                     ? Result<Guid>.Success(newRoleModel.Id)
                     : Result<Guid>.Failure(Error.Unexpected(""));*/
             }
             catch (DbUpdateException ex) when (ex.InnerException?.Message.Contains("UNIQUE") == true)
             {
-                _logger.LogWarning("Role с GUID = {@UserId} не создан", newRoleEntity.Id);
+                _logger.LogWarning("Role с GUID = {@RoleId} уже существует", newRoleEntity.Id);
 
                 throw new DuplicateException($"Role with GUID {newRoleEntity.Id} already exists");
             }
@@ -91,12 +91,12 @@ namespace BookStore.Infrastructure.Repositories
                 _logger.LogDebug("Изменение Role с GUID = {@RoleId}", roleEntity.Id);
 
                 var roleModel = await _context.Roles
-                .Include(r => r.Permissions)
-                .FirstOrDefaultAsync(r => r.Id == roleEntity.Id);
+                    .Include(r => r.Permissions)
+                    .FirstOrDefaultAsync(r => r.Id == roleEntity.Id);
 
-                /*if (roleModel == null)
-                    Result<Guid>.Failure(Error.NotFound("Role", "Id", roleEntity.Id));*/
-                
+                if (roleModel == null)
+                    throw new NotFoundException("Role", roleEntity.Id);
+
                 var updatedPermissions = _context.Permissions
                     //.AsNoTracking()
                     .Where(p => roleEntity.PermissionIds.Contains(p.Id))
@@ -105,16 +105,32 @@ namespace BookStore.Infrastructure.Repositories
                 roleModel.Name = roleEntity.Name;
                 roleModel.Permissions = updatedPermissions;
 
-                _logger.LogDebug("Role с GUID = {@RoleId} изменена", roleEntity.Id);
+                _logger.LogDebug("Role с GUID = {@RoleId} изменена", roleModel.Id);
+
+                await _context.SaveChangesAsync();
 
                 return roleModel.Id;
                 /*return await _context.SaveChangesAsync() > 0 
                     ? Result<Guid>.Success(roleModel.Id) 
                     : Result<Guid>.Failure(Error.Unexpected($"Ошибка при внесении изменеий в роль {roleModel.Name}"));*/
             }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogWarning(ex, "Конфликт обновления для Role с ID = {RoleId}", roleEntity.Id);
+
+                var entry = ex.Entries.Single();
+                var databaseValues = await entry.GetDatabaseValuesAsync();
+
+                if (databaseValues == null)
+                {
+                    throw new NotFoundException("Role", roleEntity.Id);
+                }
+
+                throw new DbConcurrencyException($"Роль с ID = {roleEntity.Id} была изменена другим пользователем. Обновите данные.");
+            }
             catch (DbUpdateException ex)
             {
-                throw new InfrastructureException($"Failed to update Role with GUID = {roleEntity.Id}\n{ex.Message}");
+                throw new InfrastructureException($"Ошибка изменения Role с GUID = {roleEntity.Id}\n{ex.Message}");
             }
         }
 
@@ -124,26 +140,17 @@ namespace BookStore.Infrastructure.Repositories
             {
                 _logger.LogDebug("Удаление Role с GUID = {@id}", id);
 
-                var resultDelete = await _context.Roles
-                .Where(b => b.Id == id)
-                .ExecuteDeleteAsync();
-
-                //if (resultDelete <= 0)
-                //{
-                //    _logger.LogWarning("Role с GUID = {@RoleId} не удалена", id);
-                //    throw new NotFoundException("Role", id);
-                //}
+                await _context.Roles
+                    .Where(b => b.Id == id)
+                    .ExecuteDeleteAsync();
 
                 _logger.LogDebug("Role с GUID = {@RoleId} удалена", id);
 
                 return id;
-                /*return resultDelete > 0
-                    ? Result<Guid>.Success(id)
-                    : Result<Guid>.Failure(Error.NotFound("Role", "Id", ""));*/
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateConcurrencyException ex)
             {
-                throw new InfrastructureException($"Failed to delete user with GUID = {id}\n{ex.Message}");
+                throw new InfrastructureException($"User with GUID = {id} was modified by another user");
             }
         }
 
@@ -152,6 +159,7 @@ namespace BookStore.Infrastructure.Repositories
             _logger.LogDebug("Полученеи Role с GUID = {@RoleId}", id);
 
             var roleModel = await _context.Roles
+                .AsNoTracking()
                 .Include(r => r.Permissions)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
@@ -163,10 +171,8 @@ namespace BookStore.Infrastructure.Repositories
             _logger.LogDebug($"Role с GUID = {id} получен");
 
             return roleEntity;
-            /*return roleModel != null
-                ? Result<RoleEntity?>.Success(_mapper.Map<RoleEntity?>(roleModel))
-                : Result<RoleEntity?>.Failure(Error.NotFound("Role", "Id", id));*/
         }
+
         public async Task<List<RoleEntity?>> GetByUser(Guid id)
         {
             _logger.LogDebug("Полученеи Roles c UserId = {@UserId}", id);
@@ -180,9 +186,6 @@ namespace BookStore.Infrastructure.Repositories
             _logger.LogDebug($"Roles c UserId = {id} получены");
 
             return roleEntities;
-            /*return roleModels != null
-                ? Result<List<RoleEntity?>>.Success(_mapper.Map<List<RoleEntity?>>(roleModels))
-                : Result<List<RoleEntity?>>.Failure(Error.NotFound("Role", "Id", id));*/
         }
 
         public async Task<List<RoleEntity?>> GetByName(string name)
@@ -206,27 +209,25 @@ namespace BookStore.Infrastructure.Repositories
             //return Result<List<RoleEntity?>>.Success(roleEntities);
         }
 
-        public async Task<List<RoleEntity?>> GetByNameStrict(string name)
+        public async Task<RoleEntity?> GetByNameStrict(string name)
         {
-            _logger.LogDebug("Полученеи Roles c Name = {@RoleName}", name);
+            _logger.LogDebug("Полученеи Role c Name = {@RoleName}", name);
 
-            var roleModels = _context.Roles
+            var roleModel = _context.Roles
                 .AsNoTracking()
-                .Where(r => r.Name.ToLower().Equals(name.ToLower()))
-                .OrderBy(r => r.Name)
-                .ToList();
+                .Where(r => r.Name.ToLower().Equals(name.ToLower()));
 
             //if (roleModels.Count == 0)
                 //return Result<List<RoleEntity?>>.Failure(Error.NotFound("Role", "Name", name));
 
-            var roleEntities = _mapper.Map<List<RoleEntity?>>(roleModels);
+            var roleEntity = _mapper.Map<RoleEntity?>(roleModel);
 
-            _logger.LogDebug($"Roles c Roles c Name = {name} получены");
+            _logger.LogDebug($"Role c Name = {name} получена");
 
-            return roleEntities;
+            return roleEntity;
         }
 
-        public async Task<List<RoleEntity>?> GetByList(List<Guid?> ids)
+        public async Task<List<RoleEntity>?> GetByList(List<Guid> ids)
         {
             _logger.LogDebug("Полученеи Roles по списку Id");
 
@@ -251,7 +252,7 @@ namespace BookStore.Infrastructure.Repositories
         //    return _context.Books.FindAsync(id) != null ? true : false;
         //}
 
-        public async Task<PagedResult<RolesResponse?>> GetPaged(RoleQueryParameters parameters/*, CancellationToken cancellationToken = default*/)
+        public async Task<PagedResult<RoleEntity>> GetPaged(RoleQueryParameters parameters/*, CancellationToken cancellationToken = default*/)
         {
             _logger.LogDebug("Полученеи Roles с параметрами = {@Params}", parameters);
 
@@ -276,9 +277,9 @@ namespace BookStore.Infrastructure.Repositories
                 .Take(validPageSize)
                 .ToListAsync(/*cancellationToken*/);
 
-            return new PagedResult<RolesResponse?>
+            return new PagedResult<RoleEntity?>
                 {
-                    Items = _mapper.Map<List<RolesResponse?>>(items),
+                    Items = _mapper.Map<List<RoleEntity?>>(items),
                     TotalCount = totalCount,
                     PageNumber = validPageNumber,
                     PageSize = validPageSize

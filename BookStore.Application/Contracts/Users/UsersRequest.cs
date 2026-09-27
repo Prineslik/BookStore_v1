@@ -7,6 +7,6 @@
         string Email,
         string Password,
         string ProfilePhotoURL,
-        List<Guid?> RoleIds
+        List<Guid> RoleIds
     );
 }

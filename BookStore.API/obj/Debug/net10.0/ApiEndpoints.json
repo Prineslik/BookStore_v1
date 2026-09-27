@@ -563,7 +563,7 @@
       },
       {
         "Name": "permissionIds",
-        "Type": "System.Collections.Generic.HashSet\u00601[[System.Nullable\u00601[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Type": "System.Collections.Generic.HashSet\u00601[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": true
       }
     ],
@@ -1029,7 +1029,7 @@
     "ContainingType": "BookStore.API.Controllers.UsersController",
     "Method": "LoginUser",
     "RelativePath": "Users/login",
-    "HttpMethod": "GET",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -1057,7 +1057,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.Books.BooksResponse",
+        "Type": "BookStore.Application.Contracts.Users.UsersResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",

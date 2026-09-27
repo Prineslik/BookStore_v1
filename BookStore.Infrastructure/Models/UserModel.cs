@@ -17,7 +17,7 @@ namespace BookStore.Infrastructure.Models
         //}
         public new Guid Id { get; set; }
         public string ProfilePhotoURL { get; set; } = string.Empty;
-        public List<RoleModel?> Roles { get; set; } = [];
+        public List<RoleModel> Roles { get; set; } = [];
 
     }
 }

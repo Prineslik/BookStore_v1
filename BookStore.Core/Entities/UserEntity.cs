@@ -19,8 +19,8 @@ namespace BookStore.Core.Entities
         public string PasswordHash { get; private set; } = string.Empty;
         public string ProfilePhotoURL { get; private set; } = string.Empty;
 
-        private readonly HashSet<Guid?> _roleIds;
-        public IReadOnlyCollection<Guid?> RoleIds => _roleIds;
+        private readonly HashSet<Guid> _roleIds;
+        public IReadOnlyCollection<Guid> RoleIds => _roleIds;
 
         //добавить связи с другими моделями
 
@@ -28,7 +28,7 @@ namespace BookStore.Core.Entities
         {
         }
 
-        private UserEntity(Guid id, string name, string email, string passwordHash, string? profilePhotoURL, IEnumerable<Guid?> roleIds)
+        private UserEntity(Guid id, string name, string email, string passwordHash, string? profilePhotoURL, IEnumerable<Guid> roleIds)
         {
             Id = id;
             Name = name;
@@ -36,10 +36,10 @@ namespace BookStore.Core.Entities
             PasswordHash = passwordHash;
             ProfilePhotoURL = profilePhotoURL;
 
-            _roleIds = new HashSet<Guid?>(roleIds);
+            _roleIds = new HashSet<Guid>(roleIds);
         }
 
-        public static (UserEntity User, string Error) Create(Guid id, string name, string email, string passwordHash, string? profilePhotoURL, IEnumerable<Guid?> roleIds)//role добавить
+        public static (UserEntity User, string Error) Create(Guid id, string name, string email, string passwordHash, string? profilePhotoURL, IEnumerable<Guid> roleIds)//role добавить
         {
             string error = Validate(id, name, email, passwordHash, profilePhotoURL, roleIds);
 
@@ -51,7 +51,7 @@ namespace BookStore.Core.Entities
             return (userEntity, error);
         }
 
-        private static string Validate(Guid id, string name, string email, string passwordHash, string? profilePhotoURL, IEnumerable<Guid?> roleIds)//role добавить
+        private static string Validate(Guid id, string name, string email, string passwordHash, string? profilePhotoURL, IEnumerable<Guid> roleIds)//role добавить
         {
             string error = string.Empty;
             if (String.IsNullOrEmpty(name) || name.Length > MAX_NAME_LENGTH)

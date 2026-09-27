@@ -9,7 +9,7 @@ namespace BookStore.Infrastructure.Models
         public Guid Id { get; set; }
         public string Code { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public List<RoleModel>? Roles { get; set; } = [];
+        public List<RoleModel> Roles { get; set; } = [];
 
     }
 }

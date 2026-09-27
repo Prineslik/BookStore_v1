@@ -16,7 +16,7 @@ namespace BookStore.API.Controllers
     [Route("[controller]")]
     public class RolesController : ControllerBase
     {
-        public IRolesService _rolesService;
+        private readonly IRolesService _rolesService;
         private readonly IMapper _mapper;
 
         public RolesController(IRolesService rolesService, IMapper mapper)
@@ -68,6 +68,13 @@ namespace BookStore.API.Controllers
         {
             var pagedRoles = await _rolesService.GetPagedRoles(parameters);
 
+            var pagedRolesResponse = new PagedResult<RolesResponse>()
+            {
+                Items = _mapper.Map<List<RolesResponse>>(pagedRoles.Items),
+                TotalCount = pagedRoles.TotalCount,
+                PageNumber = pagedRoles.PageNumber,
+                PageSize = pagedRoles.PageSize
+            };
             // Добавляем пагинационные метаданные в заголовки
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(new
             {
@@ -79,7 +86,7 @@ namespace BookStore.API.Controllers
                 pagedRoles.HasNext
             }));
 
-            return Ok(pagedRoles);
+            return Ok(pagedRolesResponse);
         }
 
         [HttpPost("create/")]
@@ -113,7 +120,7 @@ namespace BookStore.API.Controllers
         [HttpPut("add_permissions/{id:guid}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Guid>> AddPermissionsToRole(Guid id, [FromBody] HashSet<Guid?> permissionIds )
+        public async Task<ActionResult<Guid>> AddPermissionsToRole(Guid id, [FromBody] HashSet<Guid> permissionIds )
         {
             var addPermissions = await _rolesService.AddPermissions(id, permissionIds);
 

@@ -8,19 +8,17 @@ namespace BookStore.Core.Entities
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }
-
-        // Инкапсулированная коллекция ID прав
-        private readonly HashSet<Guid?> _permissionIds;
-        public IReadOnlyCollection<Guid?> PermissionIds => _permissionIds;
+        private readonly HashSet<Guid> _permissionIds;
+        public IReadOnlyCollection<Guid> PermissionIds => _permissionIds;
         
-        private RoleEntity(Guid id, string name, IEnumerable<Guid?> permissionIds)
+        private RoleEntity(Guid id, string name, IEnumerable<Guid> permissionIds)
         {
             Id = id;
             Name = name;
-            _permissionIds = new HashSet<Guid?>(permissionIds);
+            _permissionIds = new HashSet<Guid>(permissionIds);
         }
 
-        public static (RoleEntity RoleEntity, string Error) Create(Guid id, string name, IEnumerable<Guid?> permissionIds)
+        public static (RoleEntity RoleEntity, string Error) Create(Guid id, string name, IEnumerable<Guid> permissionIds)
         {
             string Error = string.Empty;
 
@@ -33,7 +31,7 @@ namespace BookStore.Core.Entities
             _permissionIds.Add(permissionId);
         }
 
-        public void AddPermissions(IEnumerable<Guid?> permissionIds)
+        public void AddPermissions(IEnumerable<Guid> permissionIds)
         {
             _permissionIds.UnionWith(permissionIds);
         }

@@ -8,6 +8,12 @@ namespace BookStore.Core.Entities
     {
         public const int MAX_TITLE_LENGTH = 250;
 
+        public Guid Id { get; private set; }
+        public string Title { get; private set; } = string.Empty;
+        public string Description { get; private set; } = string.Empty;
+        public decimal Price { get; private set; }
+        public int StockQuantity { get; private set; }
+
         private BookEntity()
         {
         }
@@ -19,12 +25,6 @@ namespace BookStore.Core.Entities
             Description = description;
             Price = price;
         }
-
-        public Guid Id { get; private set; }
-        public string Title { get; private set; } = string.Empty;
-        public string Description { get; private set; } = string.Empty;
-        public decimal Price { get; private set; }
-        public int StockQuantity { get; private set; }
 
         public static (BookEntity Book, string Error) Create(Guid id, string title, string description, decimal price)
         {

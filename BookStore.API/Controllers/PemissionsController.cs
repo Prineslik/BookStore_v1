@@ -16,7 +16,7 @@ namespace BookStore.API.Controllers
     [Route("[controller]")]
     public class PemissionsController : ControllerBase
     {
-        public IPermissionsService _permissionsService;
+        private readonly IPermissionsService _permissionsService;
         private readonly IMapper _mapper;
 
         public PemissionsController(IPermissionsService permissionsService, IMapper mapper)
@@ -70,13 +70,12 @@ namespace BookStore.API.Controllers
 
             var pagedPermissionsResponse = new PagedResult<PermissionsResponse>
             {
-                Items = _mapper.Map<List<PermissionsResponse>?>(pagedPermissionEntities.Items),
+                Items = _mapper.Map<List<PermissionsResponse>>(pagedPermissionEntities.Items),
                 TotalCount = pagedPermissionEntities.TotalCount,
                 PageNumber = pagedPermissionEntities.PageNumber,
                 PageSize = pagedPermissionEntities.PageSize
             };
 
-            // Добавляем пагинационные метаданные в заголовки
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(new
             {
                 pagedPermissionsResponse.TotalCount,

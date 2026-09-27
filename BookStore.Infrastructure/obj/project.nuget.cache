@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "mfhAnGX7TOI=",
+  "dgSpecHash": "qbDW/a3MjAc=",
   "success": true,
   "projectFilePath": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Infrastructure\\BookStore.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nes\\.nuget\\packages\\automapper\\16.1.1\\automapper.16.1.1.nupkg.sha512",
     "C:\\Users\\Nes\\.nuget\\packages\\bcrypt.net-next\\4.1.0\\bcrypt.net-next.4.1.0.nupkg.sha512",
+    "C:\\Users\\Nes\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
+    "C:\\Users\\Nes\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.1\\fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
+    "C:\\Users\\Nes\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "C:\\Users\\Nes\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Nes\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.3.10\\microsoft.aspnetcore.authentication.abstractions.2.3.10.nupkg.sha512",
     "C:\\Users\\Nes\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\10.0.9\\microsoft.aspnetcore.authentication.jwtbearer.10.0.9.nupkg.sha512",

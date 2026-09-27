@@ -10,7 +10,7 @@ namespace BookStore.Infrastructure.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<UserModel?> Users { get; set; } = [];
-        public List<PermissionModel?> Permissions { get; set; } = [];
+        public List<UserModel> Users { get; set; } = [];
+        public List<PermissionModel> Permissions { get; set; } = [];
     }
 }

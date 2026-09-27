@@ -5,7 +5,6 @@ using BookStore.Application.Contracts.Roles;
 using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces.Permissions;
 using BookStore.Core.Entities;
-using BookStore.Core.Enums;
 using BookStore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -100,7 +99,21 @@ namespace BookStore.Infrastructure.Repositories
                 //    ? Result<Guid>.Success(permissionsRequest.Id)
                 //    : Result<Guid>.Failure(Error.Unexpected($"Ошибка при внесении изменеий в разрешение {permissionsRequest.Code}"));
             }
-            catch(DbUpdateException ex)
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogWarning(ex, "Конфликт обновления для Permission с ID = {PermissionId}", permissionsEntity.Id);
+
+                var entry = ex.Entries.Single();
+                var databaseValues = await entry.GetDatabaseValuesAsync();
+
+                if (databaseValues == null)
+                {
+                    throw new NotFoundException("Permission", permissionsEntity.Id);
+                }
+
+                throw new DbConcurrencyException($"Permission с ID = {permissionsEntity.Id} было изменено другим пользователем. Обновите данные.");
+            }
+            catch (DbUpdateException ex)
             {
                 throw new InfrastructureException($"Failed to update Permission with GUID = {permissionsEntity.Id}\n{ex.Message}");
             }
@@ -113,27 +126,17 @@ namespace BookStore.Infrastructure.Repositories
             {
                 _logger.LogDebug("Удаление Permission с GUID = {@PermissionId}", id);
 
-                var resultDelete = await _context.Permissions
+                await _context.Permissions
                     .Where(p => p.Id == id)
                     .ExecuteDeleteAsync();
 
-                if (resultDelete <= 0)
-                {
-                    _logger.LogWarning("Permission с GUID = {@PermissionId} не удален", id);
-                    throw new NotFoundException("Permission", id);
-                }
-
                 _logger.LogDebug("Role с GUID = {@PermissionId} удален", id);
                 return id;
-                //return resultDelete > 0
-                //    ? Result<Guid>.Success(id)
-                //    : Result<Guid>.Failure(Error.NotFound("Permission", "Id", id));
             }
             catch (DbUpdateException ex)
             {
                 throw new InfrastructureException($"Failed to delete Permission with GUID = {id}\n{ex.Message}");
             }
-
         }
 
         public async Task<PermissionEntity?> GetById(Guid id)

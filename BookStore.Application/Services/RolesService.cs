@@ -32,21 +32,21 @@ namespace BookStore.Application.Services
             return await _roleRepository.GetByName(name);
         }
 
-        public async Task<Guid> CreateRole(RolesRequest rolesRequest)
+        public async Task<Guid> CreateRole(RoleEntity roleEntity)
         {
-            var existingRole = await _roleRepository.GetByNameStrict(rolesRequest.Name);
+            //var existingRole = await _roleRepository.GetByNameStrict(rolesRequest.Name);
 
-            if (existingRole != null)
-                throw new DuplicateException($"Role с Name = {rolesRequest.Name} уже существует");
+            //if (existingRole != null)
+            //    throw new DuplicateException($"Role с Name = {rolesRequest.Name} уже существует");
             //return Result<Guid>.Failure(Error.Duplicate("Name", rolesRequest.Name));
 
-            var (roleEntity, error) = RoleEntity.Create(
-                Guid.NewGuid(),
-                rolesRequest.Name,
-                rolesRequest.PermissionIds);
+            //var (roleEntity, error) = RoleEntity.Create(
+            //    Guid.NewGuid(),
+            //    rolesRequest.Name,
+            //    rolesRequest.PermissionIds);
 
-            if (!string.IsNullOrEmpty(error))
-                throw new ValidationException(error);
+            //if (!string.IsNullOrEmpty(error))
+            //    throw new ValidationException(error);
 
             var newRoleId = await _roleRepository.Create(roleEntity);
             return newRoleId;
@@ -55,20 +55,20 @@ namespace BookStore.Application.Services
                 : Result<Guid>.Failure(Error.Validation(error));*/
         }
 
-        public async Task<Guid> UpdateRole(RolesRequest rolesRequest)
+        public async Task<Guid> UpdateRole(RoleEntity roleEntity)
         {
-            var existingRoleEntity = await _roleRepository.GetById(rolesRequest.Id);
+            //var existingRoleEntity = await _roleRepository.GetById(rolesRequest.Id);
 
-            if (existingRoleEntity == null)
-                throw new NotFoundException("Role", rolesRequest.Id);
+            //if (existingRoleEntity == null)
+            //    throw new NotFoundException("Role", rolesRequest.Id);
 
-            var (roleEntity, error) = RoleEntity.Create(
-                rolesRequest.Id,
-                rolesRequest.Name,
-                rolesRequest.PermissionIds);
+            //var (roleEntity, error) = RoleEntity.Create(
+            //    rolesRequest.Id,
+            //    rolesRequest.Name,
+            //    rolesRequest.PermissionIds);
 
-            if (!string.IsNullOrEmpty(error))
-                throw new ValidationException(error);
+            //if (!string.IsNullOrEmpty(error))
+            //    throw new ValidationException(error);
 
             var updatedRoleId = await _roleRepository.Update(roleEntity);
 
@@ -80,25 +80,25 @@ namespace BookStore.Application.Services
 
         public async Task<Guid> DeleteRole(Guid id)
         {
-            var existingRoleEntity = await _roleRepository.GetById(id);
+            //var existingRoleEntity = await _roleRepository.GetById(id);
 
-            if (existingRoleEntity == null)
-                throw new NotFoundException("Role", id);
+            //if (existingRoleEntity == null)
+            //    throw new NotFoundException("Role", id);
 
             return await _roleRepository.Delete(id);
         }
 
-        public Task<PagedResult<RolesResponse>> GetPagedRoles(RoleQueryParameters parameters)
+        public async Task<PagedResult<RoleEntity>> GetPagedRoles(RoleQueryParameters parameters)
         {
-            return _roleRepository.GetPaged(parameters);
+            return await _roleRepository.GetPaged(parameters);
         }
 
-        public async Task<Guid> AddPermissions(Guid roleId, HashSet<Guid?> permissionIds)
+        public async Task<Guid> AddPermissions(Guid roleId, HashSet<Guid> permissionIds)
         {
             var existingRoleEntity = await _roleRepository.GetById(roleId);
 
-            if (existingRoleEntity == null)
-                throw new NotFoundException("Role", roleId);
+            //if (existingRoleEntity == null)
+            //    throw new NotFoundException("Role", roleId);
 
             existingRoleEntity.AddPermissions(permissionIds);
 

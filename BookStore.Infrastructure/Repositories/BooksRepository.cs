@@ -89,6 +89,20 @@ namespace BookStore.Infrastructure.Repositories
                 //return updatedBook > 0 ? Result<Guid>.Success(bookEntity.Id) : Result<Guid>.Failure(Error.Unexpected($"Ошибка при внесении изменеий в книгу {bookEntity.Title}"));
                 return bookEntity.Id;
             }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogWarning(ex, "Конфликт обновления для Book с ID = {BookId}", bookEntity.Id);
+
+                var entry = ex.Entries.Single();
+                var databaseValues = await entry.GetDatabaseValuesAsync();
+
+                if (databaseValues == null)
+                {
+                    throw new NotFoundException("Book", bookEntity.Id);
+                }
+
+                throw new DbConcurrencyException($"Book с ID = {bookEntity.Id} была изменена другим пользователем. Обновите данные.");
+            }
             catch (DbUpdateException ex)
             {
                 throw new InfrastructureException($"Failed to update book with GUID = {bookEntity.Id}\n{ex.Message}");
@@ -101,10 +115,9 @@ namespace BookStore.Infrastructure.Repositories
             {
                 _logger.LogDebug($"Удаление книги с GUID = {id}");
 
-                /*var resultDelete =*/
                 await _context.Books
-                .Where(b => b.Id == id)
-                .ExecuteDeleteAsync();
+                    .Where(b => b.Id == id)
+                    .ExecuteDeleteAsync();
 
                 _logger.LogDebug($"Книга с GUID = {id} удалена");
 
@@ -161,7 +174,7 @@ namespace BookStore.Infrastructure.Repositories
             return await _context.Books.FindAsync(id) != null ? true : false;
         }
 
-        public async Task<PagedResult<BooksResponse>> GetPaged(BookQueryParameters parameters/*, CancellationToken cancellationToken = default*/)
+        public async Task<PagedResult<BookEntity>> GetPaged(BookQueryParameters parameters/*, CancellationToken cancellationToken = default*/)
         {
             _logger.LogDebug("Полученеи книг с параметрами = {@Params}", parameters);
 
@@ -186,9 +199,9 @@ namespace BookStore.Infrastructure.Repositories
 
             _logger.LogDebug("Книги с параметрами получены");
 
-            return new PagedResult<BooksResponse>
+            return new PagedResult<BookEntity>
             {
-                Items = _mapper.Map<List<BooksResponse>>(items),
+                Items = _mapper.Map<List<BookEntity>>(items),
                 TotalCount = totalCount,
                 PageNumber = validPageNumber,
                 PageSize = validPageSize

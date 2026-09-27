@@ -14,11 +14,11 @@ namespace BookStore.Application.Interfaces.Roles
         Task<List<RoleEntity?>> GetAll();
         Task<RoleEntity?> GetById(Guid id);
         Task<List<RoleEntity?>> GetByName(string name);
-        Task<List<RoleEntity?>> GetByNameStrict(string name);
-        Task<List<RoleEntity?>> GetByList(List<Guid?> ids);
+        Task<RoleEntity?> GetByNameStrict(string name);
+        Task<List<RoleEntity?>> GetByList(List<Guid> ids);
         Task<List<RoleEntity?>> GetByUser(Guid ids);
         //Task<bool> IsExist(Guid id);
-        Task<PagedResult<RolesResponse?>> GetPaged(RoleQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
+        Task<PagedResult<RoleEntity>> GetPaged(RoleQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
         Task<Guid> Update(RoleEntity updatedRoleEntity);
     }
 }

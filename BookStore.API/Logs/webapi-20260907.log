@@ -1,0 +1,96 @@
+2026-09-07 13:25:33.027 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-09-07 13:26:07.286 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.html responded 304 in 388.4688 ms
+2026-09-07 13:26:08.020 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.js responded 200 in 19.3044 ms
+2026-09-07 13:26:08.541 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.css responded 200 in 539.5726 ms
+2026-09-07 13:26:08.629 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui.css responded 200 in 628.2861 ms
+2026-09-07 13:26:08.629 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-bundle.js responded 200 in 628.4290 ms
+2026-09-07 13:26:08.629 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-standalone-preset.js responded 200 in 628.2800 ms
+2026-09-07 13:26:09.061 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/v1/swagger.json responded 200 in 62.7700 ms
+2026-09-07 13:44:50.177 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-09-07 13:44:51.412 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.html responded 304 in 78.0368 ms
+2026-09-07 13:44:51.501 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.js responded 304 in 26.0703 ms
+2026-09-07 13:44:51.552 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 80.0079 ms
+2026-09-07 13:44:51.552 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.css responded 304 in 80.0516 ms
+2026-09-07 13:44:51.552 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui.css responded 304 in 80.0401 ms
+2026-09-07 13:44:51.553 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 80.3686 ms
+2026-09-07 13:44:51.953 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/v1/swagger.json responded 200 in 157.5098 ms
+2026-09-07 13:45:04.432 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/login responded 400 in 1545.9123 ms
+2026-09-07 13:46:22.784 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-09-07 13:46:24.390 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.html responded 304 in 72.8186 ms
+2026-09-07 13:46:24.465 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.js responded 304 in 1.2404 ms
+2026-09-07 13:46:24.482 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.css responded 304 in 18.5295 ms
+2026-09-07 13:46:24.482 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui.css responded 304 in 24.7531 ms
+2026-09-07 13:46:24.482 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 17.8710 ms
+2026-09-07 13:46:24.482 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 18.7728 ms
+2026-09-07 13:46:24.747 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/v1/swagger.json responded 200 in 81.6431 ms
+2026-09-07 13:48:40.738 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-09-07 13:48:42.082 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.html responded 304 in 70.1382 ms
+2026-09-07 13:48:42.163 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.js responded 304 in 23.8614 ms
+2026-09-07 13:48:42.210 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.css responded 304 in 71.6929 ms
+2026-09-07 13:48:42.210 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui.css responded 304 in 71.6930 ms
+2026-09-07 13:48:42.211 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 71.6712 ms
+2026-09-07 13:48:42.211 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 72.1576 ms
+2026-09-07 13:48:42.411 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/v1/swagger.json responded 200 in 66.7167 ms
+2026-09-07 13:49:22.288 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-09-07 13:49:23.711 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.html responded 304 in 50.8862 ms
+2026-09-07 13:49:23.762 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.js responded 304 in 0.5757 ms
+2026-09-07 13:49:23.776 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 14.4051 ms
+2026-09-07 13:49:23.776 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.css responded 304 in 16.3517 ms
+2026-09-07 13:49:23.776 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui.css responded 304 in 16.3513 ms
+2026-09-07 13:49:23.777 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 15.2761 ms
+2026-09-07 13:49:23.959 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/v1/swagger.json responded 200 in 47.2451 ms
+2026-09-07 13:49:38.829 +03:00 [ERR] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/login responded 500 in 2252.0929 ms
+BookStore.Application.Exceptions.UnauthorizedException: Пользователь ввел неправильный email или пароль
+   at BookStore.Application.Services.UsersService.LoginUser(String enteredEmail, String enteredPassword) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\Services\UsersService.cs:line 58
+   at BookStore.API.Controllers.UsersController.LoginUser(LoginUserRequest userRequest) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Controllers\UsersController.cs:line 93
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-09-07 13:49:39.131 +03:00 [ERR] BookStore.API.Middleware.GlobalExceptionMiddleware: Unhandled exception
+BookStore.Application.Exceptions.UnauthorizedException: Пользователь ввел неправильный email или пароль
+   at BookStore.Application.Services.UsersService.LoginUser(String enteredEmail, String enteredPassword) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\Services\UsersService.cs:line 58
+   at BookStore.API.Controllers.UsersController.LoginUser(LoginUserRequest userRequest) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Controllers\UsersController.cs:line 93
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at BookStore.API.Middleware.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Middleware\GlobalExceptionMiddleware.cs:line 22
+2026-09-07 13:56:38.773 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-09-07 13:56:40.478 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.html responded 304 in 117.4782 ms
+2026-09-07 13:56:40.586 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.js responded 304 in 0.9139 ms
+2026-09-07 13:56:40.619 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.css responded 304 in 57.2370 ms
+2026-09-07 13:56:40.619 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui.css responded 304 in 57.3906 ms
+2026-09-07 13:56:40.619 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 39.8095 ms
+2026-09-07 13:56:40.620 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 47.1876 ms
+2026-09-07 13:56:40.880 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/v1/swagger.json responded 200 in 68.3762 ms
+2026-09-07 13:57:01.258 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/create responded 400 in 456.1770 ms
+2026-09-07 13:58:08.501 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/create responded 400 in 35.3549 ms
+2026-09-07 13:58:19.500 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/create responded 400 in 39.0803 ms
+2026-09-07 13:58:26.518 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/create responded 400 in 1.9113 ms
+2026-09-07 13:58:34.835 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/create responded 400 in 2.6218 ms
+2026-09-07 13:58:47.990 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/create responded 400 in 1.8756 ms
+2026-09-07 13:58:53.326 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/create responded 400 in 1.6201 ms
+2026-09-07 13:58:58.972 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/create responded 400 in 1.5717 ms

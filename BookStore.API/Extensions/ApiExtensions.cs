@@ -1,10 +1,8 @@
 ﻿using BookStore.Application.Authorization.Attributes;
-using BookStore.Core.Enums;
 using BookStore.Infrastructure.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic.FileIO;
 using System.Text;
 
 namespace BookStore.API.Extensions
@@ -111,6 +109,102 @@ namespace BookStore.API.Extensions
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"[Success] AuthRegistration: Аутентификация JWT успешно добавлена.");
             Console.ResetColor();
+        }
+
+        public static void AddConfiguredCors(this IServiceCollection services, CorsSettings corsSettings)
+        {
+            
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Production", policy =>
+                {
+                    policy.WithOrigins(corsSettings.AllowedOrigins)
+                        .WithMethods(corsSettings.AllowedMethods)
+                        .WithHeaders(corsSettings.AllowedHeaders)
+                        .AllowCredentials();
+                });
+
+                options.AddPolicy("Development", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                });
+            });
+        }
+
+        public static void AddConfiguredSecurityHeaders(this IServiceCollection services, bool isDevelopment)
+        {
+            services.AddSecurityHeaderPolicies(options =>
+            {
+                options.AddPolicy("Development", policy =>
+                {
+                    policy.AddDefaultApiSecurityHeaders();
+
+                    policy.AddContentSecurityPolicy(builder =>
+                    {
+                        builder.AddDefaultSrc().Self();
+
+                        builder.AddScriptSrc()
+                            .Self()
+                            .UnsafeInline()
+                            .From("https://cdn.jsdelivr.net");
+
+                        builder.AddStyleSrc()
+                            .Self()
+                            .UnsafeInline()
+                            .From("https://cdn.jsdelivr.net");
+
+                        builder.AddImgSrc()
+                            .Self()
+                            .From("data:")
+                            .From("https:");
+
+                        builder.AddConnectSrc()
+                            .Self()
+                            .From("https://localhost:*")
+                            /*.From("https://127.0.0.1:*")*/;
+
+                        builder.AddFontSrc()
+                            .Self()
+                            .From("data:")
+                            .From("https://cdn.jsdelivr.net");
+
+                        builder.AddFormAction().Self();
+                        builder.AddFrameAncestors().None();
+                        builder.AddObjectSrc().None();
+                        builder.AddBaseUri().None();
+                    });
+
+                    policy.AddCrossOriginEmbedderPolicy(builder => builder
+                        .Credentialless());
+                });
+
+                options.AddPolicy("Production", policy =>
+                 {
+                     policy.AddDefaultApiSecurityHeaders();
+
+                     policy.AddContentSecurityPolicy(builder =>
+                     {
+                         builder.AddDefaultSrc().None();
+                         builder.AddFormAction().Self();
+                         builder.AddFrameAncestors().None();
+                         builder.AddObjectSrc().None();
+                         builder.AddScriptSrc().None();
+                         builder.AddStyleSrc().None();
+                         builder.AddImgSrc().None();
+                         builder.AddFontSrc().None();
+                         builder.AddConnectSrc().Self();
+                         builder.AddBaseUri().None();
+                     });
+
+                     policy.AddCrossOriginEmbedderPolicy(builder => builder
+                         .RequireCorp());
+
+                     policy.AddStrictTransportSecurity((int)TimeSpan.FromDays(365).TotalSeconds, true, false, String.Empty);
+                 });
+            });
         }
     }
 }

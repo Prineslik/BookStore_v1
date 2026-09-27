@@ -73,15 +73,9 @@ namespace BookStore.Infrastructure.Repositories
             {
                 _logger.LogDebug("Удаление User с GUID = {@id}", id);
 
-                var resultDelete = await _context.Users
+                await _context.Users
                     .Where(u => u.Id == id)
                     .ExecuteDeleteAsync();
-
-                if (resultDelete <= 0)
-                {
-                    _logger.LogWarning("User с GUID = {@UserId} не удален", id);
-                    throw new NotFoundException("User", id);
-                }
 
                 _logger.LogDebug("Role с GUID = {@UserId} удален", id);
                 return id;
@@ -99,6 +93,8 @@ namespace BookStore.Infrastructure.Repositories
         public async Task<List<UserEntity>> GetAll()
         {
             _logger.LogDebug($"Получение всех Users");
+
+            Console.WriteLine($"[DEBUG] Repo connection: {_context.Database.GetConnectionString()}");
 
             var userModels = await _context.Users
                 .AsNoTracking()
@@ -165,32 +161,44 @@ namespace BookStore.Infrastructure.Repositories
                 _logger.LogDebug("Изменение User с GUID = {@UserId}", userEntity.Id);
 
                 var userModel = await _context.Users
-                .Include(u => u.Roles)
-                .FirstOrDefaultAsync(u => u.Id == userEntity.Id);
+                    .Include(u => u.Roles)
+                    .FirstOrDefaultAsync(u => u.Id == userEntity.Id);
+
+                if (userModel == null)
+                    throw new NotFoundException("User", userEntity.Id);
 
                 var roles = _context.Roles
                     .Where(r => userEntity.RoleIds.Contains(r.Id))
                     .ToList();
 
-                userModel.UserName = userEntity.Name;
-                userModel.ProfilePhotoURL = userEntity.ProfilePhotoURL;
-                userModel.Email = userEntity.Email;
-                userModel.PasswordHash = userEntity.PasswordHash;
+                //userModel.UserName = userEntity.Name;
+                //userModel.ProfilePhotoURL = userEntity.ProfilePhotoURL;
+                //userModel.Email = userEntity.Email;
+                //userModel.PasswordHash = userEntity.PasswordHash;
+                _mapper.Map(userEntity, userModel);
 
                 userModel.Roles.Clear();
+                userModel.Roles.AddRange(roles);
 
-                if (roles != null)
-                    userModel.Roles.AddRange(roles);
-
-                /*var affectedRows = */
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();                
 
                 _logger.LogDebug("User с GUID = {@UserId} изменена", userEntity.Id);
 
                 return userModel.Id;
-                /*return affectedRows > 0
-                    ? Result<Guid>.Success(userEntity.Id)
-                    : Result<Guid>.Failure(Error.Unexpected($"Ошибка при внесении изменеий в пользователя {userEntity.Name}"));*/
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogWarning(ex, "Конфликт обновления для User с ID = {UserId}", userEntity.Id);
+
+                //var entry = ex.Entries.Single();
+                //var databaseValues = await entry.GetDatabaseValuesAsync();
+
+                //if (databaseValues == null)
+                //{
+                //    throw new NotFoundException("User", userEntity.Id);
+                //}
+
+                throw new DbConcurrencyException($"User с ID = {userEntity.Id} был изменен другим пользователем. Обновите данные.");
             }
             catch (DbUpdateException ex)
             {

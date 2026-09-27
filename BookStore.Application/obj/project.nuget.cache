@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "24G2i6aQfYk=",
+  "dgSpecHash": "lHes+YyS4uA=",
   "success": true,
   "projectFilePath": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\BookStore.Application.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Nes\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
+    "C:\\Users\\Nes\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.1\\fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
+    "C:\\Users\\Nes\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "C:\\Users\\Nes\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.3.10\\microsoft.aspnetcore.authentication.abstractions.2.3.10.nupkg.sha512",
     "C:\\Users\\Nes\\.nuget\\packages\\microsoft.aspnetcore.authorization\\10.0.9\\microsoft.aspnetcore.authorization.10.0.9.nupkg.sha512",
     "C:\\Users\\Nes\\.nuget\\packages\\microsoft.aspnetcore.authorization.policy\\2.3.11\\microsoft.aspnetcore.authorization.policy.2.3.11.nupkg.sha512",

@@ -11,7 +11,7 @@ namespace BookStore.Application.Interfaces.Books
         Task<List<BookEntity>> GetAllBooks();
         Task<BookEntity?> GetBookById(Guid id);
         Task<List<BookEntity?>> GetBooksByTitle(string title);
-        Task<PagedResult<BooksResponse>> GetPagedBooks(BookQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
+        Task<PagedResult<BookEntity>> GetPagedBooks(BookQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
         Task<Guid> UpdateBook(BookEntity booksRequest/*BookEntity book*//*Guid id, string title, string description, decimal price*/);
     }
 }

@@ -15,8 +15,8 @@ namespace BookStore.Application.Interfaces.Roles
         Task<List<RoleEntity>> GetAllRoles();
         Task<RoleEntity?> GetRoleById(Guid id);
         Task<List<RoleEntity>> GetRolesByName(string Name);
-        Task<PagedResult<RolesResponse>> GetPagedRoles(RoleQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
+        Task<PagedResult<RoleEntity>> GetPagedRoles(RoleQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
         Task<Guid> UpdateRole(RoleEntity rolesRequest/*BookEntity Role*//*Guid id, string title, string description, decimal price*/);
-        Task<Guid> AddPermissions(Guid roleId ,HashSet<Guid?> permissionIds);
+        Task<Guid> AddPermissions(Guid roleId ,HashSet<Guid> permissionIds);
     }
 }
