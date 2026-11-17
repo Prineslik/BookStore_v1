@@ -1,0 +1,18 @@
+2026-11-10 16:08:59.045 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-11-10 16:08:59.115 +03:00 [ERR] BookStore.API.Middleware.GlobalExceptionMiddleware: Unhandled domain exception -> 500 Internal server error at /test-error (TraceId=0HNPV5F3U4ER8)
+BookStore.Core.Exceptions.DomainException
+   at BookStore.Tests.Integration.Middlewares.GlobalExceptionMiddlewareTests.<>c__DisplayClass5_0.<ThrowException_ShouldReutrnResponseMessageWithError>b__1(CallInfo x) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Tests\Integration\Middlewares\GlobalExceptionMiddlewareTests.cs:line 77
+   at NSubstitute.Core.WhenCalled`1.<>c__DisplayClass8_0.<Do>b__0(CallInfo callInfo)
+   at NSubstitute.Core.CallActions.CallAction.Invoke(CallInfo callInfo)
+   at NSubstitute.Core.CallActions.InvokeMatchingActions(ICall call)
+   at NSubstitute.Routing.Handlers.DoActionsCallHandler.Handle(ICall call)
+   at NSubstitute.Routing.Route.Handle(ICall call)
+   at NSubstitute.Core.CallRouter.Route(ICall call)
+   at NSubstitute.Proxies.CastleDynamicProxy.CastleForwardingInterceptor.Intercept(IInvocation invocation)
+   at Castle.DynamicProxy.AbstractInvocation.Proceed()
+   at NSubstitute.Proxies.CastleDynamicProxy.ProxyIdInterceptor.Intercept(IInvocation invocation)
+   at Castle.DynamicProxy.AbstractInvocation.Proceed()
+   at Castle.Proxies.ObjectProxy.ThrowIfConfigured()
+   at BookStore.Tests.Integration.Middlewares.GlobalExceptionMiddlewareTests.<>c.<.ctor>b__4_4(ITestErrorStub stub) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Tests\Integration\Middlewares\GlobalExceptionMiddlewareTests.cs:line 57
+   at lambda_method5(Closure, Object, HttpContext)
+   at BookStore.API.Middleware.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Middleware\GlobalExceptionMiddleware.cs:line 29

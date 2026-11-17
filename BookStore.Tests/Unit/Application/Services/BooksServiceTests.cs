@@ -1,10 +1,18 @@
-﻿using BookStore.Application.Contracts.Books;
+﻿using BookStore.Application.Contracts.Authors.DTO;
+using BookStore.Application.Contracts.Books.Commands;
+using BookStore.Application.Contracts.Books.DTO;
+using BookStore.Application.Contracts.Books.Queries;
 using BookStore.Application.Contracts.Common;
+using BookStore.Application.Contracts.Users.DTO;
 using BookStore.Application.Exceptions;
+using BookStore.Application.Interfaces;
 using BookStore.Application.Interfaces.Books;
+using BookStore.Application.Interfaces.Users;
 using BookStore.Application.Services;
 using BookStore.Core.Entities;
+using BookStore.Infrastructure.Repositories.Book;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using System;
@@ -18,249 +26,350 @@ namespace BookStore.Tests.Unit.Application.Services
     public class BooksServiceTests
     {
         private readonly IBooksRepository _booksRepository = Substitute.For<IBooksRepository>();
-
+        private readonly IBooksReadRepository _booksReadRepository = Substitute.For<IBooksReadRepository>();
+        private readonly IUsersReadRepository _usersReadRepository = Substitute.For<IUsersReadRepository>();
+        private readonly IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
+        
         private readonly BooksService _booksService;
 
         public BooksServiceTests()
         {
-            _booksService = new BooksService(_booksRepository);
+            _booksService = new BooksService(_booksRepository, _booksReadRepository, _usersReadRepository, _unitOfWork);
         }
 
         [Fact]
-        public async Task GetAllBooks_ShouldReturnBooks()
+        public async Task GetAllBooks_ShouldReturnSuccess()
         {
-            var books = new List<BookEntity?>
+            var books = new List<BookShortDTO>
             {
-                BookEntity.Create(Guid.NewGuid(), "book 1", "book description", 2.55m).Book,
-                BookEntity.Create(Guid.NewGuid(), "book 2", "book description", 3.66m).Book
+                new BookShortDTO(Guid.NewGuid(), "book 1", "book description", 2.55m, 3, DateTime.UtcNow, null),
+                new BookShortDTO(Guid.NewGuid(), "book 2", "book description", 3.66m, 6, DateTime.UtcNow, DateTime.UtcNow)
             };
 
-            _booksRepository.GetAll().Returns(books);
+            var expectedResult = Result<List<BookShortDTO>>.Success(books);
+
+            _booksReadRepository.GetAll().Returns(books);
 
             var result = await _booksService.GetAllBooks();
 
             result.Should().NotBeNull();
-            result.Should().BeEquivalentTo(books);
+            result.Should().BeEquivalentTo(expectedResult);
 
-            await _booksRepository.Received(1).GetAll();
+            await _booksReadRepository.Received(1).GetAll();
         }
 
         [Fact]
-        public async Task GetBooksById_WhenBookExists_ShouldReturnBook()
+        public async Task GetBooksById_WhenBookExists_ShouldReturnSuccess()
         {
             var bookId = Guid.NewGuid();
-            var expectedBook = BookEntity.Create(
+            var owners = new List<OwnerShortDTO> { new OwnerShortDTO(Guid.NewGuid(), "owner 1", "owner1@mail.ru", "https://picture.jpg", false) };
+            var authors = new List<AuthorShortDTO> { new AuthorShortDTO(Guid.NewGuid(), "author 1", "https://picture.jpg") };
+
+            var book = new BookDetailsDTO(
                 bookId,
                 "book",
                 "desc",
-                5.78m
-            ).Book;
+                5.78m,
+                4,
+                DateTime.Now,
+                null,
+                owners,
+                authors);
 
-            _booksRepository.GetById(bookId).Returns(expectedBook);
+            var expectedResult = Result<BookDetailsDTO>.Success(book);
+
+            _booksReadRepository.GetById(bookId).Returns(book);
 
             var result = await _booksService.GetBookById(bookId);
 
             result.Should().NotBeNull();
-            result.Should().BeEquivalentTo(expectedBook);
+            result.Should().BeEquivalentTo(expectedResult);
 
-            await _booksRepository.Received(1).GetById(bookId);
+            await _booksReadRepository.Received(1).GetById(bookId);
         }
 
         [Fact]
-        public async Task GetBookById_WhenBookDoesNotExist_ShouldThrowNotFoundException()
+        public async Task GetBookById_WhenBookDoesNotExist_ShouldReturnFailure()
         {
             var nonExistingId = Guid.NewGuid();
+            BookDetailsDTO? book = null;
+            var expectedResult = Result<BookDetailsDTO>.Failure(Error.NotFound("Book", "Id", nonExistingId));
 
-            _booksRepository.GetById(nonExistingId).ThrowsAsync(new NotFoundException("Book", nonExistingId));
+            _booksReadRepository.GetById(nonExistingId).Returns(book);
 
-            Func<Task> act = async () => await _booksService.GetBookById(nonExistingId);
+            var result = await _booksService.GetBookById(nonExistingId);
 
-            await act.Should().ThrowAsync<NotFoundException>();
+            result.Should().NotBeNull();
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().BeEquivalentTo(expectedResult.Error);
 
-            await _booksRepository.Received(1).GetById(nonExistingId);
+            await _booksReadRepository.Received(1).GetById(nonExistingId);
         }
 
         [Fact]
-        public async Task GetBooksByTitle_WithExistedTitle_ShouldReturnBook()
+        public async Task GetBooksByTitle_WithExistedTitle_ShouldReturnSuccess()
         {
             string title = "book title";
-            var expectedBooks = new List<BookEntity>
+
+            var books = new List<BookShortDTO>
             {
-                BookEntity.Create(Guid.NewGuid(), "book 1", "book description", 2.55m).Book,
-                BookEntity.Create(Guid.NewGuid(), "book 2", "book description", 3.66m).Book
+                new BookShortDTO(Guid.NewGuid(), "book title 1", "book description", 2.55m, 3, DateTime.UtcNow, null),
+                new BookShortDTO(Guid.NewGuid(), "book title 2", "book description", 3.66m, 6, DateTime.UtcNow, DateTime.UtcNow)
             };
 
-            _booksRepository.GetByTitle(title).Returns(expectedBooks);
+            var expectedResult = Result<List<BookShortDTO>>.Success(books);
+
+            _booksReadRepository.GetByTitle(title).Returns(books);
 
             var result = await _booksService.GetBooksByTitle(title);
 
             result.Should().NotBeNull();
-            result.Should().BeEquivalentTo(expectedBooks);
+            result.Should().BeEquivalentTo(expectedResult);
 
-            await _booksRepository.Received(1).GetByTitle(title);
+            await _booksReadRepository.Received(1).GetByTitle(title);
         }
 
         [Fact]
-        public async Task GetBooksByTitle_WithNonExistedTitle_ShouldReturnNull()
+        public async Task GetBooksByTitle_WithNonExistedTitle_ShouldReturnSuccess()
         {
             string title = "book title";
-            List<BookEntity> expectedBooks = new List<BookEntity>();
+            List<BookShortDTO> books = new List<BookShortDTO>();
+            var expectedResult = Result<List<BookShortDTO>>.Success(books);
 
-            _booksRepository.GetByTitle(title).Returns(expectedBooks);
+            _booksReadRepository.GetByTitle(title).Returns(books);
 
             var result = await _booksService.GetBooksByTitle(title);
 
             result.Should().NotBeNull();
-            result.Should().BeEquivalentTo(expectedBooks);
+            result.Should().BeEquivalentTo(expectedResult);
 
-            await _booksRepository.Received(1).GetByTitle(title);
+            await _booksReadRepository.Received(1).GetByTitle(title);
         }
 
         [Fact]
-        public async Task CreateBook_WithValidBookEntity_ShouldReturnBookId()
+        public async Task CreateBook_WithValidBookEntity_ShouldReturnSuccess()
         {
-            var title = "book";
-            var description = "desc";
-            var price = 4.99m;
+            var owners = new List<Guid> { Guid.NewGuid() };
+            var authors = new List<Guid> { Guid.NewGuid() };
 
-            var book = BookEntity.Create(Guid.NewGuid(), title, description, price).Book;
+            var createBookCommand = new BookCreateCommand("title", "description", 4.32m, 56, owners, authors);
+            var bookId = Guid.NewGuid();
 
-            _booksRepository.Create(book).Returns(book.Id);
+            var expectedResult = Result<Guid>.Success(bookId);
 
-            var result = await _booksService.CreateBook(book);
+            _booksReadRepository.IsExistByTitle(createBookCommand.Title).Returns(false);
+            _booksRepository.Create(Arg.Any<BookEntity>()).Returns(bookId);
 
-            result.Should()
-                .NotBeEmpty()
-                .And.Be(book.Id);
+            var result = await _booksService.CreateBook(createBookCommand);
+
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(expectedResult);
+
+            await _booksRepository.Received(1).Create(Arg.Any<BookEntity>());
+            await _booksReadRepository.Received(1).IsExistByTitle(createBookCommand.Title);
+            await _unitOfWork.Received(1).CommitAsync();
         }
 
         [Fact]
-        public async Task CreateBook_WithDuplicatedId_ShouldThrowDuplicatedException()
+        public async Task CreateBook_WithDuplicatedTitle_ShouldReturnFailure()
         {
-            var title = "book";
-            var description = "desc";
-            var price = 4.99m;
+            var owners = new List<Guid> { Guid.NewGuid() };
+            var authors = new List<Guid> { Guid.NewGuid() };
 
-            var book = BookEntity.Create(Guid.NewGuid(), title, description, price).Book;
+            var createBookCommand = new BookCreateCommand("title", "description", 4.32m, 56, owners, authors);
+            
+            var expectedResult = Result<Guid>.Failure(Error.Duplicate("Title", createBookCommand.Title));
 
-            _booksRepository.Create(book).ThrowsAsync(new DuplicateException(""));
+            _booksReadRepository.IsExistByTitle(Arg.Any<string>()).Returns(true);
 
-            Func<Task> act = async () => await _booksService.CreateBook(book);
+            var result = await _booksService.CreateBook(createBookCommand);
 
-            await act.Should().ThrowAsync<DuplicateException>();
+            result.Should().NotBeNull();
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().BeEquivalentTo(expectedResult.Error);
 
-            await _booksRepository.Received(1).Create(book);
+            await _booksReadRepository.Received(1).IsExistByTitle(Arg.Any<string>());
+            await _booksRepository.DidNotReceive().Create(Arg.Any<BookEntity>());
+            await _unitOfWork.DidNotReceive().CommitAsync();
         }
 
         [Fact]
-        public async Task CreateBook_WhenDbUpdateException_ShouldThrowInfrastructureException()
+        public async Task CreateBook_WhenDbUpdateException_ShouldThrowDbUpdateException()
         {
-            var title = "book";
-            var description = "desc";
-            var price = 4.99m;
+            var owners = new List<Guid> { Guid.NewGuid() };
+            var authors = new List<Guid> { Guid.NewGuid() };
 
-            var book = BookEntity.Create(Guid.NewGuid(), title, description, price).Book;
+            var createBookCommand = new BookCreateCommand("title", "description", 4.32m, 56, owners, authors);
+            
+            _booksReadRepository.IsExistByTitle(createBookCommand.Title).Returns(false);
 
-            _booksRepository.Create(book).ThrowsAsync(new InfrastructureException(""));
+            _booksRepository.Create(Arg.Any<BookEntity>()).ThrowsAsync(new DbUpdateException());
 
-            Func<Task> act = async () => await _booksService.CreateBook(book);
+            Func<Task> act = async () => await _booksService.CreateBook(createBookCommand);
 
-            await act.Should().ThrowAsync<InfrastructureException>();
+            await act.Should().ThrowAsync<DbUpdateException>();
 
-            await _booksRepository.Received(1).Create(book);
+            await _booksRepository.Received(1).Create(Arg.Any<BookEntity>());
+            await _unitOfWork.DidNotReceive().CommitAsync();
         }
 
         [Fact]
-        public async Task UpdateBook_WithValidBookEntity_ShouldReturnBookId()
+        public async Task UpdateBook_WithValidBookEntity_ShouldReturnSuccess()
         {
-            var title = "book";
-            var description = "desc";
-            var price = 4.99m;
+            var ownerIds = new List<Guid> { Guid.NewGuid() };
+            var authorIds = new List<Guid> { Guid.NewGuid() };
+            var owners = new List<OwnerShortDTO> { new OwnerShortDTO(
+                Guid.NewGuid(),
+                "name",
+                "email",
+                "url",
+                false) };
+            var authors = new List<AuthorShortDTO> { new AuthorShortDTO(
+                Guid.NewGuid(),
+                "name",
+                "url") };
 
-            var book = BookEntity.Create(Guid.NewGuid(), title, description, price).Book;
+            var updateBookCommand = new BookUpdateCommand(Guid.NewGuid(), "title", "description", 4.32m, 56, ownerIds, authorIds);
 
-            _booksRepository.Update(book).Returns(book.Id);
+            BookDetailsDTO? bookDTO = null;
 
-            var result = await _booksService.UpdateBook(book);
+            var bookEntity = BookEntity.Reconstitute(
+                updateBookCommand.Id,
+                updateBookCommand.Title,
+                updateBookCommand.Description,
+                updateBookCommand.Price,
+                updateBookCommand.StockQuantity,
+                DateTime.UtcNow,
+                null,
+                ownerIds,
+                authorIds);
 
-            result.Should()
-                .NotBeEmpty()
-                .And.Be(book.Id);
+            var expectedResult = Result<Guid>.Success(bookEntity.Id);
 
-            await _booksRepository.Received(1).Update(book);
+            _booksReadRepository.IsExistById(updateBookCommand.Id).Returns(true);
+            _booksReadRepository.GetByTitleStrict(updateBookCommand.Title).Returns(bookDTO);
+            _usersReadRepository.IsExistById(Arg.Any<Guid>()).Returns(true);
+            _booksRepository.GetById(updateBookCommand.Id).Returns(bookEntity);
+
+            _booksRepository.Update(bookEntity).Returns(bookEntity.Id);
+
+            var result = await _booksService.UpdateBook(updateBookCommand);
+
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(expectedResult);
+
+            await _booksRepository.Received(1).Update(bookEntity);
+            await _booksReadRepository.Received(1).IsExistById(updateBookCommand.Id);
+            await _booksReadRepository.Received(1).GetByTitleStrict(updateBookCommand.Title);
+            await _usersReadRepository.Received(updateBookCommand.OwnerIds.Count).IsExistById(Arg.Any<Guid>());
+            await _booksRepository.Received(1).GetById(updateBookCommand.Id);
+            await _unitOfWork.Received(1).CommitAsync();
         }
 
         [Fact]
         public async Task UpdateBook_WhenDbUpdateConcurrencyException_ShouldThrowDbConcurrencyException()
         {
-            var title = "book";
-            var description = "desc";
-            var price = 4.99m;
+            var ownerIds = new List<Guid> { Guid.NewGuid() };
+            var authorIds = new List<Guid> { Guid.NewGuid() };
+            var owners = new List<OwnerShortDTO> { new OwnerShortDTO(
+                Guid.NewGuid(),
+                "name",
+                "email",
+                "url",
+                false) };
+            var authors = new List<AuthorShortDTO> { new AuthorShortDTO(
+                Guid.NewGuid(),
+                "name",
+                "url") };
 
-            var book = BookEntity.Create(Guid.NewGuid(), title, description, price).Book;
+            var updateBookCommand = new BookUpdateCommand(Guid.NewGuid(), "title", "description", 4.32m, 56, ownerIds, authorIds);
 
-            _booksRepository.Update(book).ThrowsAsync(new DbConcurrencyException(""));
+            BookDetailsDTO? bookDTO = null;
 
-            Func<Task> act = async () => await _booksService.UpdateBook(book);
+            var bookEntity = BookEntity.Reconstitute(
+                updateBookCommand.Id,
+                updateBookCommand.Title,
+                updateBookCommand.Description,
+                updateBookCommand.Price,
+                updateBookCommand.StockQuantity,
+                DateTime.UtcNow,
+                null,
+                ownerIds,
+                authorIds);
 
-            await act.Should().ThrowAsync<DbConcurrencyException>();
+            _booksReadRepository.IsExistById(updateBookCommand.Id).Returns(true);
+            _booksReadRepository.GetByTitleStrict(updateBookCommand.Title).Returns(bookDTO);
+            _usersReadRepository.IsExistById(Arg.Any<Guid>()).Returns(true);
+            _booksRepository.GetById(updateBookCommand.Id).Returns(bookEntity);
 
-            await _booksRepository.Received(1).Update(book);
+            _booksRepository.Update(bookEntity).ThrowsAsync(new DbUpdateConcurrencyException());
+
+            Func<Task> act = async () => await _booksService.UpdateBook(updateBookCommand);
+
+            await act.Should().ThrowAsync<DbUpdateConcurrencyException>();
+
+            await _booksRepository.Received(1).Update(bookEntity);
+            await _booksReadRepository.Received(1).IsExistById(updateBookCommand.Id);
+            await _booksReadRepository.Received(1).GetByTitleStrict(updateBookCommand.Title);
+            await _usersReadRepository.Received(updateBookCommand.OwnerIds.Count).IsExistById(Arg.Any<Guid>());
+            await _booksRepository.Received(1).GetById(updateBookCommand.Id);
+            await _unitOfWork.DidNotReceive().CommitAsync();
         }
 
         [Fact]
-        public async Task DeleteBook_WithExistedId_ShouldReturnBookId()
+        public async Task DeleteBook_WithExistedId_ShouldSuccess()
         {
             Guid bookId = Guid.NewGuid();
+            var owners = new List<Guid> { Guid.NewGuid() };
+            var authors = new List<Guid> { Guid.NewGuid() };
 
-            _booksRepository.Delete(bookId).Returns(bookId);
+            var book = BookEntity.Reconstitute(bookId, "title", "description", 4.32m, 56, DateTime.UtcNow, null, owners, authors);
+
+            _booksRepository.GetById(bookId).Returns(book);
+            _booksRepository.Delete(book).Returns(bookId);
+
+            var expectedResult = Result<Guid>.Success(bookId);
 
             var result = await _booksService.DeleteBook(bookId);
 
-            result.Should().Be(bookId);
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(expectedResult);
+
+            await _booksRepository.Received(1).GetById(bookId);
+            await _booksRepository.Received(1).Delete(book);
+            await _unitOfWork.Received(1).CommitAsync();
         }
 
         [Fact]
-        public async Task DeleteBook_WhenRepositoryThrowsException_ShouldPropagateException()
-        {
-            Guid bookId = Guid.NewGuid();
-
-            _booksRepository.Delete(bookId).ThrowsAsync(new InfrastructureException($"Failed to delete book with GUID = {bookId}"));
-
-            Func<Task> act = async () => await _booksService.DeleteBook(bookId);
-
-            await act.Should().ThrowAsync<InfrastructureException>();
-            //result.Should().Be(book.Id);
-        }
-
-        [Fact]
-        public async Task GetPagedBooksAsync_WithValidQueryParameters_ShuoldReturnPagedResult()
+        public async Task GetPagedBooksAsync_WithValidQueryParameters_ShouldReturnSuccess()
         {
             var bookQueryParameters = new BookQueryParameters() { SearchTerm = "ook" };
 
-            var expectedBooks = new List<BookEntity>
+            var books = new List<BookShortDTO>
             {
-                BookEntity.Create(Guid.NewGuid(), "Book 1", "desc 1", 4.55m).Book,
-                BookEntity.Create(Guid.NewGuid(), "Book 2", "desc 2", 4.55m).Book
+                new BookShortDTO(Guid.NewGuid(), "Book 1", "desc 1", 4.55m, 78, DateTime.UtcNow, null),
+                new BookShortDTO(Guid.NewGuid(), "Book 2", "desc 2", 4.55m, 78, DateTime.UtcNow, null)
             };
 
-            var expectedPagedResult = new PagedResult<BookEntity>()
+            var pagedResult = new PagedResult<BookShortDTO>()
             {
-                Items = expectedBooks,
-                TotalCount = expectedBooks.Count(),
+                Items = books,
+                TotalCount = books.Count(),
                 PageNumber = bookQueryParameters.PageNumber,
                 PageSize = bookQueryParameters.PageSize,
 
             };
 
-            _booksRepository.GetPaged(bookQueryParameters).Returns(expectedPagedResult);
+            var expectedResult = Result<PagedResult<BookShortDTO>>.Success(pagedResult);
+
+            _booksReadRepository.GetPaged(bookQueryParameters).Returns(pagedResult);
 
             var result = await _booksService.GetPagedBooks(bookQueryParameters);
 
             result.Should().NotBeNull();
-            result.Should().BeEquivalentTo(expectedPagedResult);
+            result.Should().BeEquivalentTo(expectedResult);
 
-            await _booksRepository.Received(1).GetPaged(Arg.Any<BookQueryParameters>());
+            await _booksReadRepository.Received(1).GetPaged(bookQueryParameters);
         }
     }
 }

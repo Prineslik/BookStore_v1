@@ -20,10 +20,6 @@ namespace BookStore.Infrastructure.Configurations
             builder
                 .Property(p => p.Description)
                 .IsRequired();
-
-            builder
-               .HasMany(p => p.Roles)
-               .WithMany(r => r.Permissions);
         }
     }
 }

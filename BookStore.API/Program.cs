@@ -1,21 +1,26 @@
 using AutoMapper;
 using BookStore.API.Extensions;
 using BookStore.API.Middleware;
-using BookStore.API.Providers;
-using BookStore.Application.Authorization.Handlers;
+using BookStore.API.Validators.Books;
+using BookStore.API.Validators.Permissions;
+using BookStore.API.Validators.Roles;
+using BookStore.API.Validators.Users;
+using BookStore.Application.Authorization;
 using BookStore.Application.Interfaces;
 using BookStore.Application.Interfaces.Books;
 using BookStore.Application.Interfaces.Permissions;
 using BookStore.Application.Interfaces.Roles;
 using BookStore.Application.Interfaces.Users;
+using BookStore.Application.Mappings;
 using BookStore.Application.Services;
-using BookStore.Application.Validators.Permissions;
-using BookStore.Application.Validators.Roles;
-using BookStore.Application.Validators.Users;
 using BookStore.Infrastructure;
 using BookStore.Infrastructure.Mappings;
 using BookStore.Infrastructure.Models;
 using BookStore.Infrastructure.Repositories;
+using BookStore.Infrastructure.Repositories.Book;
+using BookStore.Infrastructure.Repositories.Permission;
+using BookStore.Infrastructure.Repositories.Role;
+using BookStore.Infrastructure.Repositories.User;
 using BookStore.Infrastructure.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -42,39 +47,27 @@ builder.Services.AddConfiguredSecurityHeaders(isDevelopment);
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddValidatorsFromAssemblyContaining<LoginUserRequestValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UsersRequestValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<RolesRequestValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<PermissionsRequestValidator>();
-builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidation();
 
 builder.Services.AddControllers();
 
 //builder.Services.Configure<JwtOptions>(jwtOptions);
 builder.Services.AddApiAuthentication(builder.Configuration);
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
 //builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IBooksRepository, BooksRepository>();
-builder.Services.AddScoped<IBooksService, BooksService>();
-builder.Services.AddScoped<IUsersRepository, UsersRepository>();
-builder.Services.AddScoped<IUsersService, UsersService>();
-builder.Services.AddScoped<IRolesRepository, RolesRepository>();
-builder.Services.AddScoped<IRolesService, RolesService>();
-builder.Services.AddScoped<IPermissionsRepository, PermissionsRepository>();
-builder.Services.AddScoped<IPermissionsService, PermissionsService>();
+builder.Services.AddRepositories();
+builder.Services.AddServices();
 
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
-
-//builder.Services.AddValidatorsFromAssemblyContaining<UsersRequestValidator>();
-//builder.Services.AddValidatorsFromAssemblyContaining<LoginUserRequestValidator>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddAuthorization();
-builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
 builder.Services.AddDbContext<BookStoreDbContext>(
     options =>
@@ -84,7 +77,8 @@ builder.Services.AddDbContext<BookStoreDbContext>(
 
 builder.Services.AddAutoMapper(cfg =>
 {
-    cfg.AddProfile<InfrastructureMappingProfile>();
+    //cfg.AddProfile<InfrastructureMappingProfile>();
+    cfg.AddProfile<ApplicationMappingProfile>();
 });
 
 var app = builder.Build();

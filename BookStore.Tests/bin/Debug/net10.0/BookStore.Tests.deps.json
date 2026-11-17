@@ -43,6 +43,7 @@
           "BookStore.Core": "1.0.0",
           "BookStore.Infrastructure": "1.0.0",
           "FluentAssertions": "8.10.0",
+          "FluentValidation": "12.1.1",
           "Microsoft.AspNetCore.Mvc.Testing": "10.0.12",
           "Microsoft.NET.Test.Sdk": "18.9.0",
           "NSubstitute": "6.2.0",
@@ -1483,6 +1484,7 @@
       },
       "BookStore.Application/1.0.0": {
         "dependencies": {
+          "AutoMapper": "16.1.1",
           "BookStore.Core": "1.0.0",
           "FluentValidation": "12.1.1",
           "FluentValidation.AspNetCore": "11.3.1",

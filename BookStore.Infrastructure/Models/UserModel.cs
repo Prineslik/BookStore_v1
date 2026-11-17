@@ -8,16 +8,16 @@ namespace BookStore.Infrastructure.Models
 {
     public class UserModel : IdentityUser
     {
-        //public UserModel(Guid id, string name, string email, string passwordHash, string? profilePhotoURL) : base()
-        //{
-        //    Id = id.ToString();
-        //    UserName = name;
-        //    Email = email;
-        //    ProfilePhotoURL = profilePhotoURL;
-        //}
         public new Guid Id { get; set; }
         public string ProfilePhotoURL { get; set; } = string.Empty;
-        public List<RoleModel> Roles { get; set; } = [];
+        public DateTime CreateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
+        public bool IsAuthor { get; set; } = false;
+        public Guid? AuthorId { get; set; }
+
+        public AuthorModel? Author { get; set; }
+        public List<UserRoleModel> UserRoleModels { get; set; } = [];
+        public List<UserBookModel> UserBookModels { get; set; } = [];
 
     }
 }

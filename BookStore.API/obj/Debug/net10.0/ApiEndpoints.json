@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Books.BooksResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.API.Responses.Book.BookShortResponse, BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -28,8 +28,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "booksRequest",
-        "Type": "BookStore.Application.Contracts.Books.BooksRequest",
+        "Name": "createBookRequest",
+        "Type": "BookStore.API.Requests.Book.BookCreateRequest",
         "IsRequired": true
       }
     ],
@@ -145,7 +145,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Books.BooksResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.API.Responses.Book.BookShortResponse, BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -185,7 +185,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.Books.BooksResponse",
+        "Type": "BookStore.API.Responses.Book.BookDetailsResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -220,7 +220,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Books.BooksResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.API.Responses.Book.BookShortResponse, BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -248,8 +248,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "booksRequest",
-        "Type": "BookStore.Application.Contracts.Books.BooksRequest",
+        "Name": "updateBookRequest",
+        "Type": "BookStore.API.Requests.Book.BookUpdateRequest",
         "IsRequired": true
       },
       {
@@ -289,7 +289,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Permissions.PermissionsResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.API.Responses.Permission.PermissionShortResponse, BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -308,8 +308,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "permissionsRequest",
-        "Type": "BookStore.Application.Contracts.Permissions.PermissionsRequest",
+        "Name": "permissionsCreateRequest",
+        "Type": "BookStore.API.Requests.Permission.PermissionCreateRequest",
         "IsRequired": true
       }
     ],
@@ -410,7 +410,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Permissions.PermissionsResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.API.Responses.Permission.PermissionShortResponse, BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -454,7 +454,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Permissions.PermissionsResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "BookStore.API.Responses.Permission.PermissionDetailsResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -489,7 +489,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Permissions.PermissionsResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.API.Responses.Permission.PermissionShortResponse, BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -517,13 +517,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Guid",
+        "Name": "updateRequest",
+        "Type": "BookStore.API.Requests.Permission.PermissionUpdateRequest",
         "IsRequired": true
       },
       {
-        "Name": "permissionsRequest",
-        "Type": "BookStore.Application.Contracts.Permissions.PermissionsRequest",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -557,13 +557,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Guid",
+        "Name": "addPermissionsRequest",
+        "Type": "BookStore.API.Requests.Role.RoleAddPermissionsRequest",
         "IsRequired": true
       },
       {
-        "Name": "permissionIds",
-        "Type": "System.Collections.Generic.HashSet\u00601[[System.Guid, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -598,7 +598,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Roles.RolesResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.API.Responses.Role.RoleShortResponse, BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -617,8 +617,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "rolesRequest",
-        "Type": "BookStore.Application.Contracts.Roles.RolesRequest",
+        "Name": "roleCreateRequest",
+        "Type": "BookStore.API.Requests.Role.RoleCreateRequest",
         "IsRequired": true
       }
     ],
@@ -719,7 +719,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Roles.RolesResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.API.Responses.Role.RoleShortResponse, BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -759,7 +759,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Roles.RolesResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "BookStore.API.Responses.Role.RoleDetailsResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -794,7 +794,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Roles.RolesResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.API.Responses.Role.RoleShortResponse, BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -809,7 +809,7 @@
           "application/json",
           "text/json"
         ],
-        "StatusCode": 400
+        "StatusCode": 404
       }
     ]
   },
@@ -823,7 +823,7 @@
     "Parameters": [
       {
         "Name": "rolesRequest",
-        "Type": "BookStore.Application.Contracts.Roles.RolesRequest",
+        "Type": "BookStore.API.Requests.Role.RoleUpdateRequest",
         "IsRequired": true
       },
       {
@@ -863,33 +863,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BookStore.Application.Contracts.Users.UsersResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "BookStore.API.Controllers.UsersController",
-    "Method": "CreateUser",
-    "RelativePath": "Users/create",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "usersRequest",
-        "Type": "BookStore.Application.Contracts.Users.UsersRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Guid",
+        "Type": "System.Collections.Generic.List\u00601[[BookStore.API.Responses.User.UserShortResponse, BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -966,7 +940,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.Application.Contracts.Users.UsersResponse, BookStore.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "BookStore.Application.Contracts.Common.PagedResult\u00601[[BookStore.API.Responses.User.UsersDetailsResponse, BookStore.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1006,7 +980,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.Users.UsersResponse",
+        "Type": "BookStore.API.Responses.User.UsersDetailsResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1035,7 +1009,7 @@
     "Parameters": [
       {
         "Name": "userRequest",
-        "Type": "BookStore.Application.Contracts.Users.LoginUserRequest",
+        "Type": "BookStore.API.Requests.User.LoginUserRequest",
         "IsRequired": true
       }
     ],
@@ -1043,21 +1017,31 @@
   },
   {
     "ContainingType": "BookStore.API.Controllers.UsersController",
-    "Method": "GetUserByEmail",
-    "RelativePath": "Users/search/{email}",
-    "HttpMethod": "GET",
+    "Method": "RegisterUser",
+    "RelativePath": "Users/register",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "email",
         "Type": "System.String",
-        "IsRequired": true
+        "IsRequired": false
+      },
+      {
+        "Name": "password",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BookStore.Application.Contracts.Users.UsersResponse",
+        "Type": "System.Guid",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1069,20 +1053,20 @@
   },
   {
     "ContainingType": "BookStore.API.Controllers.UsersController",
-    "Method": "UpdateUser",
-    "RelativePath": "Users/update/{id}",
+    "Method": "UpdateUserProfile",
+    "RelativePath": "Users/update/profile/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.Guid",
+        "Name": "userRequest",
+        "Type": "BookStore.API.Requests.User.UserUpdateProfileRequest",
         "IsRequired": true
       },
       {
-        "Name": "userRequest",
-        "Type": "BookStore.Application.Contracts.Users.UsersRequest",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],

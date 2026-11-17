@@ -801,6 +801,7 @@
       },
       "BookStore.Application/1.0.0": {
         "dependencies": {
+          "AutoMapper": "16.1.1",
           "BookStore.Core": "1.0.0",
           "FluentValidation": "12.1.1",
           "FluentValidation.AspNetCore": "11.3.1"

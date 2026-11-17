@@ -1,7 +1,10 @@
 ﻿using BookStore.Application.Contracts.Common;
-using BookStore.Application.Contracts.Permissions;
+using BookStore.Application.Contracts.Permissions.Commands;
+using BookStore.Application.Contracts.Permissions.DTO;
+using BookStore.Application.Contracts.Permissions.Queries;
 using BookStore.Application.Contracts.Roles;
 using BookStore.Application.Exceptions;
+using BookStore.Application.Interfaces;
 using BookStore.Application.Interfaces.Permissions;
 using BookStore.Application.Interfaces.Roles;
 using BookStore.Core.Entities;
@@ -14,64 +17,87 @@ namespace BookStore.Application.Services
     public class PermissionsService : IPermissionsService
     {
         private readonly IPermissionsRepository _permissionsRepository;
+        private readonly IPermissionsReadRepository _permissionsReadRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PermissionsService(IPermissionsRepository permissionsRepository)
+        public PermissionsService(IPermissionsRepository permissionsRepository, IPermissionsReadRepository permissionsReadRepository,
+            IUnitOfWork unitOfWork)
         {
             _permissionsRepository = permissionsRepository;
+            _permissionsReadRepository = permissionsReadRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<PermissionEntity?>> GetAllPermissions()
+        public async Task<Result<List<PermissionShortDTO>>> GetAllPermissions()
         {
-            return await _permissionsRepository.GetAll();
-        }
-        public async Task<PermissionEntity?> GetPermissionById(Guid id)
-        {
-            return await _permissionsRepository.GetById(id);
+            var permissions = await _permissionsReadRepository.GetAll();
+            return Result<List<PermissionShortDTO>>.Success(permissions);
         }
 
-        public async Task<List<PermissionEntity>> GetPermissionsByCode(string code)
+        public async Task<Result<PermissionDetailsDTO>> GetPermissionById(Guid id)
         {
-            return await _permissionsRepository.GetByCode(code);
+            var permission = await _permissionsReadRepository.GetById(id);
+
+            return Result<PermissionDetailsDTO>.Success(permission);
         }
 
-        public async Task<Guid> CreatePermission(PermissionEntity permissionEntity)
+        public async Task<Result<List<PermissionShortDTO>>> GetPermissionsByCode(string code)
         {
-            //var existingPermission = await _permissionsRepository.GetByCode(permissionEntity.Code);
+            var permisisons = await _permissionsReadRepository.GetByCode(code);
 
-            //if (existingPermission != null)
-            //    throw new DuplicateException($"Permission с Code {permissionEntity.Code} уже существует");
+            return Result<List<PermissionShortDTO>>.Success(permisisons);
+        }
 
-            //var permissionEntity = new PermissionEntity(
-            //    Guid.NewGuid(), 
-            //    permissionsRequest.Code, 
-            //    permissionsRequest.Description, 
-            //    permissionsRequest.RoleIds);
+        public async Task<Result<Guid>> CreatePermission(PermissionCreateCommand createCommand)
+        {
+            if (await _permissionsReadRepository.IsExistByCode(createCommand.Code))
+                return Result<Guid>.Failure(Error.Duplicate("Code", createCommand.Code));
+
+            var permissionEntity = PermissionEntity.Create(
+                createCommand.Code,
+                createCommand.Description);
 
             var newPermisionId = await _permissionsRepository.Create(permissionEntity);
 
-            return newPermisionId;
+            await _unitOfWork.CommitAsync();
+
+            return Result<Guid>.Success(newPermisionId);
         }
 
-        public async Task<Guid> UpdatePermission(PermissionEntity permissionEntity)
+        public async Task<Result<Guid>> UpdatePermission(PermissionUpdateCommand updateCommand)
         {
-            //var existingPermission = await _permissionsRepository.GetById(permissionEntity.Id);
+            var permissionEntity = await _permissionsRepository.GetById(updateCommand.Id);
 
-            //if (existingPermission == null)
-            //    throw new NotFoundException("Permission", permissionEntity.Id);
+            if (permissionEntity == null)
+                return Result<Guid>.Failure(Error.NotFound("Permission", "Id", updateCommand.Id.ToString()));
+
+            permissionEntity.ChangeCode(updateCommand.Code);
+            permissionEntity.ChangeDescription(updateCommand.Description);
 
             var updatedPermssionId = await _permissionsRepository.Update(permissionEntity);
 
-            return updatedPermssionId;
+            await _unitOfWork.CommitAsync();
+
+            return Result<Guid>.Success(updatedPermssionId);
         }
 
-        public async Task<Guid> DeletePermission(Guid id)
+        public async Task<Result<Guid>> DeletePermission(Guid id)
         {
-            return await _permissionsRepository.Delete(id);
+            var permissionEntity = await _permissionsRepository.GetById(id);
+
+            if (permissionEntity != null)
+            {
+                await _permissionsRepository.Delete(permissionEntity);
+                await _unitOfWork.CommitAsync();
+            }
+                
+            return Result<Guid>.Success(id);
         }
 
-        public async Task<PagedResult<PermissionEntity>> GetPagedPermissions(PermissionQueryParameters parameters)
+        public async Task<Result<PagedResult<PermissionShortDTO>>> GetPagedPermissions(PermissionQueryParameters parameters)
         {
-            return await _permissionsRepository.GetPaged(parameters);
+            var pagedPermissions = await _permissionsReadRepository.GetPaged(parameters);
+            return Result<PagedResult<PermissionShortDTO>>.Success(pagedPermissions);
         }
     }
 }

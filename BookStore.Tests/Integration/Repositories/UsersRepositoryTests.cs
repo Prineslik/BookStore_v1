@@ -2,7 +2,9 @@
 using BookStore.Core.Entities;
 using BookStore.Infrastructure;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +16,8 @@ namespace BookStore.Tests.Integration.Repositories
     {
         private readonly IntegrationTestWebAppFactory _factory;
         private IServiceScope _scope;
-        private IUsersRepository _repository;
+        private IUsersRepository _usersRepository;
+        private IUsersReadRepository _usersReadRepository;
 
         public UsersRepositoryTests(IntegrationTestWebAppFactory factory)
         {
@@ -23,9 +26,10 @@ namespace BookStore.Tests.Integration.Repositories
 
         public async Task InitializeAsync()
         {
-            await _factory.ResetDatabaseAsync();      
-            _scope = _factory.Services.CreateScope(); 
-            _repository = _scope.ServiceProvider.GetRequiredService<IUsersRepository>();
+            await _factory.ResetDatabaseAsync();
+            _scope = _factory.Services.CreateScope();
+            _usersRepository = _scope.ServiceProvider.GetRequiredService<IUsersRepository>();
+            _usersReadRepository = _scope.ServiceProvider.GetRequiredService<IUsersReadRepository>();
         }
 
         public Task DisposeAsync()
@@ -37,7 +41,7 @@ namespace BookStore.Tests.Integration.Repositories
         [Fact]
         public async Task GetAll_ShouldReturnAllUsers()
         {
-            var users = await _repository.GetAll();
+            var users = await _usersReadRepository.GetAll();
 
             users.Should().NotBeNull();
         }
@@ -45,75 +49,127 @@ namespace BookStore.Tests.Integration.Repositories
         [Fact]
         public async Task Create_ShouldSaveUser()
         {
-            var newUser = UserEntity.Create(
-                Guid.NewGuid(),
+            var newUser = UserEntity.Create(                
                 "John Doe",
                 "john@mail.com",
                 "hash123",
-                "photo_url",
-                Enumerable.Empty<Guid>()
-            ).User;
+                "https://photo.jpg",
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+                new List<Guid>(),
+                new List<Guid>()
+            );
 
-            var userId = await _repository.Create(newUser);
+            var userId = await _usersRepository.Create(newUser);
 
-            userId.Should()
-                .NotBeEmpty()
-                .And.Be(newUser.Id);
+            userId.Should().Be(newUser.Id);
         }
 
         [Fact]
-        public async Task GetByEmail_ShouldReturnNullUser()
+        public async Task GetByEmail_WhenEmailIsNotExist_ShouldReturnNullUser()
         {
-            var user = await _repository.GetByEmail("notfound@test.com");
+            string email = "notfound@test.com";
+            var user = await _usersReadRepository.GetByEmail(email);
 
             user.Should().BeNull();
         }
 
         [Fact]
-        public async Task GetByEmail_ShouldReturnAdminUser()
+        public async Task GetByEmail_WhenEmailIsExist_ShouldReturnUser()
         {
-            var user = await _repository.GetByEmail("admin@test.com");
+            string email = "testauthor@example.com";
 
-            user.Should().NotBeNull();
-            user.Email.Should().Be("admin@test.com");
+            var user = await _usersReadRepository.GetByEmail(email);
+            
+            user.Email.Should().Be(email);
         }
 
         [Fact]
         public async Task GetById_ShouldReturnUser()
         {
-            Guid id = new Guid("22222222 - 2222 - 2222 - 2222 - 222222222222");
+            Guid id = new Guid("11111111-1111-1111-1111-111111111111");
 
-            var user = await _repository.GetById(id);
+            var user = await _usersRepository.GetById(id);
 
-            user.Should().NotBeNull();
-            user.Email.Should().Be("user@test.com");
+            user.Email.Should().Be("testuser@example.com");
         }
 
         [Fact]
-        public async Task Update_ShouldReturnUpdatedUser()
+        public async Task Update_WhenDataIsValid_ShouldReturnUpdatedUser()
         {
-            Guid id = new Guid("22222222 - 2222 - 2222 - 2222 - 222222222222");
-            string newUserName = "Updated user";
-            string newUserEmail = "updated_user@test.com";
-            IEnumerable<Guid> newRoles = new Guid[] 
-            {
-                new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
-            };
+            var newUserEntity = UserEntity.Reconstitute(
+                Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                "updated name",
+                "updated_email@mail.com",
+                "password_hash",
+                "https://new-photo.png",
+                new DateTime(2026,8,15),
+                DateTime.UtcNow,
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+                new List<Guid>() { Guid.Parse("33333333-3333-3333-3333-333333333333") },
+                new List<Guid>() 
+                { 
+                    Guid.Parse("88888888-8888-8888-8888-888888888888"),
+                    Guid.Parse("99999999-9999-9999-9999-999999999999")
+                });
 
-            var updatedUser = UserEntity.Create(
-                id,
-                newUserName,
-                newUserEmail,
-                "$2a$11$r/rl8BO6wbgZ5obVWltIRu.sH9daMFCXyIjQmily58v66wf/QVm2K",
-                "https://example.com/avatar1.png",
-                newRoles
-            );
+            var updatedUserId = await _usersRepository.Update(newUserEntity);
 
-            var user = await _repository.GetById(id);
+            updatedUserId.Should().Be(newUserEntity.Id);
 
-            user.Should().NotBeNull();
-            user.Email.Should().Be("user@test.com");
+            //var updatedResult = await _usersRepository.GetById(updatedUserId);
+            //updatedResult.Should().BeEquivalentTo(Arg.Is<UserEntity>(u =>
+            //u.Id == newUserEntity.Id &&
+            //u.UserName == newUserEntity.UserName &&
+            //u.Email == newUserEntity.Email &&
+            //u.ProfilePhotoURL == newUserEntity.ProfilePhotoURL && 
+            //u.PasswordHash == newUserEntity.PasswordHash &&
+            //u.CreateDate == newUserEntity.CreateDate &&
+            //u.UpdateDate == newUserEntity.UpdateDate &&
+            //u.AuthorId == newUserEntity.AuthorId &&
+            //u.IsAuthor == newUserEntity.IsAuthor &&
+            //u.RoleIds.Equals(newUserEntity.RoleIds) &&
+            //u.OwnedBookIds.Equals(newUserEntity.OwnedBookIds)
+            //));
+        }
+        [Fact]
+        public async Task Update_WhenDataIsNotValid_ShouldThrowInvalidOperationException()
+        {
+            var newUserEntity = UserEntity.Reconstitute(
+                Guid.Parse("11111222-3333-4444-5555-111111111111"),
+                "updated name",
+                "updated_email@mail.com",
+                "password_hash",
+                "https://new-photo.png",
+                new DateTime(2026,8,15),
+                DateTime.UtcNow,
+                Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+                new List<Guid>() { Guid.Parse("33333333-3333-3333-3333-333333333333") },
+                new List<Guid>() 
+                { 
+                    Guid.Parse("88888888-8888-8888-8888-888888888888"),
+                    Guid.Parse("99999999-9999-9999-9999-999999999999")
+                });
+
+            Func<Task> act = async () => await _usersRepository.Update(newUserEntity);
+
+            await act.Should().ThrowAsync<InvalidOperationException>();
+
+            //updatedUserId.Should().Be(newUserEntity.Id);
+
+            //var updatedResult = await _usersRepository.GetById(updatedUserId);
+            //updatedResult.Should().BeEquivalentTo(Arg.Is<UserEntity>(u =>
+            //u.Id == newUserEntity.Id &&
+            //u.UserName == newUserEntity.UserName &&
+            //u.Email == newUserEntity.Email &&
+            //u.ProfilePhotoURL == newUserEntity.ProfilePhotoURL && 
+            //u.PasswordHash == newUserEntity.PasswordHash &&
+            //u.CreateDate == newUserEntity.CreateDate &&
+            //u.UpdateDate == newUserEntity.UpdateDate &&
+            //u.AuthorId == newUserEntity.AuthorId &&
+            //u.IsAuthor == newUserEntity.IsAuthor &&
+            //u.RoleIds.Equals(newUserEntity.RoleIds) &&
+            //u.OwnedBookIds.Equals(newUserEntity.OwnedBookIds)
+            //));
         }
 
 

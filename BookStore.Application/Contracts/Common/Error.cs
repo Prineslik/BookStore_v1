@@ -4,32 +4,35 @@ using System.Text;
 
 namespace BookStore.Application.Contracts.Common
 {
-    public record Error
+    public sealed record Error
     {
-        public static readonly Error None = new(string.Empty, string.Empty);
+        public static readonly Error None = new(ErrorType.None, string.Empty);
 
-        public string Code { get; }
+        public ErrorType Type { get; }
         public string Message { get; }
 
-        public Error(string code, string message)
+        public Error(ErrorType type, string message)
         {
-            Code = code;
+            Type = type;
             Message = message;
         }
 
         public static Error NotFound(string entityName, string parameterName, object parameterValue) =>
-            new("NOT_FOUND", $"{entityName} with {parameterName} {parameterValue} not found");
+            new(ErrorType.NotFound, $"{entityName} with {parameterName} {parameterValue} not found");
+        
+        public static Error Conflict(string entityName) =>
+            new(ErrorType.Conflict, $"A conflict occurred with {entityName}");
+        
+        public static Error Validation(string message) =>
+            new(ErrorType.Validation, message);
 
-        public static Error ListIsEmpty(string listName) =>
-            new("LIST_IS_EMPTY", $"The list of {listName} does not contain any objects");
+        public static Error Unauthorized(string message) =>
+            new(ErrorType.Unauthorized, message);
+
+        public static Error Forbidden(string message) =>
+            new(ErrorType.Forbidden, message);
 
         public static Error Duplicate(string field, string value) =>
-            new("DUPLICATE", $"{field} '{value}' already exists");
-
-        public static Error Validation(string message) =>
-            new("VALIDATION", message);
-
-        public static Error Unexpected(string message) =>
-            new("UNEXPECTED", message);
+            new(ErrorType.Duplicate, $"{field} '{value}' already exists");
     }
 }

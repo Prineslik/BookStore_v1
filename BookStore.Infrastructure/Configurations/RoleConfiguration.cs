@@ -13,17 +13,8 @@ namespace BookStore.Infrastructure.Configurations
         {
             builder.HasKey(r => r.Id);
 
-            builder
-                .Property(r => r.Name)
+            builder.Property(r => r.Name)
                 .IsRequired();
-
-            builder
-                .HasMany(r => r.Users)
-                .WithMany(u => u.Roles);
-
-            builder
-               .HasMany(r => r.Permissions)
-               .WithMany(p => p.Roles);
         }
     }
 }

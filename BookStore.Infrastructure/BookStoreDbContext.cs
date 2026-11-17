@@ -16,15 +16,20 @@ namespace BookStore.Infrastructure
 
         public DbSet<BookModel> Books { get; set; }
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<AuthorModel> Authors { get; set; }
         public DbSet<RoleModel> Roles { get; set; }
         public DbSet<PermissionModel> Permissions { get; set; }
 
+        public DbSet<AuthorBookModel> AuthorBook { get; set; }
+        public DbSet<PermissionRoleModel> PermissionRole { get; set; }
+        public DbSet<UserBookModel> UserBook { get; set; }
+        public DbSet<UserRoleModel> UserRole { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Применяем конфигурацию
             //modelBuilder.ApplyConfiguration(new BookConfiguration());
 
-            // Если будет много конфигураций, лучше так:
              modelBuilder.ApplyConfigurationsFromAssembly(typeof(BookStoreDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);

@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
-using BookStore.Application.Authorization.Attributes;
+using BookStore.API.Mapping;
+using BookStore.API.Requests.User;
+using BookStore.API.Responses.User;
 using BookStore.Application.Contracts.Books;
 using BookStore.Application.Contracts.Common;
-using BookStore.Application.Contracts.Users;
+using BookStore.Application.Contracts.Users.Commands;
+using BookStore.Application.Contracts.Users.DTO;
+using BookStore.Application.Contracts.Users.Queries;
 using BookStore.Application.Interfaces.Users;
 using BookStore.Application.Services;
 using BookStore.Core.Entities;
-using BookStore.Core.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpLogging;
@@ -21,86 +24,85 @@ namespace BookStore.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _usersService;
-        private readonly IMapper _mapper;
-
-        public int MyProperty { get; set; }
+        //private readonly IMapper _mapper;
 
         public UsersController(IUsersService userService, IMapper mapper)
         {
             _usersService = userService;
-            _mapper = mapper;
+            //_mapper = mapper;
         }
 
         [HttpGet("all/")]
-        public async Task<ActionResult<List<UsersResponse?>>> GetAllUsers()
+        public async Task<ActionResult<List<UserShortResponse>>> GetAllUsers()
         {
-            var resultUsers = await _usersService.GetAllUsers();
+            var usersResult = await _usersService.GetAllUsers();
 
-            //if (resultUsers.IsFailure)
-            //    return BadRequest(resultUsers.Error);
+            if (usersResult.IsFailure)
+                return BadRequest(usersResult.Error);
 
-            var response = _mapper.Map<List<UsersResponse?>>(resultUsers);//books.Select(b => new BooksResponse(b.Id, b.Title, b.Description, b.Price));
-
-            return Ok(response);
+            return Ok(usersResult.Value.ToResponse());
         }
 
         [HttpGet("get_by_id/{id:guid}")]
-        [ProducesResponseType(typeof(UsersResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UsersDetailsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<UsersResponse>> GetUserById(Guid id)
+        public async Task<ActionResult<UsersDetailsResponse?>> GetUserById(Guid id)
         {
-            var resultUser = await _usersService.GetUserById(id);
+            var usersResult = await _usersService.GetUserById(id);
 
-            return _mapper.Map<UsersResponse>(resultUser);
+            if (usersResult.IsFailure)
+                return BadRequest(usersResult.Error);
+
+            return Ok(usersResult.Value.ToResponse());
         }
 
         [HttpGet("filter/")]
-        [ProducesResponseType(typeof(PagedResult<UsersResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResult<UsersDetailsResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PagedResult<UsersResponse>>> GetPagedUsersAsync([FromQuery] UserQueryParameters parameters)
+        public async Task<ActionResult<PagedResult<UserShortResponse>>> GetPagedUsersAsync([FromQuery] UserQueryParameters parameters)
         {
-            var pagedUsers = await _usersService.GetPagedUsersAsync(parameters);
+            var pagedUsersResult = await _usersService.GetPagedUsersAsync(parameters);
 
-            var pagedUsersResponse = new PagedResult<UsersResponse>()
-            {
-                Items = _mapper.Map<List<UsersResponse>>(pagedUsers.Items),
-                TotalCount = pagedUsers.TotalCount,
-                PageNumber = pagedUsers.PageNumber,
-                PageSize = pagedUsers.PageSize
-            };
+            if (pagedUsersResult.IsFailure)
+                return BadRequest(pagedUsersResult.Error);
+
+            var pagedUsersResponse = pagedUsersResult.Value.ToResponse();
 
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(new
             {
-                pagedUsers.TotalCount,
-                pagedUsers.PageSize,
-                pagedUsers.PageNumber,
-                pagedUsers.TotalPages,
-                pagedUsers.HasPrevious,
-                pagedUsers.HasNext
+                pagedUsersResponse.TotalCount,
+                pagedUsersResponse.PageSize,
+                pagedUsersResponse.PageNumber,
+                pagedUsersResponse.TotalPages,
+                pagedUsersResponse.HasPrevious,
+                pagedUsersResponse.HasNext
             }));
 
             return Ok(pagedUsersResponse);
         }
 
         [HttpPost("register/")]
-        public async Task<ActionResult<Guid>> RegisterUser(string email, string password/*[FromBody] UsersRequest usersRequest*/)
+        public async Task<ActionResult<Guid>> RegisterUser(string name, string email, string password/*[FromBody] UsersRequest usersRequest*/)
         {
-            //var userEntity = _mapper.Map<UserEntity>(usersRequest);
+            var registerCommand = new RegisterUserCommand(name, email, password);
 
-            var newUser = await _usersService.CreateUser(usersRequest);
+            var createResult = await _usersService.CreateUser(registerCommand);
 
-            return newUser;
-            //return resultCreateUser.IsSuccess ? Ok(resultCreateUser.Value) : BadRequest(resultCreateUser.Error);
+            if (createResult.IsFailure)
+                return BadRequest(createResult.Error);
+
+            return Ok(createResult.Value);
         }
 
+        [AllowAnonymous]
         [HttpPost("login/")]
         public async Task<ActionResult> LoginUser([FromBody] LoginUserRequest userRequest)
         {
-            var token = await _usersService.LoginUser(userRequest.Email, userRequest.Password);
+            var tokenResult = await _usersService.LoginUser(userRequest.Email, userRequest.Password);
 
-            /*if(tokenResult.IsFailure)
-                return BadRequest(tokenResult.Error);*/
+            if (tokenResult.IsFailure)
+                return BadRequest(tokenResult.Error);
 
             var cookieOptions = new CookieOptions
             {
@@ -110,45 +112,48 @@ namespace BookStore.API.Controllers
                 Expires = DateTimeOffset.UtcNow.AddHours(7)
             };
 
-            Response.Cookies.Append("RefreshToken", token, cookieOptions);
+            Response.Cookies.Append("RefreshToken", tokenResult.Value, cookieOptions);
 
-
-            return Ok(/*token*/);
+            return Ok();
         }
 
         //[Authorize(Roles ="Admin")]
-        [RequirePermission("Permission_users.delete")]
+        //[RequirePermission("Permission_users.delete")]
         [HttpDelete("delete/{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteUser(Guid id)
         {
-            /*var resultDeleteUser = */
-            await _usersService.DeleteUser(id);
+            var deleteResult = await _usersService.DeleteUser(id);
+
+            if (deleteResult.IsFailure)
+                return BadRequest(deleteResult.Error);
 
             return NoContent();
-            //return resultDeleteUser.IsSuccess ? Ok(resultDeleteUser.Value) : BadRequest(resultDeleteUser.Error);
         }
 
-        [HttpGet("search/{email}")]
-        //[Authorize(Policy = "UserOrAdmin")]
-        public async Task<ActionResult<UsersResponse?>> GetUserByEmail(string email)
+        //[HttpGet("search/{email}")]
+        ////[Authorize(Policy = "UserOrAdmin")]
+        //public async Task<ActionResult<UsersDetailsResponse?>> GetUserByEmail(string email)
+        //{
+        //    var userResult = await _usersService.GetUserByEmail(email);
+
+        //    if (userResult.IsFailure)
+        //        return BadRequest(userResult.Error);
+
+        //    return Ok(userResult.Value.ToResponse());
+        //}
+
+        [HttpPut("update/profile/{id:guid}")]
+        public async Task<ActionResult<Guid>> UpdateUserProfile([FromBody] UserUpdateProfileRequest userRequest)
         {
-            var user = await _usersService.GetUserByEmail(email);
+            var updateCommand = new UpdateUserProfileCommand(
+                userRequest.Id,
+                userRequest.Name,
+                userRequest.Email,
+                userRequest.ProfilePhotoURL);
 
-            return Ok(_mapper.Map<UsersResponse?>(user));
-            /*return resultUser.IsSuccess 
-                ? Ok(_mapper.Map<UsersResponse>(resultUser.Value)) 
-                : NotFound(resultUser.Error);*/
-        }
+            var resultUpdateUserProfile = await _usersService.UpdateUserProfile(updateCommand);
 
-        [HttpPut("update/{id:guid}")]
-        public async Task<ActionResult<Guid>> UpdateUser(Guid id, [FromBody] UsersRequest userRequest)
-        {
-            var userEntity = _mapper.Map<UserEntity>(userRequest with { Id = id });
-
-            var resultUpdateUser = await _usersService.UpdateUser(userEntity);
-
-            return Ok(resultUpdateUser);
-            //return resultUpdateUser.IsSuccess ? Ok(resultUpdateUser.Value) : BadRequest(resultUpdateUser.Error);
+            return Ok(resultUpdateUserProfile);
         }
     }
 }

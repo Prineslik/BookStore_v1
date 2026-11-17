@@ -18,7 +18,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BooksResponse"
+                    "$ref": "#/components/schemas/BookShortResponse"
                   }
                 }
               },
@@ -26,7 +26,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BooksResponse"
+                    "$ref": "#/components/schemas/BookShortResponse"
                   }
                 }
               },
@@ -34,7 +34,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BooksResponse"
+                    "$ref": "#/components/schemas/BookShortResponse"
                   }
                 }
               }
@@ -65,17 +65,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/BooksResponse"
+                  "$ref": "#/components/schemas/BookDetailsResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BooksResponse"
+                  "$ref": "#/components/schemas/BookDetailsResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BooksResponse"
+                  "$ref": "#/components/schemas/BookDetailsResponse"
                 }
               }
             }
@@ -126,7 +126,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BooksResponse"
+                    "$ref": "#/components/schemas/BookShortResponse"
                   }
                 }
               },
@@ -134,7 +134,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BooksResponse"
+                    "$ref": "#/components/schemas/BookShortResponse"
                   }
                 }
               },
@@ -142,7 +142,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BooksResponse"
+                    "$ref": "#/components/schemas/BookShortResponse"
                   }
                 }
               }
@@ -252,17 +252,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/BooksResponsePagedResult"
+                  "$ref": "#/components/schemas/BookShortResponsePagedResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BooksResponsePagedResult"
+                  "$ref": "#/components/schemas/BookShortResponsePagedResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BooksResponsePagedResult"
+                  "$ref": "#/components/schemas/BookShortResponsePagedResult"
                 }
               }
             }
@@ -302,17 +302,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BooksRequest"
+                "$ref": "#/components/schemas/BookCreateRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/BooksRequest"
+                "$ref": "#/components/schemas/BookCreateRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/BooksRequest"
+                "$ref": "#/components/schemas/BookCreateRequest"
               }
             }
           }
@@ -383,17 +383,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BooksRequest"
+                "$ref": "#/components/schemas/BookUpdateRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/BooksRequest"
+                "$ref": "#/components/schemas/BookUpdateRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/BooksRequest"
+                "$ref": "#/components/schemas/BookUpdateRequest"
               }
             }
           }
@@ -521,7 +521,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PermissionsResponse"
+                    "$ref": "#/components/schemas/PermissionShortResponse"
                   }
                 }
               },
@@ -529,7 +529,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PermissionsResponse"
+                    "$ref": "#/components/schemas/PermissionShortResponse"
                   }
                 }
               },
@@ -537,7 +537,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PermissionsResponse"
+                    "$ref": "#/components/schemas/PermissionShortResponse"
                   }
                 }
               }
@@ -568,17 +568,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/PermissionsResponsePagedResult"
+                  "$ref": "#/components/schemas/PermissionDetailsResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PermissionsResponsePagedResult"
+                  "$ref": "#/components/schemas/PermissionDetailsResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PermissionsResponsePagedResult"
+                  "$ref": "#/components/schemas/PermissionDetailsResponse"
                 }
               }
             }
@@ -629,7 +629,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PermissionsResponse"
+                    "$ref": "#/components/schemas/PermissionShortResponse"
                   }
                 }
               },
@@ -637,7 +637,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PermissionsResponse"
+                    "$ref": "#/components/schemas/PermissionShortResponse"
                   }
                 }
               },
@@ -645,7 +645,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PermissionsResponse"
+                    "$ref": "#/components/schemas/PermissionShortResponse"
                   }
                 }
               }
@@ -732,17 +732,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/PermissionsResponsePagedResult"
+                  "$ref": "#/components/schemas/PermissionShortResponsePagedResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PermissionsResponsePagedResult"
+                  "$ref": "#/components/schemas/PermissionShortResponsePagedResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PermissionsResponsePagedResult"
+                  "$ref": "#/components/schemas/PermissionShortResponsePagedResult"
                 }
               }
             }
@@ -799,17 +799,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PermissionsRequest"
+                "$ref": "#/components/schemas/PermissionCreateRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PermissionsRequest"
+                "$ref": "#/components/schemas/PermissionCreateRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PermissionsRequest"
+                "$ref": "#/components/schemas/PermissionCreateRequest"
               }
             }
           }
@@ -872,8 +872,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "string"
             }
           }
         ],
@@ -881,17 +880,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PermissionsRequest"
+                "$ref": "#/components/schemas/PermissionUpdateRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PermissionsRequest"
+                "$ref": "#/components/schemas/PermissionUpdateRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PermissionsRequest"
+                "$ref": "#/components/schemas/PermissionUpdateRequest"
               }
             }
           }
@@ -1019,7 +1018,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RolesResponse"
+                    "$ref": "#/components/schemas/RoleShortResponse"
                   }
                 }
               },
@@ -1027,7 +1026,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RolesResponse"
+                    "$ref": "#/components/schemas/RoleShortResponse"
                   }
                 }
               },
@@ -1035,7 +1034,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RolesResponse"
+                    "$ref": "#/components/schemas/RoleShortResponse"
                   }
                 }
               }
@@ -1066,17 +1065,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/RolesResponsePagedResult"
+                  "$ref": "#/components/schemas/RoleDetailsResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RolesResponsePagedResult"
+                  "$ref": "#/components/schemas/RoleDetailsResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RolesResponsePagedResult"
+                  "$ref": "#/components/schemas/RoleDetailsResponse"
                 }
               }
             }
@@ -1127,7 +1126,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RolesResponse"
+                    "$ref": "#/components/schemas/RoleShortResponse"
                   }
                 }
               },
@@ -1135,7 +1134,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RolesResponse"
+                    "$ref": "#/components/schemas/RoleShortResponse"
                   }
                 }
               },
@@ -1143,14 +1142,14 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RolesResponse"
+                    "$ref": "#/components/schemas/RoleShortResponse"
                   }
                 }
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "Not Found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1230,17 +1229,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/RolesResponsePagedResult"
+                  "$ref": "#/components/schemas/RoleShortResponsePagedResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RolesResponsePagedResult"
+                  "$ref": "#/components/schemas/RoleShortResponsePagedResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RolesResponsePagedResult"
+                  "$ref": "#/components/schemas/RoleShortResponsePagedResult"
                 }
               }
             }
@@ -1280,17 +1279,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RolesRequest"
+                "$ref": "#/components/schemas/RoleCreateRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RolesRequest"
+                "$ref": "#/components/schemas/RoleCreateRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RolesRequest"
+                "$ref": "#/components/schemas/RoleCreateRequest"
               }
             }
           }
@@ -1362,17 +1361,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RolesRequest"
+                "$ref": "#/components/schemas/RoleUpdateRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RolesRequest"
+                "$ref": "#/components/schemas/RoleUpdateRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RolesRequest"
+                "$ref": "#/components/schemas/RoleUpdateRequest"
               }
             }
           }
@@ -1435,8 +1434,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "string"
             }
           }
         ],
@@ -1444,32 +1442,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "uniqueItems": true,
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "format": "uuid"
-                }
+                "$ref": "#/components/schemas/RoleAddPermissionsRequest"
               }
             },
             "text/json": {
               "schema": {
-                "uniqueItems": true,
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "format": "uuid"
-                }
+                "$ref": "#/components/schemas/RoleAddPermissionsRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "uniqueItems": true,
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "format": "uuid"
-                }
+                "$ref": "#/components/schemas/RoleAddPermissionsRequest"
               }
             }
           }
@@ -1597,7 +1580,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UsersResponse"
+                    "$ref": "#/components/schemas/UserShortResponse"
                   }
                 }
               },
@@ -1605,7 +1588,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UsersResponse"
+                    "$ref": "#/components/schemas/UserShortResponse"
                   }
                 }
               },
@@ -1613,7 +1596,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UsersResponse"
+                    "$ref": "#/components/schemas/UserShortResponse"
                   }
                 }
               }
@@ -1644,17 +1627,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UsersResponse"
+                  "$ref": "#/components/schemas/UsersDetailsResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UsersResponse"
+                  "$ref": "#/components/schemas/UsersDetailsResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UsersResponse"
+                  "$ref": "#/components/schemas/UsersDetailsResponse"
                 }
               }
             }
@@ -1740,17 +1723,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UsersResponsePagedResult"
+                  "$ref": "#/components/schemas/UsersDetailsResponsePagedResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UsersResponsePagedResult"
+                  "$ref": "#/components/schemas/UsersDetailsResponsePagedResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UsersResponsePagedResult"
+                  "$ref": "#/components/schemas/UsersDetailsResponsePagedResult"
                 }
               }
             }
@@ -1781,30 +1764,34 @@
         }
       }
     },
-    "/Users/create": {
+    "/Users/register": {
       "post": {
         "tags": [
           "Users"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UsersRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UsersRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UsersRequest"
-              }
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1906,46 +1893,7 @@
         }
       }
     },
-    "/Users/search/{email}": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UsersResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UsersResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UsersResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/Users/update/{id}": {
+    "/Users/update/profile/{id}": {
       "put": {
         "tags": [
           "Users"
@@ -1956,8 +1904,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "string"
             }
           }
         ],
@@ -1965,17 +1912,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UsersRequest"
+                "$ref": "#/components/schemas/UserUpdateProfileRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UsersRequest"
+                "$ref": "#/components/schemas/UserUpdateProfileRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UsersRequest"
+                "$ref": "#/components/schemas/UserUpdateProfileRequest"
               }
             }
           }
@@ -2010,7 +1957,63 @@
   },
   "components": {
     "schemas": {
-      "BooksRequest": {
+      "AuthorShortResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePhotoURL": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BookCreateRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "stockQuantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ownerIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          },
+          "authorIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BookDetailsResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -2028,11 +2031,38 @@
           "price": {
             "type": "number",
             "format": "double"
+          },
+          "stockQuantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updateDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "owners": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OwnerShortResponse"
+            },
+            "nullable": true
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthorShortResponse"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "BooksResponse": {
+      "BookShortResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -2050,17 +2080,30 @@
           "price": {
             "type": "number",
             "format": "double"
+          },
+          "stockQuantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updateDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "BooksResponsePagedResult": {
+      "BookShortResponsePagedResult": {
         "type": "object",
         "properties": {
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BooksResponse"
+              "$ref": "#/components/schemas/BookShortResponse"
             },
             "nullable": true
           },
@@ -2092,12 +2135,53 @@
         },
         "additionalProperties": false
       },
+      "BookUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "stockQuantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ownerIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          },
+          "authorIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Error": {
         "type": "object",
         "properties": {
-          "code": {
-            "type": "string",
-            "nullable": true
+          "type": {
+            "$ref": "#/components/schemas/ErrorType"
           },
           "message": {
             "type": "string",
@@ -2105,6 +2189,19 @@
           }
         },
         "additionalProperties": false
+      },
+      "ErrorType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "LoginUserRequest": {
         "type": "object",
@@ -2120,13 +2217,51 @@
         },
         "additionalProperties": false
       },
-      "PermissionsRequest": {
+      "OwnerShortResponse": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
             "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePhotoURL": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAuthor": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PermissionCreateRequest": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PermissionDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
           },
           "code": {
             "type": "string",
@@ -2139,16 +2274,14 @@
           "roleIds": {
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "uuid",
-              "nullable": true
+              "$ref": "#/components/schemas/RoleShortResponse"
             },
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "PermissionsResponse": {
+      "PermissionShortResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -2166,13 +2299,13 @@
         },
         "additionalProperties": false
       },
-      "PermissionsResponsePagedResult": {
+      "PermissionShortResponsePagedResult": {
         "type": "object",
         "properties": {
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/PermissionsResponse"
+              "$ref": "#/components/schemas/PermissionShortResponse"
             },
             "nullable": true
           },
@@ -2200,6 +2333,24 @@
           "hasNext": {
             "type": "boolean",
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PermissionUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2231,7 +2382,43 @@
         },
         "additionalProperties": { }
       },
-      "RolesRequest": {
+      "RoleAddPermissionsRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "permissionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoleCreateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "permissionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoleDetailsResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -2245,16 +2432,21 @@
           "permissionIds": {
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "uuid",
-              "nullable": true
+              "$ref": "#/components/schemas/PermissionShortResponse"
+            },
+            "nullable": true
+          },
+          "userIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserShortResponse"
             },
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "RolesResponse": {
+      "RoleShortResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -2264,26 +2456,17 @@
           "name": {
             "type": "string",
             "nullable": true
-          },
-          "permissionIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid",
-              "nullable": true
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "RolesResponsePagedResult": {
+      "RoleShortResponsePagedResult": {
         "type": "object",
         "properties": {
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RolesResponse"
+              "$ref": "#/components/schemas/RoleShortResponse"
             },
             "nullable": true
           },
@@ -2315,7 +2498,54 @@
         },
         "additionalProperties": false
       },
-      "UsersRequest": {
+      "RoleUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "permissionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserShortResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePhotoURL": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAuthor": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserUpdateProfileRequest": {
         "type": "object",
         "properties": {
           "id": {
@@ -2349,7 +2579,7 @@
         },
         "additionalProperties": false
       },
-      "UsersResponse": {
+      "UsersDetailsResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -2364,33 +2594,42 @@
             "type": "string",
             "nullable": true
           },
-          "passwordHash": {
-            "type": "string",
-            "nullable": true
-          },
           "profilePhotoURL": {
             "type": "string",
             "nullable": true
           },
-          "roleIds": {
+          "isAuthor": {
+            "type": "boolean"
+          },
+          "authorId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "roles": {
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "uuid",
-              "nullable": true
+              "$ref": "#/components/schemas/RoleShortResponse"
+            },
+            "nullable": true
+          },
+          "ownedBooks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookShortResponse"
             },
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "UsersResponsePagedResult": {
+      "UsersDetailsResponsePagedResult": {
         "type": "object",
         "properties": {
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/UsersResponse"
+              "$ref": "#/components/schemas/UsersDetailsResponse"
             },
             "nullable": true
           },

@@ -1,7 +1,12 @@
 ﻿using AutoMapper;
+using BookStore.API.Extensions;
+using BookStore.API.Mapping;
+using BookStore.API.Requests.Role;
+using BookStore.API.Responses.Role;
 using BookStore.Application.Contracts.Books;
 using BookStore.Application.Contracts.Common;
-using BookStore.Application.Contracts.Roles;
+using BookStore.Application.Contracts.Roles.DTO;
+using BookStore.Application.Contracts.Roles.Queries;
 using BookStore.Application.Interfaces.Roles;
 using BookStore.Application.Services;
 using BookStore.Core.Entities;
@@ -17,73 +22,71 @@ namespace BookStore.API.Controllers
     public class RolesController : ControllerBase
     {
         private readonly IRolesService _rolesService;
-        private readonly IMapper _mapper;
 
         public RolesController(IRolesService rolesService, IMapper mapper)
         {
             _rolesService = rolesService;
-            _mapper = mapper;
         }
 
         //[Authorize()]
         [HttpGet("all/")]
-        public async Task<ActionResult<List<RolesResponse>>> GetAllRoles()
+        public async Task<ActionResult<List<RoleShortResponse>>> GetAllRoles()
         {
-            var allRoles = await _rolesService.GetAllRoles();
+            var rolesResult = await _rolesService.GetAllRoles();
 
-            var response = _mapper.Map<List<RolesResponse>>(allRoles);
+            if (rolesResult.IsFailure)
+                return rolesResult.Error!.ToErrorResult(HttpContext);
 
-            return Ok(response);
+            return Ok(rolesResult.Value.ToResponse());
         }
 
         [HttpGet("get_by_id/{id:guid}")]
-        [ProducesResponseType(typeof(PagedResult<RolesResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RoleDetailsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<RolesResponse>> GetRoleById(Guid id)
+        public async Task<ActionResult<RoleDetailsResponse>> GetRoleById(Guid id)
         {
-            var roleById = await _rolesService.GetRoleById(id);
+            var roleByIdResult = await _rolesService.GetRoleById(id);
 
-            var roleResponse = _mapper.Map<RolesResponse>(roleById);
-
-            return roleResponse;
+            if (roleByIdResult.IsFailure)
+                return roleByIdResult.Error!.ToErrorResult(HttpContext);
+             
+            return Ok(roleByIdResult.Value.ToResponse());
         }
 
         [HttpGet("search/{name}")]
-        [ProducesResponseType(typeof(List<RolesResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<List<RolesResponse>>> GetRolesByName(string name)
+        [ProducesResponseType(typeof(List<RoleShortResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<RoleShortResponse>>> GetRolesByName(string name)
         {
-            var roleByName = await _rolesService.GetRolesByName(name);
+            var roleByNameResult = await _rolesService.GetRolesByName(name);
 
-            var roleResponse = _mapper.Map<List<RolesResponse>>(roleByName);
+            if (roleByNameResult.IsFailure)
+                return roleByNameResult.Error!.ToErrorResult(HttpContext);
 
-            return roleResponse;
+            return Ok(roleByNameResult.Value.ToResponse());
         }
 
         [HttpGet("filter/")]
-        [ProducesResponseType(typeof(PagedResult<RolesResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResult<RoleShortResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PagedResult<RolesResponse>>> GetPagedRolessAsync([FromQuery] RoleQueryParameters parameters)
+        public async Task<ActionResult<PagedResult<RoleShortResponse>>> GetPagedRolessAsync([FromQuery] RoleQueryParameters parameters)
         {
-            var pagedRoles = await _rolesService.GetPagedRoles(parameters);
+            var pagedRolesResult = await _rolesService.GetPagedRoles(parameters);
 
-            var pagedRolesResponse = new PagedResult<RolesResponse>()
-            {
-                Items = _mapper.Map<List<RolesResponse>>(pagedRoles.Items),
-                TotalCount = pagedRoles.TotalCount,
-                PageNumber = pagedRoles.PageNumber,
-                PageSize = pagedRoles.PageSize
-            };
-            // Добавляем пагинационные метаданные в заголовки
+            if (pagedRolesResult.IsFailure)
+                return pagedRolesResult.Error!.ToErrorResult(HttpContext);
+
+            var pagedRolesResponse = pagedRolesResult.Value.ToResponse();
+
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(new
             {
-                pagedRoles.TotalCount,
-                pagedRoles.PageSize,
-                pagedRoles.PageNumber,
-                pagedRoles.TotalPages,
-                pagedRoles.HasPrevious,
-                pagedRoles.HasNext
+                pagedRolesResponse.TotalCount,
+                pagedRolesResponse.PageSize,
+                pagedRolesResponse.PageNumber,
+                pagedRolesResponse.TotalPages,
+                pagedRolesResponse.HasPrevious,
+                pagedRolesResponse.HasNext
             }));
 
             return Ok(pagedRolesResponse);
@@ -92,44 +95,47 @@ namespace BookStore.API.Controllers
         [HttpPost("create/")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Guid>> CreateRole([FromBody] RolesRequest rolesRequest)
+        public async Task<ActionResult<Guid>> CreateRole([FromBody] RoleCreateRequest roleCreateRequest)
         {
-            var roleEntity = _mapper.Map<RoleEntity>(rolesRequest);
+            var createCommand = roleCreateRequest.ToCommand();//RoleEntity.Create(rolesRequest.Name, rolesRequest.PermissionIds, rolesRequest.);
 
-            var roleCreate = await _rolesService.CreateRole(roleEntity);
+            var roleCreateResult = await _rolesService.CreateRole(createCommand);
 
-            return roleCreate;
+            if (roleCreateResult.IsFailure)
+                return roleCreateResult.Error!.ToErrorResult(HttpContext);
+
+            return Ok(roleCreateResult.Value);
         }
 
         [HttpPut("update/{id:guid}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Guid>> UpdateRole([FromBody] RolesRequest rolesRequest, Guid id)
+        public async Task<ActionResult<Guid>> UpdateRole([FromBody] RoleUpdateRequest rolesRequest, Guid id)
         {
+            var updateCommand = rolesRequest.ToCommand();
+            var updatedRoleResult = await _rolesService.UpdateRole(updateCommand);
 
-            var roleEntity = _mapper.Map<RoleEntity>(rolesRequest with { Id = id });
+            if (updatedRoleResult.IsFailure)
+                return updatedRoleResult.Error!.ToErrorResult(HttpContext);
 
-            var updatedRole = await _rolesService.UpdateRole(roleEntity);
-
-            return updatedRole;
-            /*return roleUpdateResult.IsSuccess
-                ? Ok(roleUpdateResult.Value)
-                : BadRequest(roleUpdateResult.Error);*/
+            return Ok(updatedRoleResult.Value);
         }
 
         [HttpPut("add_permissions/{id:guid}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Guid>> AddPermissionsToRole(Guid id, [FromBody] HashSet<Guid> permissionIds )
+        public async Task<ActionResult<Guid>> AddPermissionsToRole(RoleAddPermissionsRequest addPermissionsRequest/*Guid id, [FromBody] List<Guid> permissionIds */)
         {
-            var addPermissions = await _rolesService.AddPermissions(id, permissionIds);
+            var addPermissionsCommand = addPermissionsRequest.ToCommand();
 
-            return addPermissions;
-            /*return addPermissionsResult.IsSuccess
-                ? Ok(addPermissionsResult.Value)
-                : BadRequest(addPermissionsResult.Error);*/
+            var addPermissionsResult = await _rolesService.AddPermissions(addPermissionsCommand);
+
+            if (addPermissionsResult.IsFailure)
+                return addPermissionsResult.Error!.ToErrorResult(HttpContext);
+
+            return addPermissionsResult.Value;
         }
-
+        
         [HttpDelete("delete/{id:guid}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
@@ -137,10 +143,10 @@ namespace BookStore.API.Controllers
         {
             var roleDeleteResult = await _rolesService.DeleteRole(id);
 
-            return roleDeleteResult;
-            /*return roleDeleteResult.IsSuccess
-                ? Ok(roleDeleteResult.Value)
-                : BadRequest(roleDeleteResult.Error);*/
+            if (roleDeleteResult.IsFailure)
+                return roleDeleteResult.Error!.ToErrorResult(HttpContext);
+
+            return NoContent();
         }
     }
 }

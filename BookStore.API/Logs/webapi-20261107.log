@@ -1,0 +1,29 @@
+2026-11-07 10:46:31.083 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-11-07 10:46:46.070 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger responded 301 in 70.2067 ms
+2026-11-07 10:46:46.567 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.html responded 200 in 323.6494 ms
+2026-11-07 10:46:47.927 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.js responded 200 in 1.8218 ms
+2026-11-07 10:46:48.302 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.css responded 200 in 377.7814 ms
+2026-11-07 10:46:48.329 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-standalone-preset.js responded 200 in 404.2468 ms
+2026-11-07 10:46:48.329 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui.css responded 200 in 404.2291 ms
+2026-11-07 10:46:48.329 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-bundle.js responded 200 in 404.2394 ms
+2026-11-07 10:46:49.643 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/favicon-32x32.png responded 200 in 3.9750 ms
+2026-11-07 10:46:49.756 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/v1/swagger.json responded 200 in 287.3753 ms
+2026-11-07 10:49:06.656 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-11-07 10:49:08.209 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.html responded 304 in 69.0703 ms
+2026-11-07 10:49:08.342 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.js responded 304 in 1.2377 ms
+2026-11-07 10:49:08.377 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 36.2656 ms
+2026-11-07 10:49:08.377 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.css responded 304 in 37.8636 ms
+2026-11-07 10:49:08.377 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 37.8556 ms
+2026-11-07 10:49:08.377 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui.css responded 304 in 51.6209 ms
+2026-11-07 10:49:09.037 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/v1/swagger.json responded 200 in 105.8679 ms
+2026-11-07 10:49:20.432 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Books/create responded 401 in 774.1839 ms
+2026-11-07 10:49:53.020 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /Books/all responded 401 in 727.7812 ms
+2026-11-07 10:58:02.898 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-11-07 10:58:14.148 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.html responded 304 in 131.9409 ms
+2026-11-07 10:58:14.679 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.js responded 304 in 3.0261 ms
+2026-11-07 10:58:16.321 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-bundle.js responded 304 in 1645.1898 ms
+2026-11-07 10:58:16.321 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui.css responded 304 in 1645.1988 ms
+2026-11-07 10:58:16.321 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/index.css responded 304 in 1645.1460 ms
+2026-11-07 10:58:16.321 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/swagger-ui-standalone-preset.js responded 304 in 1645.1767 ms
+2026-11-07 10:58:17.760 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /swagger/v1/swagger.json responded 200 in 321.8399 ms
+2026-11-07 10:58:26.961 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Books/create responded 401 in 740.6745 ms

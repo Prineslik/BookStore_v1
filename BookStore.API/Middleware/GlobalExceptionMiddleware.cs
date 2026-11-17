@@ -1,6 +1,13 @@
-﻿using BookStore.Application.Exceptions;
+﻿using BookStore.API.Extensions;
+using BookStore.API.Helpers;
+using BookStore.Application.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
 using System.Net;
+using System.Net.NetworkInformation;
+using BookStore.Core.Exceptions;
 
 namespace BookStore.API.Middleware
 {
@@ -21,42 +28,67 @@ namespace BookStore.API.Middleware
             {
                 await _next(context);
             }
+            catch (OperationCanceledException) when (context.RequestAborted.IsCancellationRequested)
+            {
+                _logger.LogInformation("Request aborted by client: {Path} ({TraceId})",
+                context.Request.Path, context.TraceIdentifier);
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unhandled exception");
-                await HandleExceptionAsync(context, ex);
+                if (context.Response.HasStarted)
+                {
+                    _logger.LogError(ex, "Response already started; cannot write ProblemDetails ({TraceId})",
+                        context.TraceIdentifier);
+                    throw;
+                }
+
+                //var category = ex is BaseException ? "application" : "infrastructure";
+
+                var problem = ProblemDetailsFactory.FromException(context, ex);
+                problem.Extensions.TryGetValue("category", out var category);
+                
+                LogException(context,ex, problem, category.ToString());
+
+                context.Response.Clear();
+                context.Response.StatusCode = (int)problem.Status!;
+                context.Response.ContentType = "application/problem+json";
+
+                await context.Response.WriteAsJsonAsync(problem);
             }
         }
 
-        private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private void LogException(HttpContext context,Exception exception,ProblemDetails problem,string category)
         {
-            context.Response.ContentType = "application/problem+json";
-
-            var (statusCode, title, detail) = exception switch
+            if ((exception is BaseException || exception is DomainException || exception is FluentValidation.ValidationException) && problem.Status < 500)
             {
-                NotFoundException ex => (HttpStatusCode.NotFound, "Resource not found", ex.Message),
-                ValidationException ex => (HttpStatusCode.BadRequest, "Validation error", ex.Message),
-                DuplicateException ex => (HttpStatusCode.Conflict, "Duplicate resource", ex.Message),
-                ForbiddenException ex => (HttpStatusCode.Forbidden, "Access denied", ex.Message),
-                UnauthorizedException ex => (HttpStatusCode.Unauthorized, "User unauthorized", ex.Message),
-                InfrastructureException ex => (HttpStatusCode.InternalServerError, "Infrastructure exception", ex.Message),
-                DbConcurrencyException ex => (HttpStatusCode.Conflict, "Data Conflict", ex.Message),
-                _ => (HttpStatusCode.InternalServerError, "Internal server error", "An unexpected error occurred")
-            };
+                _logger.LogWarning(
+                    "Handled {Category} exception -> {StatusCode} {Title} at {Path}: {Detail} (TraceId={TraceId})",
+                    category,
+                    problem.Status,
+                    problem.Title,
+                    context.Request.Path,
+                    problem.Detail,
+                    context.TraceIdentifier);
+                return;
+            }
 
-            context.Response.StatusCode = (int)statusCode;
-
-            var problemDetails = new ProblemDetails
+            if (exception is OperationCanceledException && context.RequestAborted.IsCancellationRequested)
             {
-                Status = (int)statusCode,
-                Title = title,
-                Detail = detail,
-                Instance = context.Request.Path,
-                Extensions = {
-                ["traceId"] = context.TraceIdentifier
-            }};
+                _logger.LogInformation(
+                    "Request cancelled by client at {Path} (TraceId={TraceId})",
+                    context.Request.Path,
+                    context.TraceIdentifier);
+                return;
+            }
 
-            await context.Response.WriteAsJsonAsync(problemDetails);
+            _logger.LogError(
+                exception,
+                "Unhandled {Category} exception -> {StatusCode} {Title} at {Path} (TraceId={TraceId})",
+                category,
+                problem.Status,
+                problem.Title,
+                context.Request.Path,
+                context.TraceIdentifier);
         }
     }
 }

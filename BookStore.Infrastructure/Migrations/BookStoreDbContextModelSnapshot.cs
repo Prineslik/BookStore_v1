@@ -22,11 +22,56 @@ namespace BookStore.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("BookStore.Infrastructure.Models.AuthorBookModel", b =>
+                {
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("AuthorId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("AuthorBook", (string)null);
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Models.AuthorModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Bio")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Authors", (string)null);
+                });
+
             modelBuilder.Entity("BookStore.Infrastructure.Models.BookModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -43,9 +88,12 @@ namespace BookStore.Infrastructure.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("BookStore.Infrastructure.Models.PermissionModel", b =>
@@ -64,7 +112,22 @@ namespace BookStore.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions", (string)null);
+                    b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Models.PermissionRoleModel", b =>
+                {
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("PermissionId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("PermissionModelRoleModel", (string)null);
                 });
 
             modelBuilder.Entity("BookStore.Infrastructure.Models.RoleModel", b =>
@@ -79,7 +142,22 @@ namespace BookStore.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Models.UserBookModel", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("UserBook", (string)null);
                 });
 
             modelBuilder.Entity("BookStore.Infrastructure.Models.UserModel", b =>
@@ -91,8 +169,14 @@ namespace BookStore.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
+                    b.Property<Guid?>("AuthorId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -100,6 +184,9 @@ namespace BookStore.Infrastructure.Migrations
                         .HasColumnType("character varying(250)");
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsAuthor")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("LockoutEnabled")
@@ -134,6 +221,9 @@ namespace BookStore.Infrastructure.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -141,67 +231,141 @@ namespace BookStore.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PermissionModelRoleModel", b =>
+            modelBuilder.Entity("BookStore.Infrastructure.Models.UserRoleModel", b =>
                 {
-                    b.Property<Guid>("PermissionsId")
+                    b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("RolesId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("PermissionsId", "RolesId");
+                    b.HasKey("RoleId", "UserId");
 
-                    b.HasIndex("RolesId");
-
-                    b.ToTable("PermissionModelRoleModel", (string)null);
-                });
-
-            modelBuilder.Entity("RoleModelUserModel", b =>
-                {
-                    b.Property<Guid>("RolesId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("RolesId", "UsersId");
-
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RoleModelUserModel", (string)null);
                 });
 
-            modelBuilder.Entity("PermissionModelRoleModel", b =>
+            modelBuilder.Entity("BookStore.Infrastructure.Models.AuthorBookModel", b =>
                 {
-                    b.HasOne("BookStore.Infrastructure.Models.PermissionModel", null)
-                        .WithMany()
-                        .HasForeignKey("PermissionsId")
+                    b.HasOne("BookStore.Infrastructure.Models.AuthorModel", "Author")
+                        .WithMany("AuthorBookModels")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookStore.Infrastructure.Models.RoleModel", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
+                    b.HasOne("BookStore.Infrastructure.Models.BookModel", "Book")
+                        .WithMany("AuthorBookModels")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("RoleModelUserModel", b =>
+            modelBuilder.Entity("BookStore.Infrastructure.Models.AuthorModel", b =>
                 {
-                    b.HasOne("BookStore.Infrastructure.Models.RoleModel", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
+                    b.HasOne("BookStore.Infrastructure.Models.UserModel", "User")
+                        .WithOne("Author")
+                        .HasForeignKey("BookStore.Infrastructure.Models.AuthorModel", "UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Models.PermissionRoleModel", b =>
+                {
+                    b.HasOne("BookStore.Infrastructure.Models.PermissionModel", "Permission")
+                        .WithMany("PermissionRoleModels")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookStore.Infrastructure.Models.UserModel", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
+                    b.HasOne("BookStore.Infrastructure.Models.RoleModel", "Role")
+                        .WithMany("PermissionRoleModels")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Models.UserBookModel", b =>
+                {
+                    b.HasOne("BookStore.Infrastructure.Models.BookModel", "Book")
+                        .WithMany("UserBookModels")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookStore.Infrastructure.Models.UserModel", "User")
+                        .WithMany("UserBookModels")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Models.UserRoleModel", b =>
+                {
+                    b.HasOne("BookStore.Infrastructure.Models.RoleModel", "Role")
+                        .WithMany("UserRoleModels")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookStore.Infrastructure.Models.UserModel", "User")
+                        .WithMany("UserRoleModels")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Models.AuthorModel", b =>
+                {
+                    b.Navigation("AuthorBookModels");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Models.BookModel", b =>
+                {
+                    b.Navigation("AuthorBookModels");
+
+                    b.Navigation("UserBookModels");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Models.PermissionModel", b =>
+                {
+                    b.Navigation("PermissionRoleModels");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Models.RoleModel", b =>
+                {
+                    b.Navigation("PermissionRoleModels");
+
+                    b.Navigation("UserRoleModels");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Models.UserModel", b =>
+                {
+                    b.Navigation("Author");
+
+                    b.Navigation("UserBookModels");
+
+                    b.Navigation("UserRoleModels");
                 });
 #pragma warning restore 612, 618
         }

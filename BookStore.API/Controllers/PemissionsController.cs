@@ -1,7 +1,12 @@
 ﻿using AutoMapper;
+using BookStore.API.Extensions;
+using BookStore.API.Mapping;
+using BookStore.API.Requests.Permission;
+using BookStore.API.Responses.Permission;
 using BookStore.Application.Contracts.Books;
 using BookStore.Application.Contracts.Common;
-using BookStore.Application.Contracts.Permissions;
+using BookStore.Application.Contracts.Permissions.Commands;
+using BookStore.Application.Contracts.Permissions.Queries;
 using BookStore.Application.Contracts.Roles;
 using BookStore.Application.Interfaces.Permissions;
 using BookStore.Application.Interfaces.Roles;
@@ -17,64 +22,62 @@ namespace BookStore.API.Controllers
     public class PemissionsController : ControllerBase
     {
         private readonly IPermissionsService _permissionsService;
-        private readonly IMapper _mapper;
 
         public PemissionsController(IPermissionsService permissionsService, IMapper mapper)
         {
             _permissionsService = permissionsService;
-            _mapper = mapper;
         }
 
         //[Authorize()]
         [HttpGet("all/")]
-        public async Task<ActionResult<List<PermissionsResponse>?>> GetAllPermissions()
+        public async Task<ActionResult<List<PermissionShortResponse>?>> GetAllPermissions()
         {
-            var allPermissionEntities = await _permissionsService.GetAllPermissions();
+            var permissionsResult = await _permissionsService.GetAllPermissions();
 
-            var permissionResponse = _mapper.Map<List<PermissionsResponse>?>(allPermissionEntities);
+            if (permissionsResult.IsFailure)
+                return permissionsResult.Error!.ToErrorResult(HttpContext);
 
-            return Ok(permissionResponse);
+            return Ok(permissionsResult.Value.ToResponse());
         }
 
         [HttpGet("get_by_id/{id:guid}")]
-        [ProducesResponseType(typeof(PagedResult<PermissionsResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PermissionDetailsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<PermissionsResponse>> GetPermissionById(Guid id)
+        public async Task<ActionResult<PermissionDetailsResponse>> GetPermissionById(Guid id)
         {
-            var permissionEntity = await _permissionsService.GetPermissionById(id);
+            var permissionResult = await _permissionsService.GetPermissionById(id);
 
-            var permissionResponse = _mapper.Map<PermissionsResponse>(permissionEntity);
+            if (permissionResult.IsFailure)
+                return permissionResult.Error!.ToErrorResult(HttpContext);
 
-            return Ok(permissionResponse);
+            return Ok(permissionResult.Value.ToResponse());
         }
 
         [HttpGet("search/{code}")]
-        [ProducesResponseType(typeof(List<PermissionsResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<PermissionShortResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<List<RolesResponse>?>> GetPermissionsByCode(string code)
+        public async Task<ActionResult<List<PermissionShortResponse>?>> GetPermissionsByCode(string code)
         {
-            var permissionEntities = await _permissionsService.GetPermissionsByCode(code);
+            var permissionResult = await _permissionsService.GetPermissionsByCode(code);
 
-            var permissionResponse = _mapper.Map<List<PermissionsResponse>?>(permissionEntities);
+            if (permissionResult.IsFailure)
+                return permissionResult.Error!.ToErrorResult(HttpContext);
 
-            return Ok(permissionResponse);
+            return Ok(permissionResult.Value.ToResponse());
         }
 
         [HttpGet("filter/")]
-        [ProducesResponseType(typeof(PagedResult<PermissionsResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResult<PermissionShortResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<PagedResult<PermissionsResponse>>> GetPagedBooksAsync([FromQuery] PermissionQueryParameters parameters)
+        public async Task<ActionResult<PagedResult<PermissionShortResponse>>> GetPagedBooksAsync([FromQuery] PermissionQueryParameters parameters)
         {
-            var pagedPermissionEntities = await _permissionsService.GetPagedPermissions(parameters);
+            var pagedPermissionsResult = await _permissionsService.GetPagedPermissions(parameters);
 
-            var pagedPermissionsResponse = new PagedResult<PermissionsResponse>
-            {
-                Items = _mapper.Map<List<PermissionsResponse>>(pagedPermissionEntities.Items),
-                TotalCount = pagedPermissionEntities.TotalCount,
-                PageNumber = pagedPermissionEntities.PageNumber,
-                PageSize = pagedPermissionEntities.PageSize
-            };
+            if (pagedPermissionsResult.IsFailure)
+                return pagedPermissionsResult.Error!.ToErrorResult(HttpContext);
+
+            var pagedPermissionsResponse = pagedPermissionsResult.Value.ToResponse();
 
             Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(new
             {
@@ -92,25 +95,31 @@ namespace BookStore.API.Controllers
         [HttpPost("create/")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Guid>> CreatePermission([FromBody] PermissionsRequest permissionsRequest)//убрать вводимый ИД
+        public async Task<ActionResult<Guid>> CreatePermission([FromBody] PermissionCreateRequest permissionsCreateRequest)
         {
-            var permissionEntity = _mapper.Map<PermissionEntity>(permissionsRequest);
-            var createdPermissionId = await _permissionsService.CreatePermission(permissionEntity);
+            var createCommand = permissionsCreateRequest.ToCommand();
 
-            return createdPermissionId;
+            var createPermissionResult = await _permissionsService.CreatePermission(createCommand);
+
+            if (createPermissionResult.IsFailure)
+                return createPermissionResult.Error!.ToErrorResult(HttpContext);
+
+            return Ok(createPermissionResult.Value);
         }
 
         [HttpPut("update/{id:guid}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Guid>> UpdatePermission(Guid id, [FromBody] PermissionsRequest permissionsRequest)
+        public async Task<ActionResult<Guid>> UpdatePermission(PermissionUpdateRequest updateRequest)
         {
-            var updateRequest = permissionsRequest with { Id = id };
-            var permissionEntity = _mapper.Map<PermissionEntity>(permissionsRequest);
+            var updateCommand = updateRequest.ToCommand();
 
-            var updatedPermissionId = await _permissionsService.UpdatePermission(permissionEntity);
+            var updatePermissionResult = await _permissionsService.UpdatePermission(updateCommand);
 
-            return updatedPermissionId;
+            if (updatePermissionResult.IsFailure)
+                return updatePermissionResult.Error!.ToErrorResult(HttpContext);
+
+            return Ok(updatePermissionResult.Value);
         }
 
         [HttpDelete("delete/{id:guid}")]
@@ -118,9 +127,12 @@ namespace BookStore.API.Controllers
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Guid>> DeletePermission(Guid id)
         {
-            var permissionDeleteId = await _permissionsService.DeletePermission(id);
+            var deletePermissionResult = await _permissionsService.DeletePermission(id);
 
-            return permissionDeleteId;
+            if (deletePermissionResult.IsFailure)
+                return deletePermissionResult.Error!.ToErrorResult(HttpContext);
+
+            return Ok(deletePermissionResult.Value);
         }
     }
 }

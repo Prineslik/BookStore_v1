@@ -1,5 +1,18 @@
-﻿using BookStore.Application.Authorization.Attributes;
+﻿using BookStore.API.Validators.Books;
+using BookStore.API.Validators.Permissions;
+using BookStore.API.Validators.Roles;
+using BookStore.Application.Interfaces.Books;
+using BookStore.Application.Interfaces.Permissions;
+using BookStore.Application.Interfaces.Roles;
+using BookStore.Application.Interfaces.Users;
+using BookStore.Application.Services;
 using BookStore.Infrastructure.Models;
+using BookStore.Infrastructure.Repositories.Book;
+using BookStore.Infrastructure.Repositories.Permission;
+using BookStore.Infrastructure.Repositories.Role;
+using BookStore.Infrastructure.Repositories.User;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -9,9 +22,9 @@ namespace BookStore.API.Extensions
 {
     public static class ApiExtensions
     {
-
+        
         public static void AddApiAuthentication(this IServiceCollection services,
-    IConfiguration configuration)
+        IConfiguration configuration)
         {
             var jwtSection = configuration.GetSection("JwtOptions");
             services.Configure<JwtOptions>(jwtSection);
@@ -65,10 +78,8 @@ namespace BookStore.API.Extensions
                         {
                             var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger("JwtAuth");
 
-                            // Извлекаем NameIdentifier (или любой другой claim) для красивого лога
                             var userId = context.Principal?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-                            // Используем Debug, чтобы не засорять прод-логи каждого запроса уровнем Information
                             logger.LogDebug("Пользователь {UserId} успешно прошел JWT-аутентификацию", userId);
 
                             return Task.CompletedTask;
@@ -81,8 +92,6 @@ namespace BookStore.API.Extensions
                 options.AddPolicy("AdminOnly", policy =>
                 {
                     policy.RequireRole("Admin");
-                    //policy.RequireClaim("Admin", "true");
-                    //policy.AddRequirements();
                 });
 
                 options.AddPolicy("UserOrAdmin", policy =>
@@ -90,6 +99,7 @@ namespace BookStore.API.Extensions
                     policy.RequireRole("Admin", "User");
                     //policy.RequireClaim("Admin", "true");
                     //policy.AddRequirements();
+                    
                 });
 
                 options.AddPolicy("CrudRole", policy =>
@@ -99,11 +109,6 @@ namespace BookStore.API.Extensions
                     //policy.RequireClaim("Admin", "true");
                     //policy.AddRequirements();
                 });
-
-                //options.AddPolicy("PermissionBased", policy =>
-                //{
-                //    //policy.Requirements.Add(new RequirePermissionAttribute(""));
-                //});
             });
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -142,6 +147,8 @@ namespace BookStore.API.Extensions
                 {
                     policy.AddDefaultApiSecurityHeaders();
 
+                    policy.AddCrossOriginResourcePolicy(builder => builder.CrossOrigin());
+
                     policy.AddContentSecurityPolicy(builder =>
                     {
                         builder.AddDefaultSrc().Self();
@@ -164,7 +171,9 @@ namespace BookStore.API.Extensions
                         builder.AddConnectSrc()
                             .Self()
                             .From("https://localhost:*")
-                            /*.From("https://127.0.0.1:*")*/;
+                            .From("http://localhost:*")
+                            .From("https://127.0.0.1:*")
+                            .From("http://127.0.0.1:*");
 
                         builder.AddFontSrc()
                             .Self()
@@ -178,7 +187,7 @@ namespace BookStore.API.Extensions
                     });
 
                     policy.AddCrossOriginEmbedderPolicy(builder => builder
-                        .Credentialless());
+                        .UnsafeNone());//UnsafeNone для сваггера, Credentialless - для нормальной настройки
                 });
 
                 options.AddPolicy("Production", policy =>
@@ -205,6 +214,39 @@ namespace BookStore.API.Extensions
                      policy.AddStrictTransportSecurity((int)TimeSpan.FromDays(365).TotalSeconds, true, false, String.Empty);
                  });
             });
+        }
+
+        public static void AddFluentValidation(this IServiceCollection services)
+        {
+            services.AddValidatorsFromAssemblyContaining<BookChangeOwnersRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<BookCreateRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<BookUpdateRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<PermissionUpdateRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<PermissionCreateRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<RoleUpdateRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<RoleCreateRequestValidator>();
+            services.AddValidatorsFromAssemblyContaining<RoleAddPermissionsRequestValidator>();
+            services.AddFluentValidationAutoValidation();
+        }
+
+        public static void AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IBooksRepository, BooksRepository>();
+            services.AddScoped<IBooksReadRepository, BooksReadRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IUsersReadRepository, UsersReadRepository>();
+            services.AddScoped<IRolesRepository, RolesRepository>();
+            services.AddScoped<IRolesReadRepository, RolesReadRepository>();
+            services.AddScoped<IPermissionsRepository, PermissionsRepository>();
+            services.AddScoped<IPermissionsReadRepository, PermissionsReadRepository>();
+        }
+
+        public static void AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<IBooksService, BooksService>();
+            services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IRolesService, RolesService>();
+            services.AddScoped<IPermissionsService, PermissionsService>();
         }
     }
 }

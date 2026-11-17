@@ -5,17 +5,17 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BookStore.Application.Contracts.Common
 {
-    public class Result<T>
+    public sealed class Result<T>
     {
         public bool IsSuccess { get; }
         public bool IsFailure => !IsSuccess;
-        public T Value { get; }
+        public T _value { get; set; }
         public Error Error { get; }
 
         private Result(T value)
         {
             IsSuccess = true;
-            Value = value;
+            _value = value;
             Error = Error.None;
         }
 
@@ -23,15 +23,36 @@ namespace BookStore.Application.Contracts.Common
         {
             IsSuccess = false;
             Error = error;
-            Value = default!;
+            _value = default!;
         }
 
         public static Result<T> Success(T value) => new(value);
         public static Result<T> Failure(Error error) => new(error);
 
-        public TResult Match<TResult>(Func<T, TResult> success, Func<Error, TResult> failure)
+        public T Value => IsSuccess
+           ? _value!
+           : throw new InvalidOperationException("No value for failed result.");
+    }
+
+    public sealed class Result
+    {
+        public bool IsSuccess { get; }
+        public bool IsFailure => !IsSuccess;
+        public Error Error { get; }
+
+        private Result()
         {
-            return IsSuccess ? success(Value) : failure(Error);
+            IsSuccess = true;
+            Error = Error.None;
         }
+
+        private Result(Error error)
+        {
+            IsSuccess = false;
+            Error = error;
+        }
+
+        public static Result Success() => new Result();
+        public static Result Failure(Error error) => new(error);
     }
 }

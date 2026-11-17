@@ -12,7 +12,7 @@ namespace BookStore.Infrastructure.Configurations
 
             builder
                 .Property(b => b.Title)
-                .HasMaxLength(250/*BookEntity.MAX_TITLE_LENGTH*/)
+                .HasMaxLength(250)
                 .IsRequired();
 
             builder
@@ -22,6 +22,14 @@ namespace BookStore.Infrastructure.Configurations
             builder
                 .Property(b => b.Price)
                 .IsRequired();
+
+            builder
+                .Property(b => b.StockQuantity)
+                .IsRequired();
+
+            builder
+               .Property(b => b.CreateDate)
+               .IsRequired();
         }
     }
 }

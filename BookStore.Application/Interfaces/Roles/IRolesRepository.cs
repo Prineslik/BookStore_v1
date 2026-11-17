@@ -10,15 +10,8 @@ namespace BookStore.Application.Interfaces.Roles
     public interface IRolesRepository
     {
         Task<Guid> Create(RoleEntity roleEntity);
-        Task<Guid> Delete(Guid id);
-        Task<List<RoleEntity?>> GetAll();
-        Task<RoleEntity?> GetById(Guid id);
-        Task<List<RoleEntity?>> GetByName(string name);
-        Task<RoleEntity?> GetByNameStrict(string name);
-        Task<List<RoleEntity?>> GetByList(List<Guid> ids);
-        Task<List<RoleEntity?>> GetByUser(Guid ids);
-        //Task<bool> IsExist(Guid id);
-        Task<PagedResult<RoleEntity>> GetPaged(RoleQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
+        Task<Guid> Delete(RoleEntity roleEntity);
         Task<Guid> Update(RoleEntity updatedRoleEntity);
+        Task<RoleEntity?> GetById(Guid id);
     }
 }

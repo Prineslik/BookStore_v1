@@ -1,12 +1,13 @@
 ﻿using BookStore.Application.Contracts.Common;
-using BookStore.Application.Contracts.Users;
+using BookStore.Application.Contracts.Users.Commands;
+using BookStore.Application.Contracts.Users.DTO;
+using BookStore.Application.Contracts.Users.Queries;
 using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces;
 using BookStore.Application.Interfaces.Books;
 using BookStore.Application.Interfaces.Roles;
 using BookStore.Application.Interfaces.Users;
 using BookStore.Core.Entities;
-using BookStore.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,105 +17,125 @@ namespace BookStore.Application.Services
     public class UsersService : IUsersService
     {
         private readonly IUsersRepository _usersRepository;
+        private readonly IUsersReadRepository _usersReadRepository;
+        private readonly IRolesReadRepository _rolesReadRepository;
         private readonly IPasswordHasher _paswordHasher;
         private readonly IJwtProvider _jwtProvider;
-        private readonly IRolesRepository _rolesRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UsersService(IUsersRepository usersRepository, IPasswordHasher paswordHasher, 
-            IJwtProvider jwtProvider, IRolesRepository rolesRepository)
+        public UsersService(IUsersRepository usersRepository, IUsersReadRepository usersReadRepository, IPasswordHasher paswordHasher, 
+            IJwtProvider jwtProvider, IRolesReadRepository rolesReadRepository, IUnitOfWork unitOfWork)
         {
             _usersRepository = usersRepository;
+            _usersReadRepository = usersReadRepository;
             _paswordHasher = paswordHasher;
             _jwtProvider = jwtProvider;
-            _rolesRepository = rolesRepository;
+            _rolesReadRepository = rolesReadRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<Guid> CreateUser(UsersRequest userRequest)
+        public async Task<Result<Guid>> CreateUser(RegisterUserCommand registerUserCommand)
         {
-            //var existingUser = await _usersRepository.GetByEmail(userEntity.Email);
+            if (await _usersReadRepository.IsExistByEmail(registerUserCommand.Email))
+                return Result<Guid>.Failure(Error.Duplicate("Email", registerUserCommand.Email));
 
-            //if (existingUser != null)
-            //    throw new DuplicateException($"User с email {userEntity.Email} уже существует");
+            var passwordHash = _paswordHasher.Hash(registerUserCommand.Password);
 
-            //List<RoleEntity?> roles = new List<RoleEntity?>();
-
-            //if (userRequest.RoleIds.Count > 0)
-            //{
-            //    //var rolesResult = await _rolesRepository.GetByList(userRequest.RoleIds);
-            //    //if (rolesResult.IsSuccess)
-            //    //roles = rolesResult.Value.ToList();
-            //    roles = await _rolesRepository.GetByList(userRequest.RoleIds);
-            //}
-
-            var passwordHash = _paswordHasher.Hash(userRequest.Password);
+            var defaultRole = await _rolesReadRepository.GetDefaultRole();
 
             var userEntity = UserEntity.Create(
-                userRequest.Id,
-                userRequest.Name,
-                userRequest.Email,
+                registerUserCommand.Name,
+                registerUserCommand.Email,
                 passwordHash,
-                userRequest.ProfilePhotoURL,
-                userRequest.RoleIds).User;
+                null,
+                null,
+                new List<Guid> { defaultRole },
+                new List<Guid>());
 
             var newUserId = await _usersRepository.Create(userEntity/*, roles*/);
-            return newUserId;
+
+            await _unitOfWork.CommitAsync();
+
+            return Result<Guid>.Success(newUserId);
         }
 
-        public async Task<string> LoginUser(string enteredEmail, string enteredPassword)
+        public async Task<Result<string>> LoginUser(string enteredEmail, string enteredPassword)
         {
-            var existingUserEntity = await _usersRepository.GetByEmail(enteredEmail);
+            var existingUserEntity = await _usersReadRepository.GetByEmail(enteredEmail);
 
             if (existingUserEntity == null)
                 throw new UnauthorizedException("Пользователь ввел неправильный email или пароль");
+            
+            //var rolesByUserResult = await _rolesReadRepository.GetByUser(existingUserEntity.Id);
 
             var resultVerify = _paswordHasher.Verify(enteredPassword, existingUserEntity.PasswordHash);
 
-            var rolesByUserResult = await _rolesRepository.GetByUser(existingUserEntity.Id);
+            if(!resultVerify)
+                return Result<string>.Failure(Error.Unauthorized("Пользователь ввел неправильный email или пароль"));
 
-            return resultVerify
-                ? _jwtProvider.GenerateToken(existingUserEntity, rolesByUserResult)
-                : throw new UnauthorizedException("Пользователь ввел неправильный email или пароль");
+            var token = _jwtProvider.GenerateToken(existingUserEntity.Id, existingUserEntity.Roles);
+
+            return Result<string>.Success(token); 
         }
 
-        public async Task<Guid> DeleteUser(Guid id)
+        public async Task<Result<Guid>> DeleteUser(Guid id)
         {
-            return await _usersRepository.Delete(id);
-        }
+            var userEntity = await _usersRepository.GetById(id);
 
-        public async Task<List<UserEntity?>> GetAllUsers()
-        {
-            return await _usersRepository.GetAll();
-        }
-
-        public async Task<UserEntity?> GetUserById(Guid id)
-        {
-            return await _usersRepository.GetById(id);
-        }
-
-        public async Task<UserEntity?> GetUserByEmail(string email)
-        {
-            return await _usersRepository.GetByEmail(email);
-        }
-
-        public async Task<Guid> UpdateUser(UserEntity userEntity)
-        {
-            List<Guid?> roles = new List<Guid?>();
-
-            if (userEntity.RoleIds != null)
+            if (userEntity != null)
             {
-                var rolesResult = await _rolesRepository.GetByList(userEntity.RoleIds.ToList());
-                
-                roles = rolesResult
-                    .Select(r => (Guid?)r.Id)
-                    .ToList();
+                await _usersRepository.Delete(userEntity);
+
+                await _unitOfWork.CommitAsync();
             }
 
-            return await _usersRepository.Update(userEntity);
+            return Result<Guid>.Success(id);
         }
 
-        public async Task<PagedResult<UserEntity>> GetPagedUsersAsync(UserQueryParameters parameters)
+        public async Task<Result<List<UserShortDTO>>> GetAllUsers()
         {
-            return await _usersRepository.GetPagedAsync(parameters);
+            var users = await _usersReadRepository.GetAll();
+
+            return Result<List<UserShortDTO>>.Success(users);
+        }
+
+        public async Task<Result<UserDetailsDTO?>> GetUserById(Guid id)
+        {
+            var user = await _usersReadRepository.GetById(id);
+
+            return Result<UserDetailsDTO?>.Success(user);
+        }
+
+        public async Task<Result<UserAuthDTO?>> GetUserByEmail(string email)
+        {
+            var user = await _usersReadRepository.GetByEmail(email);
+            
+            return Result<UserAuthDTO?>.Success(user); 
+        }
+
+        public async Task<Result<Guid>> UpdateUserProfile(UpdateUserProfileCommand updateProfileCommand)
+        {
+            var user = await _usersRepository.GetById(updateProfileCommand.Id);
+
+            if (user == null)
+                return Result<Guid>.Failure(Error.NotFound("User", "Id", updateProfileCommand.Id));//throw new NotFoundException("User"/*, updateProfileCommand.Id*/);
+
+            user.Rename(updateProfileCommand.Name);
+            user.ChangeEmail(updateProfileCommand.Email);
+            user.ChangeProfilePhotoUrl(updateProfileCommand.ProfilePhotoURL);
+
+            var updatedUserId = await _usersRepository.Update(user);
+
+            await _unitOfWork.CommitAsync();
+
+            return Result<Guid>.Success(updatedUserId);
+        }
+
+        public async Task<Result<PagedResult<UserShortDTO>>> GetPagedUsersAsync(UserQueryParameters parameters)
+        {
+            var pagedUsers = await _usersReadRepository.GetPagedAsync(parameters);
+
+            return Result<PagedResult<UserShortDTO>>.Success(pagedUsers);
         }
     }
 }

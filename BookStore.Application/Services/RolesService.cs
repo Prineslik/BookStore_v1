@@ -1,6 +1,9 @@
 ﻿using BookStore.Application.Contracts.Common;
-using BookStore.Application.Contracts.Roles;
+using BookStore.Application.Contracts.Roles.Commands;
+using BookStore.Application.Contracts.Roles.DTO;
+using BookStore.Application.Contracts.Roles.Queries;
 using BookStore.Application.Exceptions;
+using BookStore.Application.Interfaces;
 using BookStore.Application.Interfaces.Roles;
 using BookStore.Core.Entities;
 using System;
@@ -11,98 +14,103 @@ namespace BookStore.Application.Services
 {
     public class RolesService : IRolesService
     {
-        private readonly IRolesRepository _roleRepository;
+        private readonly IRolesRepository _rolesRepository;
+        private readonly IRolesReadRepository _rolesReadRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public RolesService(IRolesRepository roleRepository)
+        public RolesService(IRolesRepository roleRepository, IRolesReadRepository rolesReadRepository, IUnitOfWork unitOfWork)
         {
-            _roleRepository = roleRepository;
+            _rolesRepository = roleRepository;
+            _rolesReadRepository = rolesReadRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<RoleEntity>> GetAllRoles()
+        public async Task<Result<List<RoleShortDTO>>> GetAllRoles()
         {
-            return await _roleRepository.GetAll();
+            var roles = await _rolesReadRepository.GetAll();
+            return Result<List<RoleShortDTO>>.Success(roles);
         }
-        public async Task<RoleEntity?> GetRoleById(Guid id)
+        public async Task<Result<RoleDetailsDTO>> GetRoleById(Guid id)
         {
-            return await _roleRepository.GetById(id);
-        }
+            var role = await _rolesReadRepository.GetById(id);
 
-        public async Task<List<RoleEntity>> GetRolesByName(string name)
-        {
-            return await _roleRepository.GetByName(name);
+            return Result<RoleDetailsDTO>.Success(role);
         }
 
-        public async Task<Guid> CreateRole(RoleEntity roleEntity)
+        public async Task<Result<List<RoleShortDTO>>> GetRolesByName(string name)
         {
-            //var existingRole = await _roleRepository.GetByNameStrict(rolesRequest.Name);
+            var roles = await _rolesReadRepository.GetByName(name);
 
-            //if (existingRole != null)
-            //    throw new DuplicateException($"Role с Name = {rolesRequest.Name} уже существует");
-            //return Result<Guid>.Failure(Error.Duplicate("Name", rolesRequest.Name));
-
-            //var (roleEntity, error) = RoleEntity.Create(
-            //    Guid.NewGuid(),
-            //    rolesRequest.Name,
-            //    rolesRequest.PermissionIds);
-
-            //if (!string.IsNullOrEmpty(error))
-            //    throw new ValidationException(error);
-
-            var newRoleId = await _roleRepository.Create(roleEntity);
-            return newRoleId;
-           /*return string.IsNullOrEmpty(error)
-                ? await _roleRepository.Create(roleEntity)
-                : Result<Guid>.Failure(Error.Validation(error));*/
+            return Result<List<RoleShortDTO>>.Success(roles);
         }
 
-        public async Task<Guid> UpdateRole(RoleEntity roleEntity)
+        public async Task<Result<Guid>> CreateRole(RoleCreateCommand createCommand)
         {
-            //var existingRoleEntity = await _roleRepository.GetById(rolesRequest.Id);
+            if (await _rolesReadRepository.IsExistByName(createCommand.Name))
+                return Result<Guid>.Failure(Error.Duplicate("Name", createCommand.Name));
 
-            //if (existingRoleEntity == null)
-            //    throw new NotFoundException("Role", rolesRequest.Id);
+            var roleEntity = RoleEntity.Create(
+                createCommand.Name,
+                createCommand.PermissionIds.ToList());
 
-            //var (roleEntity, error) = RoleEntity.Create(
-            //    rolesRequest.Id,
-            //    rolesRequest.Name,
-            //    rolesRequest.PermissionIds);
+            var newRoleId = await _rolesRepository.Create(roleEntity);
 
-            //if (!string.IsNullOrEmpty(error))
-            //    throw new ValidationException(error);
+            await _unitOfWork.CommitAsync();
 
-            var updatedRoleId = await _roleRepository.Update(roleEntity);
-
-            return updatedRoleId;
-            /*return string.IsNullOrEmpty(error)
-                ? await _roleRepository.Update(roleEntity)
-                : Result<Guid>.Failure(Error.Validation(error));*/
+            return Result<Guid>.Success(newRoleId);
         }
 
-        public async Task<Guid> DeleteRole(Guid id)
+        public async Task<Result<Guid>> UpdateRole(RoleUpdateCommand updateCommand)
         {
-            //var existingRoleEntity = await _roleRepository.GetById(id);
+            var roleEntity = await _rolesRepository.GetById(updateCommand.Id);
 
-            //if (existingRoleEntity == null)
-            //    throw new NotFoundException("Role", id);
+            if (roleEntity == null)
+                return Result<Guid>.Failure(Error.NotFound("Role", "Id", updateCommand.Id.ToString()));
 
-            return await _roleRepository.Delete(id);
+            roleEntity.Rename(updateCommand.Name);
+            roleEntity.AddPermissions(updateCommand.PermissionIds.ToList());
+
+            var updatedRoleId = await _rolesRepository.Update(roleEntity);
+
+            await _unitOfWork.CommitAsync();
+
+            return Result<Guid>.Success(updatedRoleId);
         }
 
-        public async Task<PagedResult<RoleEntity>> GetPagedRoles(RoleQueryParameters parameters)
+        public async Task<Result<Guid>> DeleteRole(Guid id)
         {
-            return await _roleRepository.GetPaged(parameters);
+            var roleEntity = await _rolesRepository.GetById(id);
+
+            if (roleEntity != null)
+            { 
+                await _rolesRepository.Delete(roleEntity);
+
+                await _unitOfWork.CommitAsync();
+            }
+
+            return Result<Guid>.Success(id);
         }
 
-        public async Task<Guid> AddPermissions(Guid roleId, HashSet<Guid> permissionIds)
+        public async Task<Result<PagedResult<RoleShortDTO>>> GetPagedRoles(RoleQueryParameters parameters)
         {
-            var existingRoleEntity = await _roleRepository.GetById(roleId);
+            var pagedItems = await _rolesReadRepository.GetPaged(parameters);
+            return Result<PagedResult<RoleShortDTO>>.Success(pagedItems);
+        }
 
-            //if (existingRoleEntity == null)
-            //    throw new NotFoundException("Role", roleId);
+        public async Task<Result<Guid>> AddPermissions(RoleAddPermissionsCommand addPermissionsCommand/*Guid roleId, List<Guid> permissionIds*/)
+        {
+            var roleEntity = await _rolesRepository.GetById(addPermissionsCommand.Id);
 
-            existingRoleEntity.AddPermissions(permissionIds);
+            if (roleEntity == null)
+                return Result<Guid>.Failure(Error.NotFound("User", "Id", addPermissionsCommand.Id.ToString()));
 
-            return await _roleRepository.Update(existingRoleEntity);
+            roleEntity.AddPermissions(addPermissionsCommand.PermissionIds.ToList());
+
+            var updatedRoleId = await _rolesRepository.Update(roleEntity);
+
+            await _unitOfWork.CommitAsync();
+
+            return Result<Guid>.Success(updatedRoleId);
         }
     }
 }

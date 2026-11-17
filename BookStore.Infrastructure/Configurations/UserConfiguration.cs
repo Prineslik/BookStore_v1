@@ -13,27 +13,22 @@ namespace BookStore.Infrastructure.Configurations
         {
             builder.HasKey(u => u.Id);
 
-            builder
-                .Property(u => u.UserName)
+            builder.Property(u => u.UserName)
                 .HasMaxLength(250)
                 .IsRequired();
 
-            builder
-                .Property(u => u.Email)
+            builder.Property(u => u.Email)
                 .HasMaxLength(250)
                 .IsRequired();
 
-            builder
-                .Property(u => u.PasswordHash)
+            builder.Property(u => u.PasswordHash)
                 .IsRequired();
 
-            builder
-                .Property(u => u.ProfilePhotoURL)
+            builder.Property(u => u.ProfilePhotoURL)
                 .IsRequired();
 
-            builder
-                .HasMany(u => u.Roles)
-                .WithMany(r => r.Users);
+            builder.Property(u => u.IsAuthor)
+                .IsRequired();
                 
         }
     }

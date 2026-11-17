@@ -47,7 +47,7 @@ namespace BookStore.Tests.Integration
         {
             await _dbContainer.StartAsync();
 
-            using var scope = Services.CreateScope();
+             using var scope = Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<BookStoreDbContext>();
 
             Console.WriteLine($"[DEBUG] Init connection: {context.Database.GetConnectionString()}");

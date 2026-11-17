@@ -1,6 +1,8 @@
 ﻿using BookStore.Application.Contracts.Books;
 using BookStore.Application.Contracts.Common;
-using BookStore.Application.Contracts.Roles;
+using BookStore.Application.Contracts.Roles.Commands;
+using BookStore.Application.Contracts.Roles.DTO;
+using BookStore.Application.Contracts.Roles.Queries;
 using BookStore.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,13 +12,13 @@ namespace BookStore.Application.Interfaces.Roles
 {
     public interface IRolesService
     {
-        Task<Guid> CreateRole(RoleEntity roleEntity);
-        Task<Guid> DeleteRole(Guid id);
-        Task<List<RoleEntity>> GetAllRoles();
-        Task<RoleEntity?> GetRoleById(Guid id);
-        Task<List<RoleEntity>> GetRolesByName(string Name);
-        Task<PagedResult<RoleEntity>> GetPagedRoles(RoleQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
-        Task<Guid> UpdateRole(RoleEntity rolesRequest/*BookEntity Role*//*Guid id, string title, string description, decimal price*/);
-        Task<Guid> AddPermissions(Guid roleId ,HashSet<Guid> permissionIds);
+        Task<Result<Guid>> CreateRole(RoleCreateCommand createCommand/*RoleEntity roleEntity*/);
+        Task<Result<Guid>> DeleteRole(Guid id);
+        Task<Result<Guid>> UpdateRole(RoleUpdateCommand updateCommand/*RoleEntity rolesRequest*/);
+        Task<Result<Guid>> AddPermissions(RoleAddPermissionsCommand addPermissionsCommand/*Guid roleId ,List<Guid> permissionIds*/);
+        Task<Result<List<RoleShortDTO>>> GetAllRoles();
+        Task<Result<RoleDetailsDTO>> GetRoleById(Guid id);
+        Task<Result<List<RoleShortDTO>>> GetRolesByName(string Name);
+        Task<Result<PagedResult<RoleShortDTO>>> GetPagedRoles(RoleQueryParameters parameters/*, CancellationToken cancellationToken = default*/);
     }
 }

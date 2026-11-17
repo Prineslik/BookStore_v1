@@ -1,11 +1,13 @@
-﻿using BookStore.Application.Contracts.Books;
+﻿using BookStore.Application.Contracts.Books.Commands;
+using BookStore.Application.Contracts.Books.DTO;
+using BookStore.Application.Contracts.Books.Queries;
 using BookStore.Application.Contracts.Common;
 using BookStore.Application.Contracts.Users;
 using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces;
 using BookStore.Application.Interfaces.Books;
+using BookStore.Application.Interfaces.Users;
 using BookStore.Core.Entities;
-using BookStore.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,64 +16,121 @@ namespace BookStore.Application.Services
 {
     public class BooksService : IBooksService
     {
-        private readonly IBooksRepository _bookRepository;
+        private readonly IBooksRepository _booksRepository;
+        private readonly IBooksReadRepository _booksReadRepository;
+        private readonly IUsersReadRepository _usersReadRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BooksService(IBooksRepository bookRepository)
+        public BooksService(IBooksRepository booksRepository, IBooksReadRepository booksReadRepository, IUsersReadRepository usersReadRepository, IUnitOfWork unitOfWork)
         {
-            _bookRepository = bookRepository;
+            _booksRepository = booksRepository;
+            _booksReadRepository = booksReadRepository;
+            _usersReadRepository = usersReadRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<BookEntity>> GetAllBooks()
+        public async Task<Result<List<BookShortDTO>>> GetAllBooks()
         {
-            return await _bookRepository.GetAll();
+            var books = await _booksReadRepository.GetAll();
+            return Result<List<BookShortDTO>>.Success(books);
         }
-        public async Task<BookEntity?> GetBookById(Guid id)
+
+        public async Task<Result<BookDetailsDTO?>> GetBookById(Guid id)
         {
-            return await _bookRepository.GetById(id);
+            var book = await _booksReadRepository.GetById(id);
+            if (book == null)
+                return Result<BookDetailsDTO?>.Failure(Error.NotFound("Book", "Id", id));
+
+            return Result<BookDetailsDTO?>.Success(book);
         }
 
-        public async Task<List<BookEntity?>> GetBooksByTitle(string title)
-        { 
-            return await _bookRepository.GetByTitle(title);
-        }
-
-        public async Task<Guid> CreateBook(BookEntity bookEntity)
+        public async Task<Result<List<BookShortDTO>>> GetBooksByTitle(string title)
         {
-            //var existingBook = await _bookRepository.GetByTitle(bookEntity.Title);
-
-            //if (existingBook != null)
-            //    throw new DuplicateException($"Book с Title = {bookEntity.Title} уже существует");
-
-            var createdBookId = await _bookRepository.Create(bookEntity);
-            return createdBookId;
+            var book = await _booksReadRepository.GetByTitle(title);
+            return Result<List<BookShortDTO>>.Success(book);
         }
 
-        public async Task<Guid> UpdateBook(BookEntity bookEntity)
+        public async Task<Result<Guid>> CreateBook(BookCreateCommand createCommand)
         {
-            //проверка на наличие в БД
-            //var bookByIdResult = await _bookRepository.GetById(bookEntity.Id);
+            if (await _booksReadRepository.IsExistByTitle(createCommand.Title))
+                return Result<Guid>.Failure(Error.Duplicate("Title", createCommand.Title));
 
-            //if (bookByIdResult == null)
-            //    throw new NotFoundException("Book", bookEntity.Id);
+            var bookEntity = BookEntity.Create(
+                createCommand.Title,
+                createCommand.Description,
+                createCommand.Price,
+                createCommand.StockQuantity,
+                createCommand.OwnerIds,
+                createCommand.AuthorIds);
 
-            return await _bookRepository.Update(bookEntity);
-            //return string.IsNullOrEmpty(error) 
-            //    ? await _bookRepository.Update(bookEntity)
-            //    : Result<Guid>.Failure(Error.Validation(error));
+            var createdBookId = await _booksRepository.Create(bookEntity);
+
+            await _unitOfWork.CommitAsync();
+
+            return Result<Guid>.Success(createdBookId);
         }
 
-        public async Task<Guid> DeleteBook(Guid id)
+        public async Task<Result<Guid>> UpdateBook(BookUpdateCommand updateCommand)
         {
+            if (!await _booksReadRepository.IsExistById(updateCommand.Id))
+                return Result<Guid>.Failure(Error.NotFound("Book", "Id", updateCommand.Id));
 
-            //if (!await _bookRepository.IsExist(id))
-            //    throw new NotFoundException("Book", id);
+            if (await _booksReadRepository.GetByTitleStrict(updateCommand.Title) != null)
+                return Result<Guid>.Failure(Error.Duplicate("Title", updateCommand.Title));
 
-            return await _bookRepository.Delete(id);
+            foreach (var ownerId in updateCommand.OwnerIds)
+                if (!await _usersReadRepository.IsExistById(ownerId))
+                    return Result<Guid>.Failure(Error.NotFound("User", "Id", ownerId));
+
+            //добавить сервис для автора
+
+            //foreach (var authorId in updateCommand.AuthorIds)
+            //    if (!await _authorRepository.IsExist(authorId))
+            //        throw new NotFoundException("Author", authorId);
+
+            var book = await _booksRepository.GetById(updateCommand.Id);
+
+            book.Rename(updateCommand.Title);
+            book.ChangeDescription(updateCommand.Description);
+            book.ChangePrice(updateCommand.Price);
+            book.ChangeStockQuantity(updateCommand.StockQuantity);
+            book.ChangeOwners(updateCommand.OwnerIds);
+            book.ChangeAuthors(updateCommand.AuthorIds);
+
+            var updatedBookId = await _booksRepository.Update(book);
+
+            await _unitOfWork.CommitAsync();
+
+            return Result<Guid>.Success(updatedBookId);
         }
 
-        public async Task<PagedResult<BookEntity>> GetPagedBooks(BookQueryParameters parameters)
+        public async Task<Result<Guid>> DeleteBook(Guid id)
         {
-            return await _bookRepository.GetPaged(parameters);
+            var bookEntity = await _booksRepository.GetById(id);
+            if (bookEntity != null)
+            {
+                await _booksRepository.Delete(bookEntity);
+
+                await _unitOfWork.CommitAsync();
+            }
+
+            return Result<Guid>.Success(id);
         }
+
+        public async Task<Result<PagedResult<BookShortDTO>>> GetPagedBooks(BookQueryParameters parameters)
+        {
+            var pagedResult = await _booksReadRepository.GetPaged(parameters);
+
+            return Result<PagedResult<BookShortDTO>>.Success(pagedResult);
+        }
+
+        //public async Task<Guid> ChangeBookOwners(Guid bookId, List<Guid> ownerIds)
+        //{
+        //    var entity = await _bookRepository.GetById(bookId);
+
+        //    entity.ChangeOwners(ownerIds);
+
+        //    return await _bookRepository.Update(entity);
+        //}
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookStore.Core.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,39 +7,80 @@ namespace BookStore.Core.Entities
 {
     public class RoleEntity
     {
+        public const int MAX_NAME_LENGTH = 250;
+
         public Guid Id { get; private set; }
         public string Name { get; private set; }
-        private readonly HashSet<Guid> _permissionIds;
+
+        private readonly List<Guid> _permissionIds;
         public IReadOnlyCollection<Guid> PermissionIds => _permissionIds;
+
+        private readonly List<Guid> _userIds;
+        public IReadOnlyCollection<Guid> UserIds => _userIds;
         
-        private RoleEntity(Guid id, string name, IEnumerable<Guid> permissionIds)
+        private RoleEntity(Guid id, string name, List<Guid> permissionIds, List<Guid> userIds)
         {
             Id = id;
             Name = name;
-            _permissionIds = new HashSet<Guid>(permissionIds);
+            _permissionIds = permissionIds;
+            _userIds = userIds;
         }
 
-        public static (RoleEntity RoleEntity, string Error) Create(Guid id, string name, IEnumerable<Guid> permissionIds)
+        public static RoleEntity Create(string name, List<Guid> permissionIds/*, List<Guid> userIds*/)
         {
-            string Error = string.Empty;
+            ValidateName(name);
+            ValidatePermissionIds(permissionIds);
 
-            return (new RoleEntity(id, name, permissionIds), Error);
+            return new RoleEntity(Guid.NewGuid(), name, permissionIds, new List<Guid>());
         }
 
-        // Бизнес-логика динамического редактирования
+        public static RoleEntity Reconstitute(Guid id, string name, List<Guid> permissionIds, List<Guid> userIds)
+        {
+            return new RoleEntity(id, name, permissionIds, userIds);
+        }
+
+        public void Rename(string name)
+        {
+            ValidateName(name);
+            Name = name;
+        }
+
         public void AddPermission(Guid permissionId)
         {
+            if (_permissionIds.Contains(permissionId))
+                return;
+
             _permissionIds.Add(permissionId);
         }
 
-        public void AddPermissions(IEnumerable<Guid> permissionIds)
+        public void AddPermissions(List<Guid> permissionIds)
         {
-            _permissionIds.UnionWith(permissionIds);
+            ValidatePermissionIds(permissionIds);
+
+            _permissionIds.AddRange(permissionIds.Where(p => !_permissionIds.Contains(p)));
         }
 
         public void RemovePermission(Guid permissionId)
         {
+            if (_permissionIds.Count == 1)
+                throw new DomainException("Role cannot remain without permissions");
+
             _permissionIds.Remove(permissionId);
         }
+
+        private static void ValidateName(string name)
+        {
+            if (String.IsNullOrEmpty(name) || String.IsNullOrWhiteSpace(name))
+                throw new DomainException("Name can not be null or empty");
+            if (name.Length > MAX_NAME_LENGTH)
+                throw new DomainException("Name can not be longer than 250 symbols");
+        }
+
+        private static void ValidatePermissionIds(List<Guid> permissionIds)
+        { 
+            if(permissionIds.Count == 0)
+                throw new DomainException("List of permissions can not be empty");
+        }
+
     }
 }

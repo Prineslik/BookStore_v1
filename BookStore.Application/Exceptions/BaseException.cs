@@ -1,16 +1,15 @@
-﻿using System;
+﻿using BookStore.Application.Contracts.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BookStore.Application.Exceptions
 {
-    public class BaseException : Exception
+    public abstract class BaseException : Exception
     {
-        public string Code { get; }
+        public abstract ErrorType ErrorType { get; }
 
-        public BaseException(string code, string message) : base(message)
-        {
-            Code = code;
-        }
+        protected BaseException(string message) : base(message) { }
+        protected BaseException(string message, Exception inner) : base(message, inner) { }
     }
 }
