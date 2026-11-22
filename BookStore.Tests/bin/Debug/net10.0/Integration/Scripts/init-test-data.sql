@@ -46,7 +46,7 @@ VALUES
     'testuser@example.com',
     'TESTUSER@EXAMPLE.COM',
     FALSE,
-    'test-password-hash',
+    '$2a$11$Z3REWMzHnBNTezRVPRNzYeOySW4m7ibHjqo9yqTztlg8F5Dezf9Eu',--hash 123
     'test-security-stamp-1',
     'test-concurrency-stamp-1',
     FALSE,
@@ -66,7 +66,7 @@ VALUES
     'testauthor@example.com',
     'TESTAUTHOR@EXAMPLE.COM',
     FALSE,
-    'test-password-hash',
+    '$2a$11$tyAPR2qzqTIPJJ9wx//5NOcMP1fp62YbkBhKGtz0EjK8WjH51YzCe',--hash string
     'test-security-stamp-2',
     'test-concurrency-stamp-2',
     FALSE,

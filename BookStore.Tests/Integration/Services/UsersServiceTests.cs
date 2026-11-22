@@ -39,7 +39,7 @@ namespace BookStore.Tests.Integration.Services
         public UsersServiceTests(IntegrationTestWebAppFactory factory)
         {
             _factory = factory;
-        }
+        } 
 
         public async Task InitializeAsync()
         {

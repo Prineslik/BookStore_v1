@@ -31,7 +31,7 @@ namespace BookStore.API.Controllers
         }
 
         //[AllowAnonymous]
-        [Authorize(Policy = "books.read")]
+        [Authorize(Policy = "Books.Read")]
         [HttpGet("all/")]
         public async Task<ActionResult<List<BookShortResponse>>> GetAllBooks()
         {
@@ -96,7 +96,7 @@ namespace BookStore.API.Controllers
         }
 
         //[AllowAnonymous]
-        [Authorize(Policy = "books.create")]
+        [Authorize(Policy = "Books.Create")]
         [HttpPost("create/")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]

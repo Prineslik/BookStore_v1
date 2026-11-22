@@ -1,2 +1,0 @@
-2026-11-10 16:43:06.741 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
-2026-11-10 16:43:07.021 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /books/create responded 401 in 30.3965 ms

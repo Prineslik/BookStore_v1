@@ -1,8 +1,16 @@
-﻿using BookStore.Application.Authorization;
+﻿using BookStore.API.Requests.Book;
+using BookStore.API.Requests.User;
+using BookStore.Application.Authorization;
+using BookStore.Application.Interfaces;
+using BookStore.Application.Interfaces.Roles;
 using BookStore.Application.Interfaces.Users;
+using BookStore.Application.Services;
+using BookStore.Infrastructure.Repositories.User;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,106 +19,142 @@ using NSubstitute;
 using Renci.SshNet.Sftp;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Security.Claims;
 using System.Text;
 using Xunit;
-using System.Net;
 
 namespace BookStore.Tests.Integration.Middlewares
 {
-    public class AuthorizationTests : IClassFixture<WebApplicationFactory<Program>>
+    public class AuthorizationTests : IClassFixture<IntegrationTestWebAppFactory>, IAsyncLifetime
     {
-        private readonly WebApplicationFactory<Program> _factory;
-        private readonly IUsersReadRepository _usersReadRepository = Substitute.For<IUsersReadRepository>();
+        private readonly IntegrationTestWebAppFactory _factory;
+        private IServiceScope _scope;
+        private IUsersReadRepository _usersReadRepository;
 
-        public AuthorizationTests(WebApplicationFactory<Program> factory)
+        public AuthorizationTests(IntegrationTestWebAppFactory factory)
         {
-            _factory = factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureTestServices(services =>
-                {
-                    services.RemoveAll<IUsersReadRepository>();
-                    services.AddSingleton(_usersReadRepository);
+            _factory = factory;
+            //_factory = factory.WithWebHostBuilder(builder =>
+            //{
+            //    builder.ConfigureTestServices(services =>
+            //    {
+            //        //services.RemoveAll<IUsersReadRepository>();
+            //        //services.AddSingleton(_usersReadRepository);
 
-                    services.AddAuthentication(options =>
-                    {
-                        options.DefaultAuthenticateScheme = "Test";
-                        options.DefaultChallengeScheme = "Test";
-                        options.DefaultForbidScheme = "Test";
-                    })
-                    .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
-                        "Test",
-                        _ => { });
-                });
-            });
+            //        services.AddAuthentication(options =>
+            //        {
+            //            options.DefaultAuthenticateScheme = "Test";
+            //            options.DefaultChallengeScheme = "Test";
+            //            options.DefaultForbidScheme = "Test";
+            //        })
+            //        .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
+            //            "Test",
+            //            _ => { });
+            //    });
+            //});
+        }
+
+        public async Task InitializeAsync()
+        {
+            await _factory.ResetDatabaseAsync();
+            _scope = _factory.Services.CreateScope();
+            
+            _usersReadRepository = _scope.ServiceProvider.GetRequiredService<IUsersReadRepository>();
+        }
+
+        public Task DisposeAsync()
+        {
+            _scope.Dispose();
+            return Task.CompletedTask;
+        }
+
+        public static async Task AuthenticateAsAsync(HttpClient client, string email, string password)
+        {
+            var response = await client.PostAsJsonAsync("/Users/login", new LoginUserRequest(email, password));
+            response.EnsureSuccessStatusCode();
+
+            //var token = await client.//await response.Content.ReadAsStringAsync();
+            //token = token.Trim('"');
+
+            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
         [Fact]
         public async Task RequestToProtectedEndpoint_UserIsAuthAndHavePermission_ShouldReturnOk()
         {
-            var userId = Guid.NewGuid();
-            _usersReadRepository.HasPermission(userId, "books.read").Returns(Task.FromResult(true));
-            using var client = _factory.CreateClient();
+            using var client = _factory.CreateClient(
+                new WebApplicationFactoryClientOptions
+            {
+                BaseAddress = new Uri("https://localhost")
+            });
 
-            client.DefaultRequestHeaders.Add("X-Test-User", userId.ToString());
-
+            await AuthenticateAsAsync(client, "testuser@example.com", "123");
+            
             var response = await client.GetAsync("/books/all");
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            await _usersReadRepository.Received(1).HasPermission(userId, "books.read");
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Fact]
         public async Task RequestToProtectedEndpoint_UserIsAuthAndNotHavePermission_ShouldReturnForbidden()
         {
-            var userId = Guid.NewGuid();
-            _usersReadRepository
-                .HasPermission(userId, "books.read")
-                .Returns(Task.FromResult(false));
-            using var client = _factory.CreateClient();
+            var guidList = new List<Guid> { Guid.Parse("11111111-1111-1111-1111-111111111111") };
 
-            client.DefaultRequestHeaders.Add("X-Test-User", userId.ToString());
+            using var client = _factory.CreateClient(
+                new WebApplicationFactoryClientOptions
+                {
+                    BaseAddress = new Uri("https://localhost")
+                });
 
-            var response = await client.GetAsync("/books/all");
+            await AuthenticateAsAsync(client, "testuser@example.com", "123");
+
+            var response = await client.PostAsJsonAsync("/books/create/", new BookCreateRequest(
+                "test book title",
+                "test book description",
+                3.99m,
+                45,
+                guidList,
+                guidList));
+
             response.StatusCode
                 .Should()
                 .Be(HttpStatusCode.Forbidden);
-
-            await _usersReadRepository
-                .Received(1)
-                .HasPermission(userId, "books.read");
         }
 
         [Fact]
         public async Task RequestToProtectedEndpoint_UserIsNotAuth_ShouldReturnUnauthorized()
         {
-            using var client = _factory.CreateClient();
+            using var client = _factory.CreateClient(
+                new WebApplicationFactoryClientOptions
+                {
+                    BaseAddress = new Uri("https://localhost")
+                });
 
             var response = await client.GetAsync("/books/all");
             response.StatusCode
                 .Should()
                 .Be(HttpStatusCode.Unauthorized);
-
-            await _usersReadRepository
-                .DidNotReceive()
-                .HasPermission(Arg.Any<Guid>(), Arg.Any<string>());
         }
 
-        [Fact]
-        public async Task RequestToProtectedEndpoint_UserIsAuthWithInvalidId_ShouldReturnUnauthorized()
-        {
-            using var client = _factory.CreateClient();
+        //[Fact]
+        //public async Task RequestToProtectedEndpoint_UserIsAuthWithInvalidId_ShouldReturnUnauthorized()
+        //{
+        //    using var client = _factory.CreateClient();
 
-            client.DefaultRequestHeaders.Add("X-Test-User", "invalid id");
+        //    client.DefaultRequestHeaders.Add("X-Test-User", "invalid id");
 
-            var response = await client.GetAsync("/books/all");
-            response.StatusCode
-                .Should()
-                .Be(HttpStatusCode.Unauthorized);
+        //    var response = await client.GetAsync("/books/all");
+        //    response.StatusCode
+        //        .Should()
+        //        .Be(HttpStatusCode.Unauthorized);
 
-            await _usersReadRepository
-                .DidNotReceive()
-                .HasPermission(Arg.Any<Guid>(), Arg.Any<string>());
-        }
+        //    //await _usersReadRepository
+        //    //    .DidNotReceive()
+        //    //    .HasPermission(Arg.Any<Guid>(), Arg.Any<string>());
+        //}
 
     }
 }

@@ -1,0 +1,19 @@
+2026-11-22 10:58:18.467 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-11-22 10:58:28.942 +03:00 [ERR] Microsoft.EntityFrameworkCore.Database.Command: Failed executing DbCommand (74ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-11-22 10:58:28.942 +03:00 [ERR] Microsoft.EntityFrameworkCore.Database.Command: Failed executing DbCommand (74ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-11-22 10:58:28.942 +03:00 [ERR] Microsoft.EntityFrameworkCore.Database.Command: Failed executing DbCommand (74ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-11-22 10:58:38.324 +03:00 [WRN] Microsoft.EntityFrameworkCore.Query: Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-11-22 10:58:40.027 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/login responded 200 in 2783.6899 ms
+2026-11-22 10:58:41.174 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /books/create/ responded 403 in 759.4346 ms
+2026-11-22 10:58:41.692 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /books/all responded 401 in 105.7083 ms
+2026-11-22 10:58:44.490 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/login responded 200 in 2599.2404 ms
+2026-11-22 10:58:44.713 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /books/all responded 200 in 218.8712 ms

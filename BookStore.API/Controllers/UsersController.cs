@@ -96,7 +96,7 @@ namespace BookStore.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("login/")]
+        [HttpPost("login")]
         public async Task<ActionResult> LoginUser([FromBody] LoginUserRequest userRequest)
         {
             var tokenResult = await _usersService.LoginUser(userRequest.Email, userRequest.Password);
