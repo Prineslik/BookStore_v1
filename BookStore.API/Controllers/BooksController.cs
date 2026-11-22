@@ -30,8 +30,8 @@ namespace BookStore.API.Controllers
             _booksService = booksService;
         }
 
-        //[AllowAnonymous]
-        [Authorize(Policy = "Books.Read")]
+        [AllowAnonymous]
+        //[Authorize(Policy = "Books.Read")]
         [HttpGet("all/")]
         public async Task<ActionResult<List<BookShortResponse>>> GetAllBooks()
         {
