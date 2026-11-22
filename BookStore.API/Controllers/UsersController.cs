@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookStore.API.Extensions;
 using BookStore.API.Mapping;
 using BookStore.API.Requests.User;
 using BookStore.API.Responses.User;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace BookStore.API.Controllers
@@ -24,12 +26,10 @@ namespace BookStore.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _usersService;
-        //private readonly IMapper _mapper;
 
         public UsersController(IUsersService userService, IMapper mapper)
         {
             _usersService = userService;
-            //_mapper = mapper;
         }
 
         [HttpGet("all/")]
@@ -38,7 +38,7 @@ namespace BookStore.API.Controllers
             var usersResult = await _usersService.GetAllUsers();
 
             if (usersResult.IsFailure)
-                return BadRequest(usersResult.Error);
+                return usersResult.Error.ToErrorResult(HttpContext);
 
             return Ok(usersResult.Value.ToResponse());
         }
@@ -51,7 +51,7 @@ namespace BookStore.API.Controllers
             var usersResult = await _usersService.GetUserById(id);
 
             if (usersResult.IsFailure)
-                return BadRequest(usersResult.Error);
+                return usersResult.Error.ToErrorResult(HttpContext);
 
             return Ok(usersResult.Value.ToResponse());
         }
@@ -65,7 +65,7 @@ namespace BookStore.API.Controllers
             var pagedUsersResult = await _usersService.GetPagedUsersAsync(parameters);
 
             if (pagedUsersResult.IsFailure)
-                return BadRequest(pagedUsersResult.Error);
+                return pagedUsersResult.Error.ToErrorResult(HttpContext);
 
             var pagedUsersResponse = pagedUsersResult.Value.ToResponse();
 
@@ -90,7 +90,7 @@ namespace BookStore.API.Controllers
             var createResult = await _usersService.CreateUser(registerCommand);
 
             if (createResult.IsFailure)
-                return BadRequest(createResult.Error);
+                return createResult.Error!.ToErrorResult(HttpContext);
 
             return Ok(createResult.Value);
         }
@@ -102,7 +102,7 @@ namespace BookStore.API.Controllers
             var tokenResult = await _usersService.LoginUser(userRequest.Email, userRequest.Password);
 
             if (tokenResult.IsFailure)
-                return BadRequest(tokenResult.Error);
+                return tokenResult.Error.ToErrorResult(HttpContext);
 
             var cookieOptions = new CookieOptions
             {
@@ -125,7 +125,7 @@ namespace BookStore.API.Controllers
             var deleteResult = await _usersService.DeleteUser(id);
 
             if (deleteResult.IsFailure)
-                return BadRequest(deleteResult.Error);
+                return deleteResult.Error.ToErrorResult(HttpContext);
 
             return NoContent();
         }
@@ -142,6 +142,30 @@ namespace BookStore.API.Controllers
         //    return Ok(userResult.Value.ToResponse());
         //}
 
+        [HttpPut("update/profile")]
+        public async Task<ActionResult<Guid>> UpdateOwnProfile([FromBody] UserUpdateProfileRequest userRequest)
+        {
+            //Guid userId;
+            string idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (Guid.TryParse(idClaim, out var userId))
+                return Error.Validation($"User id {idClaim} is incorrect").ToErrorResult(HttpContext);
+
+            var updateCommand = new UpdateUserProfileCommand(
+                userId,
+                userRequest.Name,
+                userRequest.Email,
+                userRequest.ProfilePhotoURL);
+
+            var resultUpdateUserProfile = await _usersService.UpdateUserProfile(updateCommand);
+
+            if(resultUpdateUserProfile.IsFailure)
+                return resultUpdateUserProfile.Error!.ToErrorResult(HttpContext);
+
+            return Ok(resultUpdateUserProfile);
+        }
+
+        [Authorize(Policy = "Users.UpdateOtherProfiles")]
         [HttpPut("update/profile/{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateUserProfile([FromBody] UserUpdateProfileRequest userRequest)
         {
@@ -152,6 +176,9 @@ namespace BookStore.API.Controllers
                 userRequest.ProfilePhotoURL);
 
             var resultUpdateUserProfile = await _usersService.UpdateUserProfile(updateCommand);
+
+            if(resultUpdateUserProfile.IsFailure)
+                return resultUpdateUserProfile.Error!.ToErrorResult(HttpContext);
 
             return Ok(resultUpdateUserProfile);
         }

@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.tests\\integration\\middlewares\\globalexceptionmiddlewaretests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|solutionrelative:bookstore.tests\\integration\\middlewares\\globalexceptionmiddlewaretests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|solutionrelative:bookstore.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.api\\controllers\\bookscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,24 +15,28 @@
       "RelativeMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|solutionrelative:bookstore.api\\validators\\books\\bookcreaterequestvalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.application\\authorization\\permissionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|solutionrelative:bookstore.application\\authorization\\permissionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.tests\\integration\\scripts\\init-test-data.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|solutionrelative:bookstore.tests\\integration\\scripts\\init-test-data.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.tests\\integration\\testauthhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|solutionrelative:bookstore.tests\\integration\\testauthhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.application\\authorization\\permissionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|solutionrelative:bookstore.application\\authorization\\permissionhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.application\\authorization\\permissionrequirement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E531AA7E-25F8-4167-AF0F-47BB812E450E}|BookStore.Application\\BookStore.Application.csproj|solutionrelative:bookstore.application\\authorization\\permissionrequirement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.api\\middleware\\globalexceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|solutionrelative:bookstore.api\\middleware\\globalexceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.tests\\integration\\middlewares\\globalexceptionmiddlewaretests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|solutionrelative:bookstore.tests\\integration\\middlewares\\globalexceptionmiddlewaretests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.tests\\integration\\scripts\\init-test-data.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
-      "RelativeMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|solutionrelative:bookstore.tests\\integration\\scripts\\init-test-data.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+      "AbsoluteMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.tests\\integration\\testauthhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|solutionrelative:bookstore.tests\\integration\\testauthhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.api\\middleware\\globalexceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|solutionrelative:bookstore.api\\middleware\\globalexceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.tests\\integration\\services\\usersservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -51,10 +55,6 @@
       "RelativeMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|solutionrelative:bookstore.tests\\integration\\middlewares\\authorizationtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36F837BB-68F3-A90B-B140-61B061114DE7}|BookStore.API\\BookStore.API.csproj|solutionrelative:bookstore.api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|r:\\c#\\petprojects\\crud\\bookstore_v1\\bookstore.tests\\integration\\scripts\\init-test-data.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
       "RelativeMoniker": "D:0:0:{3DFF44D5-6C6E-4C92-ACE8-A6E47ADB8C2E}|BookStore.Tests\\BookStore.Tests.csproj|solutionrelative:bookstore.tests\\integration\\scripts\\init-test-data.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
     }
@@ -66,7 +66,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 1408,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
@@ -83,7 +83,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "TestAuthHandler.cs",
               "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Tests\\Integration\\TestAuthHandler.cs",
               "RelativeDocumentMoniker": "BookStore.Tests\\Integration\\TestAuthHandler.cs",
@@ -91,12 +91,11 @@
               "RelativeToolTip": "BookStore.Tests\\Integration\\TestAuthHandler.cs",
               "ViewState": "AgIAABQAAAAAAAAAAAAuwCYAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-20T14:22:41.114Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-11-20T14:22:41.114Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Program.cs",
               "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Program.cs",
               "RelativeDocumentMoniker": "BookStore.API\\Program.cs",
@@ -108,7 +107,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "GlobalExceptionMiddleware.cs",
               "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Middleware\\GlobalExceptionMiddleware.cs",
               "RelativeDocumentMoniker": "BookStore.API\\Middleware\\GlobalExceptionMiddleware.cs",
@@ -116,12 +115,11 @@
               "RelativeToolTip": "BookStore.API\\Middleware\\GlobalExceptionMiddleware.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAqwBwAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-20T13:50:29.413Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-11-20T13:50:29.413Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "AuthorizationTests.cs",
               "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Tests\\Integration\\Middlewares\\AuthorizationTests.cs",
               "RelativeDocumentMoniker": "BookStore.Tests\\Integration\\Middlewares\\AuthorizationTests.cs",
@@ -129,12 +127,11 @@
               "RelativeToolTip": "BookStore.Tests\\Integration\\Middlewares\\AuthorizationTests.cs",
               "ViewState": "AgIAAHgAAAAAAAAAAAAIwJAAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-20T13:33:56.893Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-11-20T13:33:56.893Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "GlobalExceptionMiddlewareTests.cs",
               "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Tests\\Integration\\Middlewares\\GlobalExceptionMiddlewareTests.cs",
               "RelativeDocumentMoniker": "BookStore.Tests\\Integration\\Middlewares\\GlobalExceptionMiddlewareTests.cs",
@@ -147,7 +144,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "ApiExtensions.cs",
               "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Extensions\\ApiExtensions.cs",
               "RelativeDocumentMoniker": "BookStore.API\\Extensions\\ApiExtensions.cs",
@@ -159,15 +156,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 0,
               "Title": "UsersController.cs",
               "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Controllers\\UsersController.cs",
               "RelativeDocumentMoniker": "BookStore.API\\Controllers\\UsersController.cs",
               "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Controllers\\UsersController.cs",
               "RelativeToolTip": "BookStore.API\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAAF8AAAAAAAAAAAAswGIAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAKcAAAAAAAAAAAAgwLUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-20T10:53:53.774Z"
+              "WhenOpened": "2026-11-20T10:53:53.774Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -184,13 +182,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "PermissionHandler.cs",
               "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Authorization\\PermissionHandler.cs",
               "RelativeDocumentMoniker": "BookStore.Application\\Authorization\\PermissionHandler.cs",
               "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Application\\Authorization\\PermissionHandler.cs",
               "RelativeToolTip": "BookStore.Application\\Authorization\\PermissionHandler.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAAAB0AAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-17T15:01:52.717Z",
               "EditorCaption": ""
@@ -203,7 +201,7 @@
               "RelativeDocumentMoniker": "BookStore.API\\Controllers\\BooksController.cs",
               "ToolTip": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.API\\Controllers\\BooksController.cs",
               "RelativeToolTip": "BookStore.API\\Controllers\\BooksController.cs",
-              "ViewState": "AgIAAF4AAAAAAAAAAAArwGkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAFsAAAAAAAAAAAArwGIAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-17T14:59:14.657Z",
               "EditorCaption": ""
@@ -231,7 +229,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "UsersServiceTests.cs",
               "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Tests\\Integration\\Services\\UsersServiceTests.cs",
               "RelativeDocumentMoniker": "BookStore.Tests\\Integration\\Services\\UsersServiceTests.cs",
@@ -243,7 +241,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
               "Title": "init-test-data.sql ",
               "DocumentMoniker": "R:\\C#\\PetProjects\\CRUD\\BookStore_v1\\BookStore.Tests\\Integration\\Scripts\\init-test-data.sql",
               "RelativeDocumentMoniker": "BookStore.Tests\\Integration\\Scripts\\init-test-data.sql",

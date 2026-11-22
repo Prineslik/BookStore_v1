@@ -1,9 +1,8 @@
-2026-11-20 21:01:56.448 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
-2026-11-20 21:01:56.558 +03:00 [ERR] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /books/create/ responded 500 in 24.9670 ms
-BookStore.Core.Exceptions.DomainException
-   at BookStore.Application.Services.BooksService.CreateBook(BookCreateCommand createCommand) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\Services\BooksService.cs:line 66
+2026-11-22 11:47:01.095 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-11-22 11:47:01.158 +03:00 [ERR] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /books/create/ responded 500 in 12.6540 ms
+System.Exception
    at BookStore.API.Controllers.BooksController.CreateBook(BookCreateRequest createBookRequest) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Controllers\BooksController.cs:line 107
-   at lambda_method46(Closure, Object)
+   at lambda_method44(Closure, Object)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
@@ -19,11 +18,10 @@ BookStore.Core.Exceptions.DomainException
    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
-2026-11-20 21:01:56.633 +03:00 [ERR] BookStore.API.Middleware.GlobalExceptionMiddleware: Unhandled domain exception -> 500 Internal server error at /books/create/ (TraceId=0HNQ761ELEV11)
-BookStore.Core.Exceptions.DomainException
-   at BookStore.Application.Services.BooksService.CreateBook(BookCreateCommand createCommand) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.Application\Services\BooksService.cs:line 66
+2026-11-22 11:47:02.246 +03:00 [ERR] BookStore.API.Middleware.GlobalExceptionMiddleware: Unhandled infrastructure exception -> 500 Internal server error at /books/create/ (TraceId=0HNQ8EKLR094G)
+System.Exception
    at BookStore.API.Controllers.BooksController.CreateBook(BookCreateRequest createBookRequest) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Controllers\BooksController.cs:line 107
-   at lambda_method46(Closure, Object)
+   at lambda_method44(Closure, Object)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
