@@ -1,5 +1,5 @@
-2026-11-22 11:47:01.095 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
-2026-11-22 11:47:01.158 +03:00 [ERR] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /books/create/ responded 500 in 12.6540 ms
+2026-11-26 19:45:43.368 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-11-26 19:45:43.447 +03:00 [ERR] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /books/create/ responded 500 in 9.8274 ms
 System.Exception
    at BookStore.API.Controllers.BooksController.CreateBook(BookCreateRequest createBookRequest) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Controllers\BooksController.cs:line 107
    at lambda_method44(Closure, Object)
@@ -18,7 +18,7 @@ System.Exception
    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
-2026-11-22 11:47:02.246 +03:00 [ERR] BookStore.API.Middleware.GlobalExceptionMiddleware: Unhandled infrastructure exception -> 500 Internal server error at /books/create/ (TraceId=0HNQ8EKLR094G)
+2026-11-26 19:45:43.477 +03:00 [ERR] BookStore.API.Middleware.GlobalExceptionMiddleware: Unhandled infrastructure exception -> 500 Internal server error at /books/create/ (TraceId=0HNQBRIQDKQHN)
 System.Exception
    at BookStore.API.Controllers.BooksController.CreateBook(BookCreateRequest createBookRequest) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Controllers\BooksController.cs:line 107
    at lambda_method44(Closure, Object)
@@ -38,3 +38,4 @@ System.Exception
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
    at BookStore.API.Middleware.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Middleware\GlobalExceptionMiddleware.cs:line 29
+2026-11-26 19:46:18.984 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.

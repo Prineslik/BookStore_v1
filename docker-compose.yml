@@ -27,6 +27,7 @@ services:
     env_file:
       - .env
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
       - JwtOptions__SecretKey=${JWT_SECRETKEY}
       - ConnectionStrings__BookStoreDbContext=Host=postgres;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}

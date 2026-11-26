@@ -58,7 +58,7 @@ namespace BookStore.Infrastructure.Repositories.Permission
         {
             var permissionModel = await _context.Permissions
                 .Include(p => p.PermissionRoleModels)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(p => p.Id == permissionsEntity.Id);
 
             if (permissionModel is null)
                 throw new InvalidOperationException(

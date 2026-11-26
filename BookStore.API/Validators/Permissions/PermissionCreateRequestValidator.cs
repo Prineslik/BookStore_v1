@@ -10,7 +10,7 @@ namespace BookStore.API.Validators.Permissions
             RuleFor(x => x.Code)
                 .NotEmpty().WithMessage("Код разрешения обязателен")
                 .MaximumLength(250).WithMessage("Код не может быть длиннее 250 символов")
-                .Matches(@"^[a-zA-Z\s-]+$").WithMessage("Имя может содержать только буквы латинского алфавита, пробелы и дефис");
+                .Matches(@"\b\w+\.\w+\b").WithMessage("Код может содержать только буквы латинского алфавита и точку");
 
             RuleFor(x => x.Description)
                 .MaximumLength(250).WithMessage("Описание не может быть длиннее 250 символов");

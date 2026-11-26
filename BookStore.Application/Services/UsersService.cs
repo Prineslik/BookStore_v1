@@ -1,4 +1,5 @@
-﻿using BookStore.Application.Contracts.Common;
+﻿using BookStore.Application.Contracts.Books.DTO;
+using BookStore.Application.Contracts.Common;
 using BookStore.Application.Contracts.Users.Commands;
 using BookStore.Application.Contracts.Users.DTO;
 using BookStore.Application.Contracts.Users.Queries;
@@ -102,6 +103,8 @@ namespace BookStore.Application.Services
         public async Task<Result<UserDetailsDTO?>> GetUserById(Guid id)
         {
             var user = await _usersReadRepository.GetById(id);
+            if (user == null)
+                return Result<UserDetailsDTO?>.Failure(Error.NotFound("User", "Id", id));
 
             return Result<UserDetailsDTO?>.Success(user);
         }

@@ -17,8 +17,9 @@ namespace BookStore.Tests.Unit.API
             {
                 { ""},
                 { " "},
-                {"asda/.&" },
-                { "выфафва" },
+                {"\n" },
+                {"\t" },
+                {"\r" },
                 { new string('s', 251)}
             };
 

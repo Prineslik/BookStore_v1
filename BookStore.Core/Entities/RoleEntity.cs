@@ -60,6 +60,31 @@ namespace BookStore.Core.Entities
             _permissionIds.AddRange(permissionIds.Where(p => !_permissionIds.Contains(p)));
         }
 
+        //private void SyncUsers(RoleModel role, IReadOnlyCollection<Guid> usersIds)
+        //{
+        //    var target = usersIds.ToHashSet();
+        //    role.UserRoleModels.RemoveAll(ur => !target.Contains(ur.UserId));
+        //    var current = role.UserRoleModels.Select(ur => ur.UserId).ToHashSet();
+        //    foreach (var userId in target.Except(current))
+        //        role.UserRoleModels.Add(new UserRoleModel
+        //        {
+        //            UserId = userId,
+        //            RoleId = role.Id
+        //        });
+        //}
+        public void SynchPermissions(List<Guid> permissionIds)
+        {
+            ValidatePermissionIds(permissionIds);
+
+            var target = permissionIds.ToHashSet();
+            _permissionIds.RemoveAll(p => !target.Contains(p));
+            var current = _permissionIds.ToHashSet();
+            foreach (var permissionId in target.Except(current))
+                _permissionIds.Add(permissionId);
+
+            //_permissionIds.AddRange(permissionIds.Where(p => !_permissionIds.Contains(p)));
+        }
+
         public void RemovePermission(Guid permissionId)
         {
             if (_permissionIds.Count == 1)

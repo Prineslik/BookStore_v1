@@ -1053,6 +1053,32 @@
   },
   {
     "ContainingType": "BookStore.API.Controllers.UsersController",
+    "Method": "UpdateOwnProfile",
+    "RelativePath": "Users/update/profile",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userRequest",
+        "Type": "BookStore.API.Requests.User.UserUpdateProfileRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Guid",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BookStore.API.Controllers.UsersController",
     "Method": "UpdateUserProfile",
     "RelativePath": "Users/update/profile/{id}",
     "HttpMethod": "PUT",

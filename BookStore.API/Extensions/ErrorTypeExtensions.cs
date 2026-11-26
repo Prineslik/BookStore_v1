@@ -22,6 +22,7 @@ namespace BookStore.API.Extensions
             ErrorType.Conflict => "Conflict",
             ErrorType.Forbidden => "Access denied",
             ErrorType.Unauthorized => "User unauthorized",
+            ErrorType.Duplicate => "Diplicate",
             _ => "Internal server error"
         };
     }

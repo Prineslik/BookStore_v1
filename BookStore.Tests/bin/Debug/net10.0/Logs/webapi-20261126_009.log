@@ -1,5 +1,5 @@
-2026-11-22 10:56:18.932 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
-2026-11-22 10:56:18.996 +03:00 [ERR] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /books/create/ responded 500 in 11.4804 ms
+2026-11-26 19:23:32.569 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-11-26 19:23:32.715 +03:00 [ERR] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /books/create/ responded 500 in 113.4844 ms
 System.Exception
    at BookStore.API.Controllers.BooksController.CreateBook(BookCreateRequest createBookRequest) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Controllers\BooksController.cs:line 107
    at lambda_method41(Closure, Object)
@@ -18,7 +18,7 @@ System.Exception
    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
-2026-11-22 10:56:18.998 +03:00 [ERR] BookStore.API.Middleware.GlobalExceptionMiddleware: Unhandled infrastructure exception -> 500 Internal server error at /books/create/ (TraceId=0HNQ8DOBJTMBN)
+2026-11-26 19:23:32.772 +03:00 [ERR] BookStore.API.Middleware.GlobalExceptionMiddleware: Unhandled infrastructure exception -> 500 Internal server error at /books/create/ (TraceId=0HNQBR6ED85KE)
 System.Exception
    at BookStore.API.Controllers.BooksController.CreateBook(BookCreateRequest createBookRequest) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Controllers\BooksController.cs:line 107
    at lambda_method41(Closure, Object)
@@ -38,11 +38,23 @@ System.Exception
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
    at BookStore.API.Middleware.GlobalExceptionMiddleware.InvokeAsync(HttpContext context) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Middleware\GlobalExceptionMiddleware.cs:line 29
-2026-11-22 10:56:38.477 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
-2026-11-22 10:56:38.949 +03:00 [ERR] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /books/create/ responded 500 in 123.5679 ms
+2026-11-26 19:23:48.098 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-11-26 19:23:49.478 +03:00 [ERR] Microsoft.EntityFrameworkCore.Database.Command: Failed executing DbCommand (29ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-11-26 19:23:51.514 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/login responded 200 in 906.9003 ms
+2026-11-26 19:23:51.636 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /books/create/ responded 403 in 109.8984 ms
+2026-11-26 19:23:51.737 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /books/all responded 200 in 40.8420 ms
+2026-11-26 19:23:51.790 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /users/me responded 401 in 3.7275 ms
+2026-11-26 19:23:52.342 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /Users/login responded 200 in 500.6165 ms
+2026-11-26 19:23:52.376 +03:00 [WRN] Microsoft.EntityFrameworkCore.Query: Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-11-26 19:23:52.425 +03:00 [INF] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP GET /users/me responded 200 in 81.6107 ms
+2026-11-26 19:25:26.077 +03:00 [WRN] LuckyPennySoftware.AutoMapper.License: You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-11-26 19:25:26.905 +03:00 [ERR] Serilog.AspNetCore.RequestLoggingMiddleware: HTTP POST /books/create/ responded 500 in 439.4453 ms
 BookStore.Application.Exceptions.DuplicateException
    at BookStore.API.Controllers.BooksController.CreateBook(BookCreateRequest createBookRequest) in R:\C#\PetProjects\CRUD\BookStore_v1\BookStore.API\Controllers\BooksController.cs:line 107
-   at lambda_method17(Closure, Object)
+   at lambda_method8(Closure, Object)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
@@ -58,4 +70,4 @@ BookStore.Application.Exceptions.DuplicateException
    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
-2026-11-22 10:56:38.967 +03:00 [WRN] BookStore.API.Middleware.GlobalExceptionMiddleware: Handled application exception -> 409 Internal server error at /books/create/:  (TraceId=0HNQ8DOHMQ063)
+2026-11-26 19:25:26.922 +03:00 [WRN] BookStore.API.Middleware.GlobalExceptionMiddleware: Handled application exception -> 409 Diplicate at /books/create/:  (TraceId=0HNQBR7GFCOHD)

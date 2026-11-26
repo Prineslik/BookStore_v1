@@ -21,6 +21,9 @@ namespace BookStore.Infrastructure.Configurations
                 .HasMaxLength(250)
                 .IsRequired();
 
+            builder.HasIndex(u => u.Email)
+                .IsUnique();
+
             builder.Property(u => u.PasswordHash)
                 .IsRequired();
 

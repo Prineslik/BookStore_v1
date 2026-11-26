@@ -46,8 +46,9 @@ namespace BookStore.Infrastructure.Repositories.User
         {
             var userDTO = await _context.Users
                 .AsNoTracking()
+                .Where(u => u.Id == id)
                 .Select(UserPersistanceMapping.ToDetailsDTOExpr)
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync();
 
             return userDTO;
         }

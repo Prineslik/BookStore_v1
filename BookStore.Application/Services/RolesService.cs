@@ -1,4 +1,5 @@
-﻿using BookStore.Application.Contracts.Common;
+﻿using BookStore.Application.Contracts.Books.DTO;
+using BookStore.Application.Contracts.Common;
 using BookStore.Application.Contracts.Roles.Commands;
 using BookStore.Application.Contracts.Roles.DTO;
 using BookStore.Application.Contracts.Roles.Queries;
@@ -33,6 +34,8 @@ namespace BookStore.Application.Services
         public async Task<Result<RoleDetailsDTO>> GetRoleById(Guid id)
         {
             var role = await _rolesReadRepository.GetById(id);
+            if (role == null)
+                return Result<RoleDetailsDTO?>.Failure(Error.NotFound("Role", "Id", id));
 
             return Result<RoleDetailsDTO>.Success(role);
         }
@@ -68,7 +71,7 @@ namespace BookStore.Application.Services
                 return Result<Guid>.Failure(Error.NotFound("Role", "Id", updateCommand.Id.ToString()));
 
             roleEntity.Rename(updateCommand.Name);
-            roleEntity.AddPermissions(updateCommand.PermissionIds.ToList());
+            roleEntity.SynchPermissions(updateCommand.PermissionIds.ToList());
 
             var updatedRoleId = await _rolesRepository.Update(roleEntity);
 

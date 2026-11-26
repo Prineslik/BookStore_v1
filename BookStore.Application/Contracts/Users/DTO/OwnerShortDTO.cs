@@ -7,7 +7,7 @@ namespace BookStore.Application.Contracts.Users.DTO
     public record OwnerShortDTO(
         Guid Id,
         string Name,
-        string Email,
+        //string Email,
         string ProfilePhotoURL,
         bool IsAuthor);
 }

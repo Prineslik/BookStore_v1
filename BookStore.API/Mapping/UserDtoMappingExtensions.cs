@@ -20,7 +20,7 @@ namespace BookStore.API.Mapping
             => listDTOs.Select(u => new OwnerShortResponse(
                 u.Id,
                 u.Name,
-                u.Email,
+                //u.Email,
                 u.ProfilePhotoURL,
                 u.IsAuthor))
             .ToList();

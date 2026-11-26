@@ -56,6 +56,24 @@ namespace BookStore.API.Controllers
             return Ok(usersResult.Value.ToResponse());
         }
 
+        [HttpGet("me")]
+        [ProducesResponseType(typeof(UsersDetailsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<UsersDetailsResponse?>> GetMyProfile()
+        {
+            string? idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (!Guid.TryParse(idClaim, out var userId))
+                return Error.Validation($"User id {idClaim} is incorrect").ToErrorResult(HttpContext);
+
+            var usersResult = await _usersService.GetUserById(userId);
+
+            if (usersResult.IsFailure)
+                return usersResult.Error.ToErrorResult(HttpContext);
+
+            return Ok(usersResult.Value.ToResponse());
+        }
+
         [HttpGet("filter/")]
         [ProducesResponseType(typeof(PagedResult<UsersDetailsResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -82,6 +100,7 @@ namespace BookStore.API.Controllers
             return Ok(pagedUsersResponse);
         }
 
+        [AllowAnonymous]
         [HttpPost("register/")]
         public async Task<ActionResult<Guid>> RegisterUser(string name, string email, string password/*[FromBody] UsersRequest usersRequest*/)
         {
@@ -114,7 +133,7 @@ namespace BookStore.API.Controllers
 
             Response.Cookies.Append("RefreshToken", tokenResult.Value, cookieOptions);
 
-            return Ok();
+            return Ok(tokenResult.Value);
         }
 
         //[Authorize(Roles ="Admin")]
@@ -142,13 +161,13 @@ namespace BookStore.API.Controllers
         //    return Ok(userResult.Value.ToResponse());
         //}
 
-        [HttpPut("update/profile")]
+        [HttpPut("update/profile/me")]
         public async Task<ActionResult<Guid>> UpdateOwnProfile([FromBody] UserUpdateProfileRequest userRequest)
         {
             //Guid userId;
             string idClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (Guid.TryParse(idClaim, out var userId))
+            if (!Guid.TryParse(idClaim, out var userId))
                 return Error.Validation($"User id {idClaim} is incorrect").ToErrorResult(HttpContext);
 
             var updateCommand = new UpdateUserProfileCommand(
@@ -167,10 +186,10 @@ namespace BookStore.API.Controllers
 
         [Authorize(Policy = "Users.UpdateOtherProfiles")]
         [HttpPut("update/profile/{id:guid}")]
-        public async Task<ActionResult<Guid>> UpdateUserProfile([FromBody] UserUpdateProfileRequest userRequest)
+        public async Task<ActionResult<Guid>> UpdateUserProfile([FromQuery] Guid id, [FromBody] UserUpdateProfileRequest userRequest)
         {
             var updateCommand = new UpdateUserProfileCommand(
-                userRequest.Id,
+                id,
                 userRequest.Name,
                 userRequest.Email,
                 userRequest.ProfilePhotoURL);

@@ -37,6 +37,8 @@ namespace BookStore.Application.Services
         public async Task<Result<PermissionDetailsDTO>> GetPermissionById(Guid id)
         {
             var permission = await _permissionsReadRepository.GetById(id);
+            if (permission == null)
+                return Result<PermissionDetailsDTO?>.Failure(Error.NotFound("Permission", "Id", id));
 
             return Result<PermissionDetailsDTO>.Success(permission);
         }

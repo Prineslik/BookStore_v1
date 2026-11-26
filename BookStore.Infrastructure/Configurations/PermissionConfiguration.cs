@@ -17,6 +17,9 @@ namespace BookStore.Infrastructure.Configurations
                 .Property(p => p.Code)
                 .IsRequired();
 
+            builder.HasIndex(p => p.Code)
+                .IsUnique();
+
             builder
                 .Property(p => p.Description)
                 .IsRequired();

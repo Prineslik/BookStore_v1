@@ -17,7 +17,7 @@ namespace BookStore.Core.Entities
         public string Description { get; private set; } = null!;
 
         private readonly List<Guid> _roleIds = new();
-        public IReadOnlyList<Guid> RoleIds;
+        public IReadOnlyList<Guid> RoleIds => _roleIds;
 
         private PermissionEntity(Guid id, string code, string description, List<Guid> roleIds)
         {

@@ -75,7 +75,8 @@ namespace BookStore.Application.Services
             if (!await _booksReadRepository.IsExistById(updateCommand.Id))
                 return Result<Guid>.Failure(Error.NotFound("Book", "Id", updateCommand.Id));
 
-            if (await _booksReadRepository.GetByTitleStrict(updateCommand.Title) != null)
+            var duplicate = await _booksReadRepository.GetByTitleStrict(updateCommand.Title);
+            if (duplicate != null && duplicate.Id != updateCommand.Id)
                 return Result<Guid>.Failure(Error.Duplicate("Title", updateCommand.Title));
 
             foreach (var ownerId in updateCommand.OwnerIds)

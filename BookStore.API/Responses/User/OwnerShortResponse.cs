@@ -3,7 +3,7 @@
     public record OwnerShortResponse(
         Guid Id,
         string Name,
-        string Email,
+        //string Email,
         string ProfilePhotoURL,
         bool IsAuthor);
 }

@@ -15,6 +15,9 @@ namespace BookStore.Infrastructure.Configurations
                 .HasMaxLength(250)
                 .IsRequired();
 
+            builder.HasIndex(b => b.Title)
+                .IsUnique();
+
             builder
                 .Property(b => b.Description)
                 .IsRequired();

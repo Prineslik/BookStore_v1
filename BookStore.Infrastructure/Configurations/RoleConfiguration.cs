@@ -15,6 +15,9 @@ namespace BookStore.Infrastructure.Configurations
 
             builder.Property(r => r.Name)
                 .IsRequired();
+
+            builder.HasIndex(r => r.Name)
+                .IsUnique();
         }
     }
 }

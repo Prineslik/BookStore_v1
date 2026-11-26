@@ -62,7 +62,7 @@ namespace BookStore.Tests.Unit.Application.Services
         public async Task GetBooksById_WhenBookExists_ShouldReturnSuccess()
         {
             var bookId = Guid.NewGuid();
-            var owners = new List<OwnerShortDTO> { new OwnerShortDTO(Guid.NewGuid(), "owner 1", "owner1@mail.ru", "https://picture.jpg", false) };
+            var owners = new List<OwnerShortDTO> { new OwnerShortDTO(Guid.NewGuid(), "owner 1", "https://picture.jpg", false) };
             var authors = new List<AuthorShortDTO> { new AuthorShortDTO(Guid.NewGuid(), "author 1", "https://picture.jpg") };
 
             var book = new BookDetailsDTO(
@@ -221,7 +221,6 @@ namespace BookStore.Tests.Unit.Application.Services
             var owners = new List<OwnerShortDTO> { new OwnerShortDTO(
                 Guid.NewGuid(),
                 "name",
-                "email",
                 "url",
                 false) };
             var authors = new List<AuthorShortDTO> { new AuthorShortDTO(
@@ -274,7 +273,6 @@ namespace BookStore.Tests.Unit.Application.Services
             var owners = new List<OwnerShortDTO> { new OwnerShortDTO(
                 Guid.NewGuid(),
                 "name",
-                "email",
                 "url",
                 false) };
             var authors = new List<AuthorShortDTO> { new AuthorShortDTO(

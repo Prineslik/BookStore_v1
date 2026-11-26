@@ -51,13 +51,13 @@ public static class ProblemDetailsFactory
         string title, detail;
         if (ex is DomainException domainEx)
         {
-            (status, title, detail) = MapDomain(ex);
+            //(status, title, detail) = MapDomain(ex);
 
             return Build(
                 context,
-                status,
-                title,
-                detail,
+                400,
+                "Domain error",
+                ex.Message,
                 "domain");
         }
 
@@ -91,12 +91,12 @@ public static class ProblemDetailsFactory
         _ => (500, "Internal server error", "An unexpected error occurred.")
     };
 
-    private static (int Status, string Title, string Detail) MapDomain(Exception ex) => ex switch
-    {
-        ValidationException => (400, "Validation error",
-            ex.Message),
-        _ => (500, "Internal server error", "An unexpected error occurred.")
-    };
+    //private static (int Status, string Title, string Detail) MapDomain(DomainException ex) => ex switch
+    //{
+    //    ValidationException => (400, "Validation error",
+    //        ex.Message),
+    //    _ => (500, "Domain error", ex.M)
+    //};
 
     private static ProblemDetails Build(HttpContext context, int status, string title, string detail, string category)
         => new()

@@ -93,7 +93,7 @@ namespace BookStore.Tests.Integration.Middlewares
 
             await AuthenticateAsAsync(client, "testuser@example.com", "123");
             
-            var response = await client.GetAsync("/books/all");
+            var response = await client.GetAsync("/users/me");
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -133,10 +133,25 @@ namespace BookStore.Tests.Integration.Middlewares
                     BaseAddress = new Uri("https://localhost")
                 });
 
-            var response = await client.GetAsync("/books/all");
+            var response = await client.GetAsync("/users/me");
             response.StatusCode
                 .Should()
                 .Be(HttpStatusCode.Unauthorized);
+        }
+
+        [Fact]
+        public async Task RequestToUnprotectedEndpoint_UserIsNotAuth_ShouldReturnOk()
+        {
+            using var client = _factory.CreateClient(
+                new WebApplicationFactoryClientOptions
+                {
+                    BaseAddress = new Uri("https://localhost")
+                });
+
+            var response = await client.GetAsync("/books/all");
+            response.StatusCode
+                .Should()
+                .Be(HttpStatusCode.OK);
         }
 
         //[Fact]

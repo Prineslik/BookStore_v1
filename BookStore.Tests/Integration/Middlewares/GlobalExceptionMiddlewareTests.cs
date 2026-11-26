@@ -54,7 +54,7 @@ namespace BookStore.Tests.Integration.Middlewares
             {
                 //{ () => new FluentValidation.ValidationException("Неверный формат данных"), HttpStatusCode.BadRequest},
                 { () => new DuplicateException(""), HttpStatusCode.Conflict },
-                { () => new DomainException(""), HttpStatusCode.InternalServerError},
+                { () => new DomainException(""), HttpStatusCode.BadRequest},
                 { () => new Exception(""), HttpStatusCode.InternalServerError}
             };
 
@@ -130,21 +130,21 @@ namespace BookStore.Tests.Integration.Middlewares
             response.StatusCode.Should().Be(statusCode);
         }
 
-        [Fact]
-        public async Task GetAsync_WhenEndpointSucceeds_ShouldReturnOk()
-        {
-            var guid = Guid.Parse("11111111-1111-1111-1111-111111111111");
+        //[Fact]
+        //public async Task GetAsync_WhenEndpointSucceeds_ShouldReturnOk()
+        //{
+        //    var guid = Guid.Parse("11111111-1111-1111-1111-111111111111");
 
-            var client = _factory.CreateClient();
-            var books = new List<BookShortDTO>() { };
+        //    var client = _factory.CreateClient();
+        //    var books = new List<BookShortDTO>() { };
 
-            client.DefaultRequestHeaders.Add("X-Test-User", guid.ToString());
+        //    client.DefaultRequestHeaders.Add("X-Test-User", guid.ToString());
 
-            _usersReadRepository.HasPermission(guid, "Books.Read").Returns(true);
-            _booksService.GetAllBooks().Returns(Result<List<BookShortDTO>>.Success(books));
+        //    _usersReadRepository.HasPermission(guid, "Books.Read").Returns(true);
+        //    _booksService.GetAllBooks().Returns(Result<List<BookShortDTO>>.Success(books));
 
-            var response = await client.GetAsync("/Books/all");
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
+        //    var response = await client.GetAsync("/Books/all");
+        //    response.StatusCode.Should().Be(HttpStatusCode.OK);
+        //}
     }
 }

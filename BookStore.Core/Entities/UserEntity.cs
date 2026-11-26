@@ -26,7 +26,7 @@ namespace BookStore.Core.Entities
         public string ProfilePhotoURL { get; private set; } = string.Empty;
         public DateTime CreateDate { get; private set; }
         public DateTime? UpdateDate { get; private set; }
-        public bool IsAuthor => AuthorId != Guid.Empty || AuthorId != null ? false : true;
+        public bool IsAuthor => AuthorId.HasValue && AuthorId.Value != Guid.Empty;
 
         public Guid? AuthorId { get; private set; }
 

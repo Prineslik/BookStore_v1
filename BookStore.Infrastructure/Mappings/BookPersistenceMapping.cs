@@ -59,7 +59,7 @@ namespace BookStore.Infrastructure.Mappings
                 model.UserBookModels.Select(ub => new OwnerShortDTO(
                     ub.UserId,
                     ub.User.UserName,
-                    ub.User.Email,
+                    //ub.User.Email,
                     ub.User.ProfilePhotoURL,
                     ub.User.IsAuthor))
                 .ToList(),
